@@ -10,7 +10,8 @@
   },
   "scripts": {
     "migrate": "node scripts/migrate.js",
-    "seed": "node scripts/seed-roster.js"
+    "seed": "node scripts/seed-roster.js",
+    "avatars": "node scripts/steam-avatars.js"
   },
   "dependencies": {
     "postgres": "^3.4.7"
