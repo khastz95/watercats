@@ -6,6 +6,8 @@ const I18N = {
     "nav.clips": "Jogadas",
     "nav.login": "Entrar",
     "nav.admin": "Painel",
+    "nav.menu": "Menu",
+    "nav.close": "Fechar",
     "hero.kicker": "WTC · Counter-Strike",
     "hero.tagline": "Jogadores antigos. O mesmo jogo.",
     "hero.lede": "Um grupo de amigos no Counter-Strike. Elenco, números e jogadas da casa.",
@@ -139,6 +141,8 @@ const I18N = {
     "nav.clips": "Clips",
     "nav.login": "Sign in",
     "nav.admin": "Admin",
+    "nav.menu": "Menu",
+    "nav.close": "Close",
     "hero.kicker": "WTC · Counter-Strike",
     "hero.tagline": "Old players. Same game.",
     "hero.lede": "Friends playing Counter-Strike. Roster, numbers and house clips.",
@@ -299,10 +303,17 @@ function applyI18n() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.getAttribute("data-i18n"));
   });
-  const sw = document.querySelector("[data-lang]");
-  if (sw) sw.textContent = t("lang.switch");
-  const themeBtn = document.querySelector("[data-theme-btn]");
-  if (themeBtn) themeBtn.textContent = t(theme() === "light" ? "theme.dark" : "theme.light");
+  document.querySelectorAll("[data-lang]").forEach((el) => {
+    el.textContent = t("lang.switch");
+  });
+  document.querySelectorAll("[data-theme-btn]").forEach((el) => {
+    el.textContent = t(theme() === "light" ? "theme.dark" : "theme.light");
+  });
+  const toggle = document.querySelector("[data-menu]");
+  if (toggle) {
+    const open = document.querySelector(".header")?.classList.contains("is-open");
+    toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
+  }
   document.dispatchEvent(new Event("wtc:lang"));
 }
 
@@ -314,6 +325,29 @@ function pageId() {
   return path.replace(/^\//, "");
 }
 
+function navItems(here) {
+  return [
+    ["/", here === "home", "nav.home"],
+    ["/players", here === "players" || here === "player", "nav.players"],
+    ["/stats", here === "stats", "nav.stats"],
+    ["/clips", here === "clips", "nav.clips"]
+  ].map(([href, on, key]) =>
+    `<a href="${href}" class="${on ? "is-on" : ""}" data-i18n="${key}"></a>`
+  ).join("");
+}
+
+function setMenu(open) {
+  const header = document.getElementById("header");
+  const toggle = document.querySelector("[data-menu]");
+  if (!header) return;
+  header.classList.toggle("is-open", open);
+  document.body.classList.toggle("nav-open", open);
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
+  }
+}
+
 function mountChrome() {
   applyTheme();
   const header = document.getElementById("header");
@@ -322,6 +356,10 @@ function mountChrome() {
   const th = theme();
   const logo = `/img/logo-${th}.png?v=14`;
   const icon = `/img/icon-${th}.png?v=14`;
+  const tools = `
+    <button class="lang" type="button" data-lang></button>
+    <button class="theme" type="button" data-theme-btn></button>
+    <a class="nav-login" href="/login" data-i18n="nav.login"></a>`;
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
@@ -329,14 +367,19 @@ function mountChrome() {
           <img src="${icon}" alt="" data-icon>
           <span class="brand-name">WATER<span>CATS</span></span>
         </a>
-        <nav class="nav">
-          <a href="/" class="${here === "home" ? "is-on" : ""}" data-i18n="nav.home"></a>
-          <a href="/players" class="${here === "players" || here === "player" ? "is-on" : ""}" data-i18n="nav.players"></a>
-          <a href="/stats" class="${here === "stats" ? "is-on" : ""}" data-i18n="nav.stats"></a>
-          <a href="/clips" class="${here === "clips" ? "is-on" : ""}" data-i18n="nav.clips"></a>
-          <button class="lang" type="button" data-lang></button>
-          <button class="theme" type="button" data-theme-btn></button>
-          <a class="nav-login" href="/login" data-i18n="nav.login"></a>
+        <nav class="nav" aria-label="WATERCATS">
+          ${navItems(here)}
+          ${tools}
+        </nav>
+        <button class="menu-toggle" type="button" data-menu aria-controls="nav-sheet" aria-expanded="false" aria-label="${t("nav.menu")}">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="nav-sheet" id="nav-sheet">
+        <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
+        <nav class="nav-mobile" aria-label="${t("nav.menu")}">
+          ${navItems(here)}
+          ${tools}
         </nav>
       </div>`;
   }
@@ -375,14 +418,29 @@ function mountChrome() {
         </div>
       </div>`;
   }
-  document.querySelector("[data-lang]")?.addEventListener("click", () => {
-    localStorage.setItem(LANG_KEY, lang() === "pt" ? "en" : "pt");
-    applyI18n();
+  header?.addEventListener("click", (e) => {
+    if (e.target.closest("[data-menu]")) {
+      setMenu(!header.classList.contains("is-open"));
+      return;
+    }
+    if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a")) {
+      setMenu(false);
+    }
+    if (e.target.closest("[data-lang]")) {
+      localStorage.setItem(LANG_KEY, lang() === "pt" ? "en" : "pt");
+      applyI18n();
+    }
+    if (e.target.closest("[data-theme-btn]")) {
+      localStorage.setItem(THEME_KEY, theme() === "light" ? "dark" : "light");
+      applyTheme();
+      applyI18n();
+    }
   });
-  document.querySelector("[data-theme-btn]")?.addEventListener("click", () => {
-    localStorage.setItem(THEME_KEY, theme() === "light" ? "dark" : "light");
-    applyTheme();
-    applyI18n();
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setMenu(false);
+  });
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 901px)").matches) setMenu(false);
   });
   applyI18n();
 }
