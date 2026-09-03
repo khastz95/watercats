@@ -15,7 +15,7 @@ const I18N = {
     "cta.clips": "Assistir jogadas",
     "home.kicker": "Elenco",
     "home.roster": "Elenco",
-    "star.sub": "Cinco pontas. Um time.",
+    "star.sub": "A coroa do time.",
     "home.clips": "Jogadas em destaque",
     "home.stats": "Números da casa",
     "stat.players": "Jogadores",
@@ -151,7 +151,7 @@ const I18N = {
     "cta.clips": "Watch clips",
     "home.kicker": "Roster",
     "home.roster": "Roster",
-    "star.sub": "Five points. One team.",
+    "star.sub": "The house crown.",
     "home.clips": "Featured clips",
     "home.stats": "House numbers",
     "stat.players": "Players",
@@ -581,9 +581,10 @@ function playerCard(p) {
   </a>`;
 }
 
-// Elenco em estrela de 5 pontas.
-// Topo: khastz. Direita superior: bill. Esquerda superior: fury.
-// Embaixo, horário: cadu à direita e s4mz à esquerda.
+// Coroa Street King (Need for Speed: ProStreet): 5 pontas em alturas
+// diferentes, facetas em W e losango no topo — não é estrela pentagonal.
+// Topo: khastz. Direita sup: bill. Esquerda sup: fury.
+// Baixo dir: cadu. Baixo esq: s4mz.
 const STAR_SLOTS = ["khastz", "bill", "cadu", "s4mz", "fury"];
 
 function starOrder(players) {
@@ -599,32 +600,20 @@ function starRoster(players, options = {}) {
   if (!roster.length) return "";
   const currentId = options.currentId || "";
   const compact = Boolean(options.compact);
-  const cx = 50;
-  const cy = 50;
-  const r = 34;
-  const pent = roster.map((_, i) => {
-    const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
-    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
-  });
-  const innerR = r * 0.382;
-  const inner = roster.map((_, i) => {
-    const a = Math.PI / 2 + i * (2 * Math.PI / 5);
-    return [cx + innerR * Math.cos(a), cy + innerR * Math.sin(a)];
-  });
-  const star = [0, 2, 4, 1, 3].map((i) => pent[i % pent.length] || pent[0]);
-  const pts = (arr) => arr.map((p) => p.map((n) => n.toFixed(2)).join(",")).join(" ");
-  const uid = "star-" + Math.random().toString(36).slice(2, 8);
-  const rays = pent.map(([x, y], i) =>
-    `<line class="star-ray" x1="${cx}" y1="${cy}" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" style="--i:${i}" />`
-  ).join("");
-  const sparks = pent.map(([x, y], i) =>
-    `<circle class="star-spark" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="0.9" style="--i:${i}" />`
-  ).join("");
+  // Pontas da coroa, na ordem dos slots.
+  const tips = [
+    [50, 14],
+    [70.5, 37.5],
+    [85, 56.5],
+    [15, 56.5],
+    [29.5, 37.5]
+  ];
+  const uid = "crown-" + Math.random().toString(36).slice(2, 8);
   const nodes = roster.map((p, i) => {
-    const [x, y] = pent[i];
+    const [x, y] = tips[i] || tips[0];
     const s = stats(p);
     const on = p.id === currentId;
-    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
+    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x}%;top:${y}%;--i:${i}" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
       <span class="star-label">
         <span class="star-name">${escapeHtml(p.name)}</span>
@@ -635,29 +624,34 @@ function starRoster(players, options = {}) {
   return `<div class="star-roster${compact ? " is-compact" : ""}" role="img" aria-label="${escapeAttr(t("star.sub"))}">
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
       <defs>
-        <linearGradient id="${uid}-stroke" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id="${uid}-stroke" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#7ad7ff"/>
-          <stop offset="0.45" stop-color="#006bff"/>
+          <stop offset="0.55" stop-color="#006bff"/>
           <stop offset="1" stop-color="#20b8ff"/>
         </linearGradient>
-        <radialGradient id="${uid}-fill" cx="50%" cy="50%" r="55%">
-          <stop offset="0" stop-color="#006bff" stop-opacity="0.22"/>
-          <stop offset="1" stop-color="#006bff" stop-opacity="0.02"/>
-        </radialGradient>
-        <filter id="${uid}-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="1.4" result="b"/>
+        <linearGradient id="${uid}-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#006bff" stop-opacity="0.28"/>
+          <stop offset="1" stop-color="#001428" stop-opacity="0.55"/>
+        </linearGradient>
+        <filter id="${uid}-glow" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="0.9" result="b"/>
           <feMerge>
             <feMergeNode in="b"/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
       </defs>
-      <polygon class="star-fill" points="${pts(star)}" fill="url(#${uid}-fill)" />
-      <g class="star-rays">${rays}</g>
-      <polygon class="star-inner" points="${pts(inner)}" />
-      <polygon class="star-shape" points="${pts(star)}" stroke="url(#${uid}-stroke)" filter="url(#${uid}-glow)" />
-      <polygon class="star-flow" points="${pts(star)}" stroke="url(#${uid}-stroke)" />
-      ${sparks}
+      <g class="crown" filter="url(#${uid}-glow)" stroke="url(#${uid}-stroke)" fill="url(#${uid}-fill)">
+        <path class="crown-body" pathLength="1000" d="M20 89 L11.5 69 L15 56.5 L24.5 51 L29.5 37.5 L40 49 L46.5 20 L50 6.5 L53.5 20 L60 49 L70.5 37.5 L75.5 51 L85 56.5 L88.5 69 L80 89 L64.5 76.5 L50 93.5 L35.5 76.5 Z"/>
+        <path class="crown-facet" d="M50 18 L41.5 51 L50 80 L58.5 51 Z"/>
+        <path class="crown-facet" d="M15 56.5 L24.5 51 L35.5 76.5 L20 89 Z"/>
+        <path class="crown-facet" d="M85 56.5 L75.5 51 L64.5 76.5 L80 89 Z"/>
+        <path class="crown-facet" d="M29.5 37.5 L40 49 L24.5 51 Z"/>
+        <path class="crown-facet" d="M70.5 37.5 L60 49 L75.5 51 Z"/>
+        <path class="crown-facet" d="M40 49 L50 93.5 L60 49 L50 80 Z"/>
+        <path class="crown-diamond" d="M50 6.5 L56 14.2 L50 21.8 L44 14.2 Z"/>
+      </g>
+      <path class="crown-flow" pathLength="1000" d="M20 89 L11.5 69 L15 56.5 L24.5 51 L29.5 37.5 L40 49 L46.5 20 L50 6.5 L53.5 20 L60 49 L70.5 37.5 L75.5 51 L85 56.5 L88.5 69 L80 89 L64.5 76.5 L50 93.5 L35.5 76.5 Z" stroke="url(#${uid}-stroke)"/>
     </svg>
     <div class="star-core" aria-hidden="true"><span>WTC</span></div>
     ${nodes}
