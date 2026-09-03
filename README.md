@@ -108,6 +108,7 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `api/clips.js` | `GET` `PUT` `DELETE` | Clipes; o link precisa ser da allstar.gg. |
 | `api/photo.js` | `POST` | Envio de foto (JPG, PNG, WEBP, GIF, até 1,5 MB). |
 | `api/leetify.js` | `GET` `POST` | Lê o que já veio da Leetify; o `POST` sincroniza os jogadores com SteamID64. |
+| `api/steam.js` | `POST` | Busca o avatar do perfil da Steam de cada jogador com SteamID64. |
 
 ### Servidor (`lib/` e `scripts/`)
 
@@ -115,6 +116,7 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | --- | --- |
 | `lib/cloud.js` | Acesso ao Supabase, sessão, leitura do clipe e gravação. A chave de serviço fica só aqui. |
 | `lib/leetify.js` | Chamada à API pública da Leetify e leitura da resposta. |
+| `lib/steam.js` | Lê o avatar no XML público do perfil da Steam. |
 | `lib/http.js` | Leitura do corpo da requisição e respostas JSON. |
 | `scripts/db.js` | Carrega o `.env.local` e abre a conexão com o Postgres. |
 | `scripts/migrate.js` | Aplica `supabase.sql` no Postgres. |
@@ -132,7 +134,7 @@ A chave `SUPABASE_SERVICE_ROLE_KEY` nunca vai para o navegador.
 
 Três tabelas no schema `public`:
 
-- **`players`** — ficha (nick, nome, função, país, Steam, FACEIT, Discord, Twitch, bio, foto, status).
+- **`players`** — ficha (nick, nome, função, país, Steam, FACEIT, Discord, Twitch, bio, foto, avatar da Steam, status).
 - **`player_stats`** — rating, K/D, ADR, HS%, mapas, vitórias/derrotas, kills, clutches, MVP.
 - **`clips`** — título, URL da allstar.gg, mapa, destaque, jogador.
 
@@ -170,6 +172,17 @@ Os SteamID64 do elenco:
 | bill | 76561198340052875 | [BILZERA](https://steamcommunity.com/profiles/76561198340052875) |
 | khastz | 76561198069381773 | [khastz95](https://steamcommunity.com/id/khastz95) |
 | cadu | 76561199173505462 | [Cadu](https://steamcommunity.com/profiles/76561199173505462) |
+
+## Foto do jogador
+
+Duas origens, nesta ordem:
+
+1. **Foto enviada no painel** — vai para o bucket `player-photos` e fica em `players.photo_url`.
+2. **Avatar da Steam** — o botão **Buscar avatares da Steam**, na aba Jogadores, lê o XML público do perfil (`/profiles/<id>/?xml=1`, sem chave de API) e guarda a URL do CDN em `players.steam_avatar`.
+
+São colunas separadas de propósito: buscar os avatares de novo não apaga foto enviada à mão, e apagar a foto enviada faz o site voltar para o avatar. Sem nenhuma das duas, aparece o bloco na cor do jogador.
+
+O maior tamanho que a Steam devolve é **184×184** (`_full.jpg`), então nos cards grandes a imagem fica um pouco macia. Para ficar nítido, é preciso enviar a foto pelo painel.
 
 O mesmo projeto Supabase pode ter tabelas `org_*` da [watercatsgg](https://github.com/khastz95/watercatsgg). A migração deste repositório **não** as apaga.
 
