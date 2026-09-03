@@ -15,6 +15,7 @@ const I18N = {
     "cta.clips": "Assistir jogadas",
     "home.kicker": "Elenco",
     "home.roster": "Elenco",
+    "star.sub": "Cinco pontas. Um time.",
     "home.clips": "Jogadas em destaque",
     "home.stats": "Números da casa",
     "stat.players": "Jogadores",
@@ -150,6 +151,7 @@ const I18N = {
     "cta.clips": "Watch clips",
     "home.kicker": "Roster",
     "home.roster": "Roster",
+    "star.sub": "Five points. One team.",
     "home.clips": "Featured clips",
     "home.stats": "House numbers",
     "stat.players": "Players",
@@ -579,6 +581,61 @@ function playerCard(p) {
   </a>`;
 }
 
+// Elenco em estrela de 5 pontas, ponta de cima sempre o khastz.
+// Os outros entram no sentido horário pela ordem do painel.
+function starOrder(players) {
+  const list = (players || []).filter((p) => p && p.id);
+  const top = list.find((p) => p.id === "khastz");
+  const rest = list
+    .filter((p) => p.id !== "khastz")
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0) || String(a.name).localeCompare(String(b.name)));
+  return (top ? [top, ...rest] : rest).slice(0, 5);
+}
+
+function starRoster(players, options = {}) {
+  const roster = starOrder(players);
+  if (!roster.length) return "";
+  const currentId = options.currentId || "";
+  const compact = Boolean(options.compact);
+  const cx = 50;
+  const cy = 50;
+  const r = 34;
+  const pent = roster.map((_, i) => {
+    const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  });
+  const star = [0, 2, 4, 1, 3].map((i) => pent[i % pent.length] || pent[0]);
+  const pts = (arr) => arr.map((p) => p.map((n) => n.toFixed(2)).join(",")).join(" ");
+  const uid = "star-" + Math.random().toString(36).slice(2, 8);
+  const nodes = roster.map((p, i) => {
+    const [x, y] = pent[i];
+    const s = stats(p);
+    const on = p.id === currentId;
+    return `<a class="star-node${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
+      <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
+      <span class="star-label">
+        <span class="star-name">${escapeHtml(p.name)}</span>
+        <span class="star-stat">${dash(s.rating, 2)}</span>
+      </span>
+    </a>`;
+  }).join("");
+  return `<div class="star-roster${compact ? " is-compact" : ""}" role="img" aria-label="${escapeAttr(t("star.sub"))}">
+    <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <linearGradient id="${uid}-stroke" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#20b8ff"/>
+          <stop offset="0.5" stop-color="#006bff"/>
+          <stop offset="1" stop-color="#7ad7ff"/>
+        </linearGradient>
+      </defs>
+      <polygon class="star-ring" points="${pts(pent)}" />
+      <polygon class="star-shape" points="${pts(star)}" stroke="url(#${uid}-stroke)" />
+    </svg>
+    <div class="star-core" aria-hidden="true"><span>WTC</span></div>
+    ${nodes}
+  </div>`;
+}
+
 function fmtDuration(n) {
   const s = Math.round(Number(n));
   if (!Number.isFinite(s) || s < 0) return "";
@@ -654,7 +711,7 @@ document.addEventListener("click", (e) => {
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
-  playerCard, clipCard, emptyBox, errorBox, statusLabel,
+  playerCard, starRoster, clipCard, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   TOKEN_KEY
 };
