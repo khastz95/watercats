@@ -16,15 +16,20 @@ const I18N = {
     "cta.discord": "Discord da casa",
     "home.kicker": "O time",
     "home.roster": "O time",
-    "home.strip": "Não é org. É Discord aberto, alguém atrasado e a mesma briga de sempre na pistol.",
-    "star.sub": "Cinco pontas. O mesmo time de sempre.",
+    "home.strip": "Cinco na tag. Fichas, números e jogadas no mesmo lugar.",
+    "star.sub": "Cinco pontas. O time todo aqui.",
     "star.hint": "Passe o mouse em alguém pra ver o resumo. Clica se quiser a ficha inteira.",
     "home.clips": "As que a gente não cansa de ver",
     "home.stats": "O placar da casa",
+    "home.hot": "Em fase",
+    "home.hot.sub": "Os três com o rating mais alto agora.",
+    "home.now": "Agora",
     "stat.players": "Jogadores",
     "stat.rating": "Melhor rating",
     "stat.maps": "Partidas",
     "stat.clips": "Jogadas",
+    "stat.winrate": "Vitórias",
+    "stat.premier": "Premier",
     "players.kicker": "Elenco",
     "players.sub": "O time inteiro numa estrela. Passe o mouse, ou entra na ficha e vai fundo.",
     "stats.kicker": "Números",
@@ -41,10 +46,10 @@ const I18N = {
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
     "footer.tag": "CS da antiga. Servidor de agora.",
-    "footer.blurb": "Um grupo de amigos que ainda senta pra jogar. Sem pressa, com highlight.",
+    "footer.blurb": "Fichas, números e jogadas dos Watercats.",
     "footer.explore": "Pelas páginas",
     "footer.community": "Onde a gente fala",
-    "footer.house": "Porta dos fundos",
+    "footer.house": "Painel",
     "footer.copy": "Feito em casa, pelos Watercats.",
     "status.active": "Na rotação",
     "status.inactive": "Sumido",
@@ -156,15 +161,20 @@ const I18N = {
     "cta.discord": "House Discord",
     "home.kicker": "The crew",
     "home.roster": "The crew",
-    "home.strip": "Not an org. Just Discord open, someone late, and the same pistol-round argument.",
-    "star.sub": "Five points. Same crew as always.",
+    "home.strip": "Five on the tag. Profiles, numbers and clips in one place.",
+    "star.sub": "Five points. The whole crew.",
     "star.hint": "Hover someone for a snapshot. Click if you want the full page.",
     "home.clips": "The ones we keep sending",
     "home.stats": "House scoreboard",
+    "home.hot": "In form",
+    "home.hot.sub": "The three highest ratings right now.",
+    "home.now": "Now",
     "stat.players": "Players",
     "stat.rating": "Best rating",
     "stat.maps": "Matches",
     "stat.clips": "Clips",
+    "stat.winrate": "Wins",
+    "stat.premier": "Premier",
     "players.kicker": "Roster",
     "players.sub": "The whole crew on a star. Hover, or open a page and go deep.",
     "stats.kicker": "Numbers",
@@ -181,10 +191,10 @@ const I18N = {
     "retry": "Try again",
     "skip": "Skip to content",
     "footer.tag": "Old CS. Current servers.",
-    "footer.blurb": "Friends who still queue. No rush, plenty of highlights.",
+    "footer.blurb": "Profiles, numbers and clips from the Watercats.",
     "footer.explore": "Around the site",
     "footer.community": "Where we talk",
-    "footer.house": "Back door",
+    "footer.house": "Panel",
     "footer.copy": "Made at home, by Watercats.",
     "status.active": "In rotation",
     "status.inactive": "MIA",
@@ -643,7 +653,7 @@ function starRoster(players, options = {}) {
   const nodes = roster.map((p, i) => {
     const [x, y] = pent[i] || pent[0];
     const on = p.id === currentId;
-    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;" aria-current="${on ? "page" : "false"}">
+    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
       <span class="star-chip">${escapeHtml(p.name)}</span>
       ${starPop(p)}
@@ -652,11 +662,75 @@ function starRoster(players, options = {}) {
   return `<div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
       <polygon class="star-ring" points="${pts(pent)}" />
-      <polygon class="star-shape" points="${pts(star)}" />
+      <polygon class="star-shape" pathLength="100" points="${pts(star)}" />
       <polygon class="star-inner" points="${pts(inner)}" />
     </svg>
     ${nodes}
   </div>${compact ? "" : `<p class="star-hint">${escapeHtml(t("star.hint"))}</p>`}`;
+}
+
+function spotCard(p, rank) {
+  const s = stats(p);
+  const sub = p.role || place(p);
+  return `<a class="card spot" href="/jogador/${encodeURIComponent(p.id)}">
+    <span class="spot-rank">${String(rank).padStart(2, "0")}</span>
+    ${playerPhoto(p, "spot-photo")}
+    <div class="spot-body">
+      <h3>${escapeHtml(p.name)}</h3>
+      ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
+      <dl class="mini-stats">
+        <div><dt>${t("lf.rating")}</dt><dd>${dash(s.rating, 2)}</dd></div>
+        <div><dt>${t("lf.premier")}</dt><dd>${dash(s.premier)}</dd></div>
+        <div><dt>${t("lf.aim")}</dt><dd>${dash(s.aim, 1)}</dd></div>
+      </dl>
+      ${formBadges(p)}
+    </div>
+  </a>`;
+}
+
+function pulseLine(players) {
+  const bits = (players || []).map((p) => {
+    const s = stats(p);
+    return `<span class="pulse-item">${playerPhoto(p, "pulse-photo")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
+  }).join("");
+  if (!bits) return "";
+  return `<div class="pulse-track">${bits}${bits}</div>`;
+}
+
+function factStrip(players, clips) {
+  const all = (players || []).map(stats);
+  const maps = all.reduce((n, s) => n + (s.matches || 0), 0);
+  const items = [
+    [players.length, t("stat.players")],
+    [maps, t("stat.maps")],
+    [(clips || []).length, t("stat.clips")]
+  ];
+  return items.map(([n, label]) => `<div class="fact"><b>${n}</b><span>${label}</span></div>`).join("");
+}
+
+let motionIo;
+function motion() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const sel = ".hero, .section, .facts, .pulse, .star-roster, .table-wrap, .clip-filters, .login .card, .profile, .hot-grid, .card, .spot, .house-strip";
+  if (reduce) {
+    document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
+    return;
+  }
+  if (!motionIo) {
+    motionIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-in");
+        motionIo.unobserve(e.target);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+  }
+  document.querySelectorAll(sel).forEach((el, i) => {
+    if (el.classList.contains("is-in")) return;
+    el.classList.add("reveal");
+    el.style.setProperty("--d", `${(i % 8) * 0.06}s`);
+    motionIo.observe(el);
+  });
 }
 
 function fmtDuration(n) {
@@ -720,7 +794,10 @@ function escapeAttr(s) {
 }
 
 applyTheme();
-document.addEventListener("DOMContentLoaded", mountChrome);
+document.addEventListener("DOMContentLoaded", () => {
+  mountChrome();
+  motion();
+});
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-play-clip]");
   if (!btn) return;
@@ -736,5 +813,6 @@ window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
   playerCard, starRoster, clipCard, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
+  spotCard, pulseLine, factStrip, motion,
   TOKEN_KEY
 };
