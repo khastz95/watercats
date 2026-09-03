@@ -4,33 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Elenco · WATERCATS</title>
-  <link rel="icon" href="/img/logo.png?v=7" type="image/png">
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+  <link rel="icon" href="/img/logo.png?v=8" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=7">
+  <link rel="stylesheet" href="/css/app.css?v=8">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap section">
     <div class="section-head">
       <div>
-        <p class="live"><i></i> Roster</p>
+        <p class="kicker" data-i18n="nav.players"></p>
         <h2 data-i18n="nav.players"></h2>
-        <p>Dados completos de quem veste a tag.</p>
+        <p data-i18n="players.sub"></p>
       </div>
     </div>
     <div id="list" class="grid players"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=7"></script>
+  <script src="/js/site.js?v=8"></script>
   <script>
-    WTC.api("/api/players")
-      .then(({ players }) => {
-        document.getElementById("list").innerHTML = players.length
-          ? players.map(WTC.playerCard).join("")
-          : WTC.emptyBox("empty.players");
-      })
-      .catch(() => { document.getElementById("list").innerHTML = WTC.errorBox(); });
+    function render() {
+      WTC.api("/api/players")
+        .then(({ players }) => {
+          document.getElementById("list").innerHTML = players.length
+            ? players.map(WTC.playerCard).join("")
+            : WTC.emptyBox("empty.players");
+        })
+        .catch(() => { document.getElementById("list").innerHTML = WTC.errorBox(); });
+    }
+    render();
+    document.addEventListener("wtc:lang", render);
   </script>
 </body>
 </html>

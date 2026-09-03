@@ -1,16 +1,43 @@
-:root {
-  --bg: #050505;
-  --surface: #0c0c0c;
-  --text: #ececec;
-  --muted: #8a8a8a;
-  --line: #1a1a1a;
+:root, [data-theme="dark"] {
+  --bg: #0b1220;
+  --surface: rgba(16, 26, 40, 0.78);
+  --text: #eef2f6;
+  --muted: #8b97a8;
+  --line: rgba(122, 160, 210, 0.16);
   --blue: #006bff;
   --blue-dim: #1a4fa8;
   --red: #ff1838;
+  --header-bg: rgba(11, 18, 32, 0.88);
+  --input: #101a28;
+  --th: rgba(10, 18, 30, 0.92);
+  --photo: #152033;
+  --bg-image:
+    radial-gradient(70% 46% at 50% -8%, rgba(0, 107, 255, 0.28), transparent 58%),
+    radial-gradient(42% 36% at 100% 0%, rgba(0, 42, 92, 0.4), transparent 52%),
+    radial-gradient(36% 30% at 0% 80%, rgba(32, 184, 255, 0.08), transparent 50%),
+    linear-gradient(180deg, #101828 0%, #121a26 46%, #0d141e 100%);
   --radius: 6px;
   --header: 72px;
   --font: Inter, system-ui, sans-serif;
   --display: Oswald, Inter, sans-serif;
+}
+
+[data-theme="light"] {
+  --bg: #e8eef6;
+  --surface: rgba(255, 255, 255, 0.82);
+  --text: #121820;
+  --muted: #5c6b7a;
+  --line: rgba(0, 42, 92, 0.12);
+  --blue: #006bff;
+  --blue-dim: #0054cc;
+  --header-bg: rgba(232, 238, 246, 0.9);
+  --input: #ffffff;
+  --th: #eef3f8;
+  --photo: #d7e2ee;
+  --bg-image:
+    radial-gradient(70% 46% at 50% -8%, rgba(0, 107, 255, 0.16), transparent 58%),
+    radial-gradient(40% 34% at 100% 0%, rgba(32, 184, 255, 0.12), transparent 50%),
+    linear-gradient(180deg, #eef3f9 0%, #e4ebf4 50%, #dce5f0 100%);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,8 +47,10 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font);
-  background: var(--bg);
   color: var(--text);
+  background-color: var(--bg);
+  background-image: var(--bg-image);
+  background-attachment: fixed;
 }
 main { flex: 1; }
 
@@ -42,7 +71,8 @@ button { cursor: pointer; border: 0; background: none; }
   top: 0;
   z-index: 20;
   height: var(--header);
-  background: rgba(5, 5, 5, 0.94);
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
 .header-inner {
@@ -82,6 +112,7 @@ button { cursor: pointer; border: 0; background: none; }
 }
 .nav a,
 .lang,
+.theme,
 .nav-login {
   color: var(--muted);
   font-size: 12px;
@@ -93,6 +124,7 @@ button { cursor: pointer; border: 0; background: none; }
 }
 .nav a:hover,
 .lang:hover,
+.theme:hover,
 .nav-login:hover { color: var(--text); }
 .nav a.is-on {
   color: var(--text);
@@ -204,7 +236,7 @@ button { cursor: pointer; border: 0; background: none; }
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 4px;
-  background: #111;
+  background: var(--photo);
   margin-bottom: 12px;
 }
 .player-card h3 {
@@ -244,7 +276,7 @@ th {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
-  background: #0a0a0a;
+  background: var(--th);
 }
 td { border-top: 1px solid var(--line); }
 td a { color: var(--text); }
@@ -276,7 +308,7 @@ td a:hover { color: var(--blue); }
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: var(--radius);
-  background: #111;
+  background: var(--photo);
   border: 1px solid var(--line);
 }
 .profile h1 {
@@ -308,7 +340,7 @@ td a:hover { color: var(--blue); }
 }
 input, select, textarea {
   width: 100%;
-  background: #0a0a0a;
+  background: var(--input);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 10px 12px;

@@ -4,23 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WATERCATS</title>
-  <link rel="icon" href="/img/logo.png?v=7" type="image/png">
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+  <link rel="icon" href="/img/logo.png?v=8" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=7">
+  <link rel="stylesheet" href="/css/app.css?v=8">
 </head>
 <body>
-  <a class="skip" href="#main">Pular para o conteúdo</a>
+  <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
   <header class="header" id="header"></header>
   <main id="main">
     <section class="wrap hero">
       <div class="hero-logo">
-        <img src="/img/logo.png?v=7" alt="Logo WATERCATS">
+        <img src="/img/logo.png?v=8" alt="Logo WATERCATS">
       </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
         <h1>WATER<span>CATS</span></h1>
-        <p class="tagline">Old players. <em>Same game.</em></p>
+        <p class="tagline" data-i18n="hero.tagline"></p>
         <p class="lede" data-i18n="hero.lede"></p>
         <div class="actions">
           <a class="btn" href="/players" data-i18n="cta.players"></a>
@@ -32,7 +33,7 @@
     <section class="wrap section">
       <div class="section-head">
         <div>
-          <p class="kicker">Elenco</p>
+          <p class="kicker" data-i18n="home.kicker"></p>
           <h2 data-i18n="home.roster"></h2>
         </div>
         <a href="/players" data-i18n="cta.players"></a>
@@ -45,7 +46,7 @@
         <div>
           <h2 data-i18n="home.stats"></h2>
         </div>
-        <a href="/stats">Stats</a>
+        <a href="/stats" data-i18n="nav.stats"></a>
       </div>
       <div id="stats" class="grid stats-grid"></div>
     </section>
@@ -61,7 +62,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=7"></script>
+  <script src="/js/site.js?v=8"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");
@@ -82,10 +83,10 @@
         const showClips = (featured.length ? featured : allClips).slice(0, 3);
 
         stats.innerHTML = `
-          <div class="card stat"><b>${players.length}</b><span>Jogadores</span></div>
-          <div class="card stat"><b>${WTC.dash(withRating[0] && withRating[0].stats.rating, 2)}</b><span>Top rating</span></div>
-          <div class="card stat"><b>${WTC.dash(maps)}</b><span>Mapas</span></div>
-          <div class="card stat"><b>${allClips.length}</b><span>Clipes</span></div>
+          <div class="card stat"><b>${players.length}</b><span>${WTC.t("stat.players")}</span></div>
+          <div class="card stat"><b>${WTC.dash(withRating[0] && withRating[0].stats.rating, 2)}</b><span>${WTC.t("stat.rating")}</span></div>
+          <div class="card stat"><b>${WTC.dash(maps)}</b><span>${WTC.t("stat.maps")}</span></div>
+          <div class="card stat"><b>${allClips.length}</b><span>${WTC.t("stat.clips")}</span></div>
         `;
         clips.innerHTML = showClips.length ? showClips.map(WTC.clipCard).join("") : WTC.emptyBox("empty.clips");
       } catch {
@@ -95,6 +96,7 @@
       }
     }
     boot();
+    document.addEventListener("wtc:lang", boot);
   </script>
 </body>
 </html>
