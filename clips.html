@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogadas · WATERCATS</title>
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap section">
+    <div class="section-head">
+      <div>
+        <p class="live"><i></i> allstar.gg</p>
+        <h2>Jogadas</h2>
+        <p>Clipes via link da Allstar. Sem upload pesado — cola o URL no painel e aparece aqui.</p>
+      </div>
+    </div>
+    <div id="list" class="grid clips"></div>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js"></script>
+  <script>
+    WTC.api("/api/clips")
+      .then(({ clips }) => {
+        document.getElementById("list").innerHTML = clips.length
+          ? clips.map(WTC.clipCard).join("")
+          : WTC.emptyBox("empty.clips");
+      })
+      .catch(() => { document.getElementById("list").innerHTML = WTC.errorBox(); });
+  </script>
+</body>
+</html>

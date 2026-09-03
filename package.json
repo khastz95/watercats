@@ -1,0 +1,10 @@
+{
+  "name": "watercats",
+  "private": true,
+  "scripts": {
+    "migrate": "node scripts/migrate.js"
+  },
+  "dependencies": {
+    "postgres": "^3.4.7"
+  }
+}

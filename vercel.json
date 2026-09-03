@@ -1,0 +1,6 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/players/:slug", "destination": "/player.html" }
+  ]
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login · WATERCATS</title>
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap login">
+    <form class="card" id="form">
+      <h1>Área interna</h1>
+      <p>Entre para editar elenco, estatísticas e clipes da allstar.gg.</p>
+      <div class="field">
+        <label for="password">Senha</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn" type="submit">Entrar</button>
+      <p class="msg" id="msg"></p>
+    </form>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js"></script>
+  <script>
+    if (sessionStorage.getItem(WTC.TOKEN_KEY)) location.replace("/admin");
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById("msg");
+      msg.textContent = "";
+      try {
+        const data = await WTC.api("/api/auth", {
+          method: "POST",
+          body: { password: document.getElementById("password").value }
+        });
+        sessionStorage.setItem(WTC.TOKEN_KEY, data.token);
+        location.replace("/admin");
+      } catch (err) {
+        msg.textContent = err.message || "Senha inválida";
+      }
+    });
+  </script>
+</body>
+</html>
