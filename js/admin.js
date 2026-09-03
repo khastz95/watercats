@@ -138,6 +138,23 @@ statsForm.addEventListener("submit", async (e) => {
   } catch (err) { say(err.message); }
 });
 
+document.getElementById("csrep-sync").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  say("Sincronizando com o CSRep…", true);
+  try {
+    const { results } = await WTC.api("/api/csrep", { method: "POST", body: {} });
+    const falhas = results.filter((r) => !r.ok);
+    if (falhas.length) say(falhas.map((r) => `${r.id}: ${r.error}`).join(" · "));
+    else say(`CSRep sincronizado (${results.length} jogadores).`, true);
+    await reload();
+  } catch (err) {
+    say(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
 statsForm.playerId.addEventListener("change", () => {
   const p = players.find((x) => x.id === statsForm.playerId.value);
   if (!p) return;

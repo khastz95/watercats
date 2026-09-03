@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="img/logo.png" alt="WATERCATS" width="280">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="img/logo-dark.png">
+    <img src="img/logo-light.png" alt="WATERCATS" width="280">
+  </picture>
 </p>
 
 <h1 align="center">WATERCATS</h1>
@@ -88,9 +91,10 @@ watercats/
 
 | Arquivo | Descrição |
 | --- | --- |
-| `img/logo.png` | Logo completa com fundo transparente; também é o ícone da aba. |
-| `img/icon.png` | Recorte do gato (marca quadrada). |
-| `img/favicon.png` | Ícone 64×64 gerado da logo. |
+| `img/logo-dark.png` | Logo completa (gato + texto) para fundo escuro. |
+| `img/logo-light.png` | Logo completa para fundo claro. |
+| `img/icon-dark.png` | Só o gato — menu e ícone da aba no tema escuro. |
+| `img/icon-light.png` | Só o gato — menu e ícone da aba no tema claro. |
 
 ### API (`api/`)
 
@@ -103,17 +107,21 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `api/stats.js` | `PUT` | Atualiza estatísticas de um jogador. |
 | `api/clips.js` | `GET` `PUT` `DELETE` | Clipes; o link precisa ser da allstar.gg. |
 | `api/photo.js` | `POST` | Envio de foto (JPG, PNG, WEBP, GIF, até 1,5 MB). |
+| `api/csrep.js` | `GET` `POST` | Lê o que já veio do CSRep; o `POST` sincroniza os jogadores com SteamID64. |
 
 ### Servidor (`lib/` e `scripts/`)
 
 | Arquivo | Descrição |
 | --- | --- |
 | `lib/cloud.js` | Acesso ao Supabase, sessão, leitura do clipe e gravação. A chave de serviço fica só aqui. |
+| `lib/csrep.js` | Chamada à API do CSRep e leitura da resposta. |
 | `lib/http.js` | Leitura do corpo da requisição e respostas JSON. |
+| `scripts/db.js` | Carrega o `.env.local` e abre a conexão com o Postgres. |
 | `scripts/migrate.js` | Aplica `supabase.sql` no Postgres. |
+| `scripts/seed-roster.js` | Grava os dados públicos dos 5 perfis da Steam. |
 | `supabase.sql` | Tabelas `players`, `player_stats` e `clips`. Não mexe em `org_*`. |
 | `vercel.json` | URLs sem `.html` e rewrite `/jogador/:slug` → `player.html`. |
-| `package.json` | Script `migrate` e cliente `postgres`. |
+| `package.json` | Scripts `migrate` e `seed`, e o cliente `postgres`. |
 | `.env.example` | Nomes das variáveis de ambiente. |
 | `.gitignore` | Ignora `.env*`, `node_modules` e `.vercel`. |
 | `LICENSE` | Licença MIT. |
@@ -130,6 +138,30 @@ Três tabelas no schema `public`:
 
 Estatísticas vazias aparecem como "—" no site.
 
+## CSRep
+
+O [CSRep](https://csrep.gg/docs) libera a API por pedido, então é preciso ter a chave em `CSREP_API_KEY`. A rota também é configurável, porque a documentação fica atrás de login:
+
+```
+CSREP_API_KEY=            chave recebida do CSRep
+CSREP_API_BASE=           padrão https://csrep.gg/api
+CSREP_API_PATH=           padrão /v1/players/{steamId}
+```
+
+O painel tem o botão **Sincronizar CSRep** na aba Estatísticas. Ele busca cada jogador pelo SteamID64 e guarda a resposta inteira em `player_stats.extra.csrep` — nada é reescrito por cima do que foi preenchido à mão.
+
+Na tela, número que veio do CSRep aparece em azul; o que foi digitado no painel fica na cor normal. Campo preenchido à mão sempre ganha do CSRep.
+
+Os SteamID64 do elenco:
+
+| Jogador | SteamID64 | Perfil |
+| --- | --- | --- |
+| s4mz | 76561198304687498 | [MORFETlCO](https://steamcommunity.com/id/MORFETlCO) |
+| fury | 76561198330330644 | [furyntc](https://steamcommunity.com/id/furyntc) |
+| bill | 76561198340052875 | [BILZERA](https://steamcommunity.com/profiles/76561198340052875) |
+| khastz | 76561198069381773 | [khastz95](https://steamcommunity.com/id/khastz95) |
+| cadu | 76561199173505462 | [Cadu](https://steamcommunity.com/profiles/76561199173505462) |
+
 O mesmo projeto Supabase pode ter tabelas `org_*` da [watercatsgg](https://github.com/khastz95/watercatsgg). A migração deste repositório **não** as apaga.
 
 ## Ambiente
@@ -141,6 +173,7 @@ SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 EDIT_PIN=
 POSTGRES_URL_NON_POOLING=
+CSREP_API_KEY=
 ```
 
 `EDIT_PIN` é a senha de `/login`. `POSTGRES_URL_NON_POOLING` só é preciso para a migração.

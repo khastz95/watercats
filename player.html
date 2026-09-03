@@ -5,52 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogador · WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/logo.png?v=9" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=12" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=11">
+  <link rel="stylesheet" href="/css/app.css?v=12">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=9"></script>
+  <script src="/js/site.js?v=12"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
     let player = null;
 
+    const esc = (v) => WTC.escapeHtml(v);
+
+    function infoRow(key, value) {
+      if (!value) return "";
+      return `<div><dt>${WTC.t(key)}</dt><dd>${esc(value)}</dd></div>`;
+    }
+
+    function statCard(label, entry, digits = 0) {
+      return `<div class="card stat${entry.csrep ? " is-csrep" : ""}">
+        <b>${WTC.dash(entry.value, digits)}</b>
+        <span>${WTC.t(label)}</span>
+      </div>`;
+    }
+
     function draw() {
       if (!player) return;
       const p = player;
-      const s = p.stats || {};
-      const photo = p.photo
-        ? `<img class="photo" src="${p.photo}" alt="${p.name}">`
-        : `<div class="photo"></div>`;
+      const s = WTC.effectiveStats(p);
       const links = [
         p.steamUrl && `<a class="btn btn-ghost" href="${p.steamUrl}" target="_blank" rel="noreferrer">Steam</a>`,
         p.faceitUrl && `<a class="btn btn-ghost" href="${p.faceitUrl}" target="_blank" rel="noreferrer">FACEIT</a>`,
         p.twitchUrl && `<a class="btn btn-ghost" href="${p.twitchUrl}" target="_blank" rel="noreferrer">Twitch</a>`
       ].filter(Boolean).join("");
+      const info = [
+        infoRow("info.realName", p.realName),
+        infoRow("info.role", p.role),
+        infoRow("info.from", WTC.place(p)),
+        infoRow("info.since", p.startedPlaying),
+        infoRow("info.joined", p.joinedAt),
+        infoRow("info.steamId", p.steamId)
+      ].filter(Boolean).join("");
+      const synced = p.csrep && p.csrep.syncedAt
+        ? `<p class="source">${WTC.t("csrep.synced")} ${new Date(p.csrep.syncedAt).toLocaleDateString()}</p>`
+        : "";
+
       root.innerHTML = `
         <section class="profile">
-          <aside class="profile-side">${photo}</aside>
-          <div>
-            <p class="kicker">${WTC.statusLabel(p.status)}${p.role ? " · " + p.role : ""}</p>
-            <h1>${p.name}</h1>
-            <p class="meta">${[p.realName, p.city, p.country].filter(Boolean).join(" · ")}</p>
-            <p class="bio">${p.bio || WTC.t("profile.emptyBio")}</p>
-            <div class="links">${links}</div>
-            <div class="grid stats-grid">
-              <div class="card stat"><b>${WTC.dash(s.rating, 2)}</b><span>${WTC.t("th.rating")}</span></div>
-              <div class="card stat"><b>${WTC.dash(s.kd, 2)}</b><span>${WTC.t("th.kd")}</span></div>
-              <div class="card stat"><b>${WTC.dash(s.adr, 1)}</b><span>${WTC.t("th.adr")}</span></div>
-              <div class="card stat"><b>${WTC.dash(s.hsPercent, 1)}</b><span>${WTC.t("th.hs")}</span></div>
-              <div class="card stat"><b>${WTC.dash(s.mapsPlayed)}</b><span>${WTC.t("th.maps")}</span></div>
-              <div class="card stat"><b>${WTC.dash(s.mvp)}</b><span>MVP</span></div>
-            </div>
+          <aside class="profile-side">
+            ${WTC.playerPhoto(p)}
+            <span class="chip chip-${p.status || "active"}">${esc(WTC.statusLabel(p.status))}</span>
+            ${info ? `<dl class="info-list">${info}</dl>` : ""}
+          </aside>
+          <div class="profile-main">
+            <p class="kicker">${esc(p.role || WTC.place(p) || "WATERCATS")}</p>
+            <h1>${esc(p.name)}</h1>
+            <p class="bio">${esc(p.bio) || WTC.t("profile.emptyBio")}</p>
+            ${links ? `<div class="links">${links}</div>` : ""}
           </div>
         </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h2>${WTC.t("profile.numbers")}</h2>
+              ${WTC.fromCsrep(s) ? `<p>${WTC.t("csrep.sub")}</p>` : ""}
+            </div>
+          </div>
+          <div class="grid stats-grid">
+            ${statCard("th.rating", s.rating, 2)}
+            ${statCard("th.kd", s.kd, 2)}
+            ${statCard("th.adr", s.adr, 1)}
+            ${statCard("th.hs", s.hsPercent, 1)}
+            ${statCard("th.maps", s.mapsPlayed)}
+            ${statCard("th.kills", s.kills)}
+            ${statCard("th.clutches", s.clutches)}
+            ${statCard("csrep.trust", s.trust)}
+          </div>
+          ${synced}
+        </section>
+
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
           <div class="grid clips">${(p.clips || []).length ? p.clips.map(WTC.clipCard).join("") : WTC.emptyBox("empty.clips")}</div>

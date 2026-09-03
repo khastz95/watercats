@@ -19,7 +19,9 @@ const I18N = {
     "stat.rating": "Melhor rating",
     "stat.maps": "Mapas",
     "stat.clips": "Clipes",
+    "players.kicker": "Time",
     "players.sub": "Dados completos de quem veste a tag.",
+    "stats.kicker": "Números",
     "stats.sub": "Todos os jogadores da casa. Sem número inventado — se estiver vazio, ainda não foi preenchido.",
     "clips.kicker": "allstar.gg",
     "clips.title": "Jogadas",
@@ -41,6 +43,22 @@ const I18N = {
     "status.alumni": "Ex-jogador",
     "profile.emptyBio": "Sem bio ainda — o painel preenche no login.",
     "profile.plays": "Jogadas",
+    "profile.info": "Ficha",
+    "profile.numbers": "Números",
+    "info.realName": "Nome real",
+    "info.role": "Função",
+    "info.from": "De",
+    "info.since": "Joga desde",
+    "info.joined": "Entrou em",
+    "info.steamId": "SteamID64",
+    "csrep.title": "CSRep",
+    "csrep.sub": "Números puxados da API do CSRep.",
+    "csrep.synced": "Sincronizado em",
+    "csrep.empty": "Sem dados do CSRep ainda.",
+    "csrep.trust": "Trust score",
+    "csrep.sync": "Sincronizar CSRep",
+    "source.csrep": "via CSRep",
+    "source.manual": "preenchido no painel",
     "th.player": "Jogador",
     "th.role": "Função",
     "th.rating": "Rating",
@@ -79,7 +97,9 @@ const I18N = {
     "stat.rating": "Top rating",
     "stat.maps": "Maps",
     "stat.clips": "Clips",
+    "players.kicker": "Team",
     "players.sub": "Full profiles of everyone on the tag.",
+    "stats.kicker": "Numbers",
     "stats.sub": "Every player in the house. No made-up numbers — empty means it has not been filled in yet.",
     "clips.kicker": "allstar.gg",
     "clips.title": "Clips",
@@ -101,6 +121,22 @@ const I18N = {
     "status.alumni": "Alumni",
     "profile.emptyBio": "No bio yet — an admin fills it in after login.",
     "profile.plays": "Clips",
+    "profile.info": "Profile",
+    "profile.numbers": "Numbers",
+    "info.realName": "Real name",
+    "info.role": "Role",
+    "info.from": "From",
+    "info.since": "Playing since",
+    "info.joined": "Joined",
+    "info.steamId": "SteamID64",
+    "csrep.title": "CSRep",
+    "csrep.sub": "Numbers pulled from the CSRep API.",
+    "csrep.synced": "Synced",
+    "csrep.empty": "No CSRep data yet.",
+    "csrep.trust": "Trust score",
+    "csrep.sync": "Sync CSRep",
+    "source.csrep": "via CSRep",
+    "source.manual": "filled in the panel",
     "th.player": "Player",
     "th.role": "Role",
     "th.rating": "Rating",
@@ -136,8 +172,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=10`;
-  const icon = `/img/icon-${t}.png?v=10`;
+  const logo = `/img/logo-${t}.png?v=12`;
+  const icon = `/img/icon-${t}.png?v=12`;
   document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
   document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
   const fav = document.querySelector("link[rel=icon]");
@@ -174,8 +210,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=10`;
-  const icon = `/img/icon-${th}.png?v=10`;
+  const logo = `/img/logo-${th}.png?v=12`;
+  const icon = `/img/icon-${th}.png?v=12`;
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
@@ -252,15 +288,54 @@ function statusLabel(status) {
   return t("status." + (status || "active")) || status || "";
 }
 
+const STAT_FIELDS = [
+  "rating", "kd", "adr", "hsPercent", "mapsPlayed", "wins", "losses",
+  "kills", "deaths", "assists", "firstKills", "clutches", "mvp", "trust"
+];
+
+// O que o painel preencheu tem prioridade; o resto vem do CSRep.
+function effectiveStats(p) {
+  const manual = p.stats || {};
+  const csrep = (p.csrep && p.csrep.stats) || {};
+  const out = {};
+  for (const field of STAT_FIELDS) {
+    const own = manual[field];
+    if (own != null && own !== "") out[field] = { value: own, csrep: false };
+    else if (csrep[field] != null && csrep[field] !== "") out[field] = { value: csrep[field], csrep: true };
+    else out[field] = { value: null, csrep: false };
+  }
+  return out;
+}
+
+function fromCsrep(stats) {
+  return Object.values(stats).some((s) => s.csrep && s.value != null);
+}
+
+function place(p) {
+  return [p.city, p.country].filter(Boolean).join(", ");
+}
+
+function playerPhoto(p, cls = "photo") {
+  return p.photo
+    ? `<img class="${cls}" src="${escapeAttr(p.photo)}" alt="${escapeAttr(p.name)}">`
+    : `<div class="${cls}" style="box-shadow: inset 0 0 40px ${escapeAttr(p.color || "#006BFF")}"></div>`;
+}
+
 function playerCard(p) {
-  const photo = p.photo
-    ? `<img class="photo" src="${escapeAttr(p.photo)}" alt="${escapeAttr(p.name)}">`
-    : `<div class="photo" style="box-shadow: inset 0 0 40px ${escapeAttr(p.color || "#006BFF")}"></div>`;
+  const s = effectiveStats(p);
+  const sub = p.realName || p.role || place(p);
   return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}">
-    ${photo}
-    <h3>${escapeHtml(p.name)}</h3>
-    <p class="meta">${escapeHtml(p.role || p.realName || "")}</p>
-    <span class="chip">${escapeHtml(statusLabel(p.status))}</span>
+    ${playerPhoto(p)}
+    <div class="player-card-head">
+      <h3>${escapeHtml(p.name)}</h3>
+      <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
+    </div>
+    ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
+    <dl class="mini-stats">
+      <div><dt>${t("th.rating")}</dt><dd>${dash(s.rating.value, 2)}</dd></div>
+      <div><dt>${t("th.kd")}</dt><dd>${dash(s.kd.value, 2)}</dd></div>
+      <div><dt>${t("th.adr")}</dt><dd>${dash(s.adr.value, 1)}</dd></div>
+    </dl>
   </a>`;
 }
 
@@ -310,4 +385,8 @@ function escapeAttr(s) {
 applyTheme();
 document.addEventListener("DOMContentLoaded", mountChrome);
 
-window.WTC = { t, api, dash, playerCard, clipCard, emptyBox, errorBox, statusLabel, TOKEN_KEY };
+window.WTC = {
+  t, api, dash, playerCard, clipCard, emptyBox, errorBox, statusLabel,
+  effectiveStats, fromCsrep, place, playerPhoto, escapeHtml, escapeAttr,
+  TOKEN_KEY
+};

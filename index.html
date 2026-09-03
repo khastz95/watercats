@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/logo.png?v=9" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=12" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=11">
+  <link rel="stylesheet" href="/css/app.css?v=12">
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
@@ -16,7 +16,7 @@
   <main id="main">
     <section class="wrap hero">
       <div class="hero-logo">
-        <img src="/img/logo-dark.png?v=10" alt="Logo WATERCATS" data-logo>
+        <img src="/img/logo-dark.png?v=12" alt="Logo WATERCATS" data-logo>
       </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
@@ -62,7 +62,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=9"></script>
+  <script src="/js/site.js?v=12"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");
@@ -77,14 +77,16 @@
           ? players.map(WTC.playerCard).join("")
           : WTC.emptyBox("empty.players");
 
-        const withRating = players.filter((p) => p.stats && p.stats.rating != null);
-        const maps = players.reduce((n, p) => n + (p.stats.mapsPlayed || 0), 0);
+        const all = players.map(WTC.effectiveStats);
+        const ratings = all.map((s) => s.rating.value).filter((v) => v != null);
+        const topRating = ratings.length ? Math.max(...ratings) : null;
+        const maps = all.reduce((n, s) => n + (s.mapsPlayed.value || 0), 0);
         const featured = allClips.filter((c) => c.featured);
         const showClips = (featured.length ? featured : allClips).slice(0, 3);
 
         stats.innerHTML = `
           <div class="card stat"><b>${players.length}</b><span>${WTC.t("stat.players")}</span></div>
-          <div class="card stat"><b>${WTC.dash(withRating[0] && withRating[0].stats.rating, 2)}</b><span>${WTC.t("stat.rating")}</span></div>
+          <div class="card stat"><b>${WTC.dash(topRating, 2)}</b><span>${WTC.t("stat.rating")}</span></div>
           <div class="card stat"><b>${WTC.dash(maps)}</b><span>${WTC.t("stat.maps")}</span></div>
           <div class="card stat"><b>${allClips.length}</b><span>${WTC.t("stat.clips")}</span></div>
         `;
