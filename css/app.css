@@ -54,6 +54,7 @@ html {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 body {
   position: relative;
@@ -175,11 +176,12 @@ button { cursor: pointer; border: 0; background: none; }
   text-transform: uppercase;
   padding: 6px 0;
   border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 .nav a:hover,
 .lang:hover,
 .theme:hover,
-.nav-login:hover { color: var(--text); }
+.nav-login:hover { color: var(--text); transform: translateY(-1px); }
 .nav a.is-on {
   color: var(--text);
   border-bottom-color: var(--blue);
@@ -238,6 +240,8 @@ button { cursor: pointer; border: 0; background: none; }
 .hero-logo img {
   width: min(420px, 100%);
   margin: 0 auto;
+  animation: logoFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 28px rgba(0, 107, 255, 0.22));
 }
 .kicker {
   color: var(--muted);
@@ -283,8 +287,9 @@ button { cursor: pointer; border: 0; background: none; }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
-.btn:hover { background: var(--blue-dim); }
+.btn:hover { background: var(--blue-dim); transform: translateY(-2px); }
 .btn-ghost {
   background: transparent;
   color: var(--text);
@@ -323,6 +328,105 @@ button { cursor: pointer; border: 0; background: none; }
   line-height: 1.55;
   max-width: 72ch;
 }
+.pulse {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: color-mix(in srgb, var(--blue) 7%, transparent);
+  margin: 4px 0 0;
+  padding: 12px 0;
+}
+.pulse-track {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.pulse:hover .pulse-track { animation-play-state: paused; }
+.pulse-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pulse-item b { color: var(--text); font-family: var(--display); letter-spacing: 0.06em; }
+.pulse-photo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--photo);
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 28px 0 8px;
+}
+.fact {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.fact b {
+  display: block;
+  font-family: var(--display);
+  font-size: 32px;
+  line-height: 1;
+}
+.fact span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.spot {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.spot-rank {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--blue);
+  letter-spacing: 0.06em;
+}
+.spot-photo,
+.spot .photo {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--photo);
+}
+.spot h3 {
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.spot .mini-stats { margin-top: 8px; padding-top: 8px; }
+.spot .form { margin-top: 8px; }
+.home-stats { grid-template-columns: repeat(6, 1fr); }
 .star-hint {
   text-align: center;
   color: var(--muted);
@@ -344,11 +448,17 @@ button { cursor: pointer; border: 0; background: none; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 14px;
-  transition: border-color 0.18s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .player-card { text-align: left; display: block; }
 .player-card:hover,
-.clip:hover { border-color: var(--blue); }
+.clip:hover,
+.spot:hover,
+.stat:hover {
+  border-color: var(--blue);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 107, 255, 0.12);
+}
 .player-card-head {
   display: flex;
   align-items: baseline;
@@ -481,6 +591,8 @@ th {
   background: var(--th);
 }
 td { border-top: 1px solid var(--line); }
+tbody tr { transition: background 0.18s ease; }
+tbody tr:hover { background: color-mix(in srgb, var(--blue) 8%, transparent); }
 td a { color: var(--text); }
 td a:hover { color: var(--blue); }
 
@@ -514,6 +626,7 @@ td a:hover { color: var(--blue); }
   border-radius: 50%;
   background: color-mix(in srgb, var(--blue) 88%, #000);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  animation: playPulse 2.4s ease-in-out infinite;
 }
 .clip-play-icon::after {
   content: "";
@@ -545,7 +658,9 @@ td a:hover { color: var(--blue); }
 .clip-filters .chip {
   cursor: pointer;
   background: transparent;
+  transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
+.clip-filters .chip:hover { transform: translateY(-1px); border-color: var(--blue); }
 .clip-filters .chip.is-on {
   color: var(--blue);
   border-color: var(--blue);
@@ -777,7 +892,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   stroke: var(--blue);
   stroke-width: 0.95;
   stroke-linejoin: miter;
-  animation: starPulse 10s ease-in-out infinite;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: starDraw 1.1s ease forwards, starPulse 8s ease-in-out 1.1s infinite;
 }
 .star-node {
   position: absolute;
@@ -793,6 +910,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .star-orb {
   display: block;
   width: 100%;
+  animation: starFloat 4.8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.28s);
   transition: transform 0.18s ease;
 }
 .star-chip {
@@ -831,7 +950,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   border-color: var(--blue);
 }
 .star-node:hover .star-orb,
-.star-node:focus-visible .star-orb { transform: scale(1.05); }
+.star-node:focus-visible .star-orb {
+  animation-play-state: paused;
+  transform: scale(1.06);
+}
 .star-node.is-on .star-chip { border-color: var(--blue); color: var(--blue); }
 
 .star-pop {
@@ -921,9 +1043,42 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   0%, 100% { opacity: 0.78; }
   50% { opacity: 1; }
 }
+@keyframes starDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes starFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes playPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 107, 255, 0.35); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(0, 107, 255, 0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.reveal.is-in {
+  animation: rise 0.62s ease both;
+  animation-delay: var(--d, 0s);
+}
 
 @media (max-width: 900px) {
   .hero, .profile, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr 1fr; }
+  .home-stats { grid-template-columns: repeat(3, 1fr); }
+  .hot-grid, .facts { grid-template-columns: 1fr; }
   .nav { display: none; }
   .menu-toggle { display: inline-flex; }
   .nav-sheet {
@@ -991,6 +1146,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 @media (max-width: 640px) {
   .hero, .profile, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr; }
+  .home-stats { grid-template-columns: repeat(2, 1fr); }
   .hero { padding-top: 28px; }
   .brand img { height: 40px; }
   .brand-name { font-size: 18px; }
@@ -1005,6 +1161,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .nav-mobile,
   .star-orb,
   .star-photo,
-  .star-pop { transition: none; }
-  .star-shape { animation: none; opacity: 1; }
+  .star-pop,
+  .btn,
+  .card { transition: none; }
+  .star-shape,
+  .star-orb,
+  .hero-logo img,
+  .pulse-track,
+  .clip-play-icon,
+  .reveal,
+  .reveal.is-in { animation: none; opacity: 1; transform: none; stroke-dashoffset: 0; }
+  body::before { animation: none; }
 }
