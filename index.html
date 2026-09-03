@@ -4,36 +4,35 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WATERCATS</title>
-  <link rel="icon" href="/img/favicon.png">
+  <link rel="icon" href="/img/logo.png?v=7" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
+  <link rel="stylesheet" href="/css/app.css?v=7">
 </head>
 <body>
   <a class="skip" href="#main">Pular para o conteúdo</a>
   <header class="header" id="header"></header>
   <main id="main">
     <section class="wrap hero">
+      <div class="hero-logo">
+        <img src="/img/logo.png?v=7" alt="Logo WATERCATS">
+      </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
         <h1>WATER<span>CATS</span></h1>
-        <p class="tagline">OLD PLAYERS. <em>SAME GAME.</em></p>
+        <p class="tagline">Old players. <em>Same game.</em></p>
         <p class="lede" data-i18n="hero.lede"></p>
         <div class="actions">
           <a class="btn" href="/players" data-i18n="cta.players"></a>
           <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
         </div>
       </div>
-      <div class="hero-logo">
-        <div class="orb"></div>
-        <img src="/img/logo.png" alt="Logo WATERCATS">
-      </div>
     </section>
 
     <section class="wrap section">
       <div class="section-head">
         <div>
-          <p class="live"><i></i> Live roster</p>
+          <p class="kicker">Elenco</p>
           <h2 data-i18n="home.roster"></h2>
         </div>
         <a href="/players" data-i18n="cta.players"></a>
@@ -62,7 +61,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js"></script>
+  <script src="/js/site.js?v=7"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");

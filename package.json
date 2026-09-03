@@ -1,6 +1,13 @@
 {
   "name": "watercats",
   "private": true,
+  "description": "Site WATERCATS — elenco, stats e clipes allstar.gg.",
+  "homepage": "https://watercats.vercel.app",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khastz95/watercats.git"
+  },
   "scripts": {
     "migrate": "node scripts/migrate.js"
   },

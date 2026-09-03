@@ -6,7 +6,7 @@ const I18N = {
     "nav.clips": "Jogadas",
     "nav.login": "Login",
     "hero.kicker": "WTC · Counter-Strike",
-    "hero.lede": "Um time vivo. Paleta no sangue. Old players, same game — agora com a casa acesa.",
+    "hero.lede": "Um grupo de amigos no Counter-Strike. Elenco, números e jogadas da casa.",
     "cta.players": "Ver o elenco",
     "cta.clips": "Assistir jogadas",
     "home.roster": "Elenco",
@@ -18,6 +18,11 @@ const I18N = {
     "error.load": "Não rolou carregar agora.",
     "retry": "Tentar de novo",
     "footer.tag": "Old players. Same game.",
+    "footer.blurb": "Um grupo de amigos no Counter-Strike. Elenco, números e jogadas da casa — tudo na paleta do gato.",
+    "footer.explore": "Explorar",
+    "footer.community": "Comunidade",
+    "footer.house": "Casa",
+    "footer.copy": "Feito pelos Watercats.",
     "lang.switch": "EN"
   },
   en: {
@@ -27,7 +32,7 @@ const I18N = {
     "nav.clips": "Clips",
     "nav.login": "Login",
     "hero.kicker": "WTC · Counter-Strike",
-    "hero.lede": "A living roster. Color in the blood. Old players, same game — lights on.",
+    "hero.lede": "Friends playing Counter-Strike. Roster, stats and house clips.",
     "cta.players": "See the roster",
     "cta.clips": "Watch clips",
     "home.roster": "Roster",
@@ -39,6 +44,11 @@ const I18N = {
     "error.load": "Could not load this right now.",
     "retry": "Try again",
     "footer.tag": "Old players. Same game.",
+    "footer.blurb": "Friends, Counter-Strike, and a black cat with red eyes. Roster, stats and house clips.",
+    "footer.explore": "Explore",
+    "footer.community": "Community",
+    "footer.house": "House",
+    "footer.copy": "Made by Watercats.",
     "lang.switch": "PT"
   }
 };
@@ -74,12 +84,13 @@ function mountChrome() {
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const here = pageId();
+  const logo = "/img/logo.png?v=7";
   if (header) {
     header.innerHTML = `
-      <div class="header-inner">
+      <div class="wrap header-inner">
         <a class="brand" href="/">
-          <img src="/img/logo.png" alt="WATERCATS">
-          <span>WATER<b>CATS</b></span>
+          <img src="${logo}" alt="">
+          <span class="brand-name">WATER<span>CATS</span></span>
         </a>
         <nav class="nav">
           <a href="/" class="${here === "home" ? "is-on" : ""}" data-i18n="nav.home"></a>
@@ -93,13 +104,37 @@ function mountChrome() {
   }
   if (footer) {
     footer.innerHTML = `
-      <div class="wrap footer-inner">
-        <p data-i18n="footer.tag"></p>
-        <p>
-          <a href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer">Discord</a>
-          ·
-          <a href="https://steamcommunity.com/groups/watercatsgg" target="_blank" rel="noreferrer">Steam</a>
-        </p>
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <img src="${logo}" alt="WATERCATS">
+          <p class="footer-tag" data-i18n="footer.tag"></p>
+          <p class="footer-blurb" data-i18n="footer.blurb"></p>
+        </div>
+        <div class="footer-col">
+          <h3 data-i18n="footer.explore"></h3>
+          <a href="/" data-i18n="nav.home"></a>
+          <a href="/players" data-i18n="nav.players"></a>
+          <a href="/stats" data-i18n="nav.stats"></a>
+          <a href="/clips" data-i18n="nav.clips"></a>
+        </div>
+        <div class="footer-col">
+          <h3 data-i18n="footer.community"></h3>
+          <div class="socials">
+            <a href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer">Discord</a>
+            <a href="https://steamcommunity.com/groups/watercatsgg" target="_blank" rel="noreferrer">Steam</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3 data-i18n="footer.house"></h3>
+          <a href="/login" data-i18n="nav.login"></a>
+          <a href="/admin">Admin</a>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <div class="wrap">
+          <p>WATERCATS · 2026</p>
+          <p data-i18n="footer.copy"></p>
+        </div>
       </div>`;
   }
   document.querySelector("[data-lang]")?.addEventListener("click", () => {
