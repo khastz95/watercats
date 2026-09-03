@@ -121,6 +121,7 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `scripts/db.js` | Carrega o `.env.local` e abre a conexão com o Postgres. |
 | `scripts/migrate.js` | Aplica `supabase.sql` no Postgres. |
 | `scripts/seed-roster.js` | Grava os dados públicos dos 5 perfis da Steam. |
+| `scripts/steam-avatars.js` | Busca os avatares da Steam pela linha de comando (`npm run avatars`). |
 | `supabase.sql` | Tabelas `players`, `player_stats` e `clips`. Não mexe em `org_*`. |
 | `vercel.json` | URLs sem `.html` e rewrite `/jogador/:slug` → `player.html`. |
 | `package.json` | Scripts `migrate` e `seed`, e o cliente `postgres`. |
@@ -178,7 +179,7 @@ Os SteamID64 do elenco:
 Duas origens, nesta ordem:
 
 1. **Foto enviada no painel** — vai para o bucket `player-photos` e fica em `players.photo_url`.
-2. **Avatar da Steam** — o botão **Buscar avatares da Steam**, na aba Jogadores, lê o XML público do perfil (`/profiles/<id>/?xml=1`, sem chave de API) e guarda a URL do CDN em `players.steam_avatar`.
+2. **Avatar da Steam** — o botão **Buscar avatares da Steam**, na aba Jogadores, lê o XML público do perfil (`/profiles/<id>/?xml=1`, sem chave de API) e guarda a URL do CDN em `players.steam_avatar`. O mesmo dá pelo terminal com `npm run avatars`.
 
 São colunas separadas de propósito: buscar os avatares de novo não apaga foto enviada à mão, e apagar a foto enviada faz o site voltar para o avatar. Sem nenhuma das duas, aparece o bloco na cor do jogador.
 
@@ -202,6 +203,8 @@ POSTGRES_URL_NON_POOLING=
 ```bash
 npm install
 npm run migrate
+npm run seed
+npm run avatars
 npx vercel --prod
 ```
 
