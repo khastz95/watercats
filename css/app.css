@@ -127,8 +127,7 @@ main { flex: 1; position: relative; z-index: 1; }
 
 body.nav-open {
   overflow: hidden;
-  touch-action: none;
-  overscroll-behavior: none;
+  overscroll-behavior: contain;
 }
 
 img { max-width: 100%; display: block; }
@@ -1582,6 +1581,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .clip.is-featured { grid-template-columns: 1fr; }
   .profile-hero { padding: 24px 18px 20px; }
   .header-inner { gap: 14px; }
+  main,
+  .footer,
+  .wrap,
+  .hero,
+  .star-stage,
+  .star-roster { max-width: 100%; overflow-x: hidden; }
   .nav { display: none; }
   .menu-toggle { display: inline-flex; }
   .nav-sheet {
@@ -1628,6 +1633,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     transform: translateX(100%);
     transition: transform 0.22s ease;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
   body.nav-open .nav-mobile { transform: none; }
   .nav-slogan {
@@ -1684,6 +1691,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     font-size: 14px;
     padding: 12px 8px;
   }
+  .star-chip { max-width: 100%; }
+}
+@media (max-width: 420px) {
+  .header-inner { gap: 8px; }
+  .brand-name {
+    font-size: 15px;
+    letter-spacing: 0.06em;
+  }
+  .menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+  .nav-mobile { width: min(320px, 100vw); }
 }
 @media (max-width: 640px) {
   .hero, .profile, .profile-hero-grid, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr; }
