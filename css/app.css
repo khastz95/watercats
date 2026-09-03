@@ -703,11 +703,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 
 .star-roster {
   position: relative;
-  width: min(620px, 100%);
+  width: min(560px, 100%);
   aspect-ratio: 1;
-  margin: 8px auto 36px;
+  margin: 16px auto 48px;
 }
-.star-roster.is-compact { width: min(440px, 100%); }
+.star-roster.is-compact { width: min(420px, 100%); }
 .star-section { padding: 24px 0 0; }
 .star-svg {
   position: absolute;
@@ -717,46 +717,31 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   overflow: visible;
   pointer-events: none;
 }
-.crown-body {
-  fill: color-mix(in srgb, var(--blue) 14%, var(--bg));
-  stroke: var(--blue);
-  stroke-width: 1.35;
-  stroke-linejoin: miter;
-  stroke-miterlimit: 10;
-}
-.crown-facet {
-  fill: color-mix(in srgb, var(--blue) 9%, transparent);
-  stroke: color-mix(in srgb, var(--blue) 55%, var(--text));
-  stroke-width: 0.5;
-  stroke-linejoin: miter;
-}
-.crown-line {
+.star-ring {
   fill: none;
-  stroke: color-mix(in srgb, var(--blue) 58%, var(--text));
-  stroke-width: 0.5;
-  stroke-linejoin: miter;
+  stroke: color-mix(in srgb, var(--blue) 28%, transparent);
+  stroke-width: 0.35;
 }
-.crown-jewel {
-  fill: color-mix(in srgb, var(--bg) 82%, var(--blue));
+.star-shape {
+  fill: color-mix(in srgb, var(--blue) 7%, transparent);
   stroke: var(--blue);
-  stroke-width: 1.25;
+  stroke-width: 0.85;
   stroke-linejoin: miter;
+  animation: starPulse 9s ease-in-out infinite;
 }
 .star-node {
   position: absolute;
-  width: 13%;
+  width: 18%;
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
 }
-.star-slot-0 { width: 14.5%; z-index: 2; }
 .star-node.is-on { z-index: 3; }
 .star-node:hover { z-index: 4; }
 .star-orb {
   display: block;
-  width: 86%;
-  margin-inline: auto;
-  transition: transform 0.16s ease;
+  width: 100%;
+  transition: transform 0.18s ease;
 }
 .star-label {
   position: absolute;
@@ -792,20 +777,17 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-  border: 1.5px solid var(--blue);
+  border: 1px solid var(--line);
   background: var(--photo);
+  transition: border-color 0.18s ease;
 }
-.star-slot-0 .star-photo,
-.star-slot-0 .star-orb > div {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  border-radius: 0;
-  border: 0;
-}
+.star-node:hover .star-photo,
+.star-node:hover .star-orb > div,
 .star-node.is-on .star-photo,
 .star-node.is-on .star-orb > div {
-  border-color: color-mix(in srgb, var(--blue) 35%, #fff);
+  border-color: var(--blue);
 }
-.star-node:hover .star-orb { transform: scale(1.03); }
+.star-node:hover .star-orb { transform: scale(1.04); }
 .star-name {
   font-family: var(--display);
   font-size: clamp(11px, 1.7vw, 15px);
@@ -819,6 +801,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   letter-spacing: 0.06em;
 }
 .star-node.is-on .star-name { color: var(--blue); }
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
 
 @media (max-width: 900px) {
   .hero, .profile, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -890,8 +877,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .brand img { height: 40px; }
   .brand-name { font-size: 18px; }
   :root { --header: 64px; }
-  .star-node { width: 17%; }
-  .star-slot-0 { width: 19%; }
+  .star-node { width: 22%; }
   .star-stat { display: none; }
   .star-slot-0 .star-label,
   .star-slot-1 .star-label,
@@ -908,5 +894,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .menu-toggle span,
   .nav-backdrop,
   .nav-mobile,
-  .star-orb { transition: none; }
+  .star-orb,
+  .star-photo { transition: none; }
+  .star-shape { animation: none; opacity: 1; }
 }

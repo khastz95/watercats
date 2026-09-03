@@ -15,7 +15,7 @@ const I18N = {
     "cta.clips": "Assistir jogadas",
     "home.kicker": "Elenco",
     "home.roster": "Elenco",
-    "star.sub": "A coroa do time.",
+    "star.sub": "Cinco pontas. Um time.",
     "home.clips": "Jogadas em destaque",
     "home.stats": "Números da casa",
     "stat.players": "Jogadores",
@@ -151,7 +151,7 @@ const I18N = {
     "cta.clips": "Watch clips",
     "home.kicker": "Roster",
     "home.roster": "Roster",
-    "star.sub": "The house crown.",
+    "star.sub": "Five points. One team.",
     "home.clips": "Featured clips",
     "home.stats": "House numbers",
     "stat.players": "Players",
@@ -581,8 +581,8 @@ function playerCard(p) {
   </a>`;
 }
 
-// Coroa Street King (ProStreet): losango no topo, quatro círculos, W no miolo.
-// khastz no topo, bill à direita, fury à esquerda, cadu e s4mz embaixo.
+// Elenco em estrela de 5 pontas.
+// Topo: khastz. Direita: bill. Esquerda: fury. Baixo: cadu e s4mz.
 const STAR_SLOTS = ["khastz", "bill", "cadu", "s4mz", "fury"];
 
 function starOrder(players) {
@@ -598,18 +598,20 @@ function starRoster(players, options = {}) {
   if (!roster.length) return "";
   const currentId = options.currentId || "";
   const compact = Boolean(options.compact);
-  const tips = [
-    [50, 14],
-    [69, 34],
-    [85.5, 51],
-    [14.5, 51],
-    [31, 34]
-  ];
+  const cx = 50;
+  const cy = 50;
+  const r = 34;
+  const pent = [0, 1, 2, 3, 4].map((i) => {
+    const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  });
+  const star = [0, 2, 4, 1, 3].map((i) => pent[i]);
+  const pts = (arr) => arr.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
   const nodes = roster.map((p, i) => {
-    const [x, y] = tips[i] || tips[0];
+    const [x, y] = pent[i] || pent[0];
     const s = stats(p);
     const on = p.id === currentId;
-    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x}%;top:${y}%;" aria-current="${on ? "page" : "false"}">
+    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
       <span class="star-label">
         <span class="star-name">${escapeHtml(p.name)}</span>
@@ -619,16 +621,8 @@ function starRoster(players, options = {}) {
   }).join("");
   return `<div class="star-roster${compact ? " is-compact" : ""}" role="img" aria-label="${escapeAttr(t("star.sub"))}">
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
-      <path class="crown-body" d="M50 3 L58.6 15.2 L53 24.6 L56 45 L69 34 L75 44 L85.5 51 L75.5 62 L70 84 L50 94 L30 84 L24.5 62 L14.5 51 L25 44 L31 34 L44 45 L47 24.6 L41.4 15.2 Z"/>
-      <path class="crown-facet" d="M50 24 L41 54 L50 74 L59 54 Z"/>
-      <path class="crown-line" d="M31 34 L50 74 L69 34"/>
-      <path class="crown-line" d="M14.5 51 L30 80 L50 94 L70 80 L85.5 51"/>
-      <path class="crown-line" d="M50 15 L50 74"/>
-      <polygon class="crown-jewel" points="50,3 58.6,15.2 50,24.6 41.4,15.2"/>
-      <circle class="crown-jewel" cx="69" cy="34" r="6.5"/>
-      <circle class="crown-jewel" cx="85.5" cy="51" r="7"/>
-      <circle class="crown-jewel" cx="14.5" cy="51" r="7"/>
-      <circle class="crown-jewel" cx="31" cy="34" r="6.5"/>
+      <polygon class="star-ring" points="${pts(pent)}" />
+      <polygon class="star-shape" points="${pts(star)}" />
     </svg>
     ${nodes}
   </div>`;
