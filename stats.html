@@ -28,7 +28,7 @@
       const rows = players.map((p) => {
         const s = p.stats || {};
         return `<tr>
-          <td><a href="/players/${p.id}">${p.name}</a></td>
+          <td><a href="/jogador/${p.id}">${p.name}</a></td>
           <td>${p.role || "—"}</td>
           <td>${WTC.dash(s.rating, 2)}</td>
           <td>${WTC.dash(s.kd, 2)}</td>

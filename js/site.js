@@ -65,7 +65,7 @@ function applyI18n() {
 function pageId() {
   const path = location.pathname.replace(/\/+$/, "") || "/";
   if (path === "/" || path === "/index") return "home";
-  if (path.startsWith("/players/")) return "player";
+  if (path.startsWith("/players/") || path.startsWith("/jogador/")) return "player";
   if (path.startsWith("/login") || path.startsWith("/admin")) return "login";
   return path.replace(/^\//, "");
 }
@@ -124,7 +124,7 @@ function playerCard(p) {
   const photo = p.photo
     ? `<img class="photo" src="${escapeAttr(p.photo)}" alt="${escapeAttr(p.name)}">`
     : `<div class="photo" style="box-shadow: inset 0 0 40px ${escapeAttr(p.color || "#006BFF")}"></div>`;
-  return `<a class="card player-card" href="/players/${encodeURIComponent(p.id)}">
+  return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}">
     ${photo}
     <h3>${escapeHtml(p.name)}</h3>
     <p class="meta">${escapeHtml(p.role || p.realName || "")}</p>
