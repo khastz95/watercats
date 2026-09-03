@@ -1,5 +1,5 @@
 :root, [data-theme="dark"] {
-  --bg: #0c1422;
+  --bg: #070f1c;
   --surface: rgba(16, 26, 40, 0.72);
   --text: #eef2f6;
   --muted: #8b97a8;
@@ -7,19 +7,18 @@
   --blue: #006bff;
   --blue-dim: #1a4fa8;
   --red: #ff1838;
-  --header-bg: rgba(12, 20, 34, 0.72);
+  --header-bg: rgba(13, 28, 52, 0.72);
   --input: #101a28;
   --th: rgba(10, 18, 30, 0.92);
   --photo: #152033;
-  --glow-a: rgba(0, 107, 255, 0.38);
-  --glow-b: rgba(0, 140, 255, 0.16);
+  --glow-a: rgba(0, 107, 255, 0.34);
+  --glow-b: rgba(0, 140, 255, 0.18);
   --glow-c: rgba(32, 184, 255, 0.12);
-  --glow-d: rgba(0, 20, 48, 0.55);
-  --grid: rgba(150, 190, 255, 0.055);
-  --grain: 0.09;
+  --glow-d: rgba(0, 20, 48, 0.6);
   --bg-image:
-    radial-gradient(90% 55% at 50% -12%, rgba(0, 107, 255, 0.22), transparent 58%),
-    linear-gradient(165deg, #152238 0%, #101a2c 38%, #0c1524 68%, #0a101c 100%);
+    radial-gradient(120% 80% at 50% -20%, rgba(0, 107, 255, 0.26), transparent 62%),
+    radial-gradient(90% 60% at 50% 120%, rgba(0, 60, 140, 0.2), transparent 60%),
+    linear-gradient(180deg, #0d1c34 0%, #0a1526 34%, #070f1c 66%, #04080f 100%);
   --radius: 6px;
   --header: 72px;
   --font: Inter, system-ui, sans-serif;
@@ -27,26 +26,25 @@
 }
 
 [data-theme="light"] {
-  --bg: #e7eef7;
+  --bg: #f2f7fd;
   --surface: rgba(255, 255, 255, 0.78);
   --text: #121820;
   --muted: #5c6b7a;
   --line: rgba(0, 42, 92, 0.12);
   --blue: #006bff;
   --blue-dim: #0054cc;
-  --header-bg: rgba(231, 238, 247, 0.78);
+  --header-bg: rgba(252, 253, 255, 0.78);
   --input: #ffffff;
   --th: #eef3f8;
   --photo: #d7e2ee;
-  --glow-a: rgba(0, 107, 255, 0.2);
+  --glow-a: rgba(0, 107, 255, 0.18);
   --glow-b: rgba(0, 140, 255, 0.14);
-  --glow-c: rgba(32, 184, 255, 0.16);
-  --glow-d: rgba(180, 210, 240, 0.5);
-  --grid: rgba(0, 42, 92, 0.045);
-  --grain: 0.05;
+  --glow-c: rgba(32, 184, 255, 0.18);
+  --glow-d: rgba(190, 216, 244, 0.55);
   --bg-image:
-    radial-gradient(90% 50% at 50% -10%, rgba(0, 107, 255, 0.14), transparent 56%),
-    linear-gradient(165deg, #f4f8fd 0%, #e8eef8 42%, #dce6f2 100%);
+    radial-gradient(120% 75% at 50% -18%, rgba(0, 107, 255, 0.18), transparent 60%),
+    radial-gradient(90% 55% at 50% 118%, rgba(0, 140, 255, 0.12), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #f2f7fd 32%, #e4edf9 66%, #d6e4f6 100%);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,36 +62,24 @@ body {
   font-family: var(--font);
   color: var(--text);
   background-color: var(--bg);
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0 47px, var(--grid) 47px 48px),
-    repeating-linear-gradient(90deg, transparent 0 47px, var(--grid) 47px 48px),
-    var(--bg-image);
+  background-image: var(--bg-image);
   background-attachment: fixed;
 }
-body::before,
-body::after {
+body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -10%;
   pointer-events: none;
   z-index: -1;
-}
-body::before {
   background:
-    radial-gradient(42% 34% at 18% 12%, var(--glow-a), transparent 70%),
-    radial-gradient(38% 32% at 88% 8%, var(--glow-b), transparent 68%),
-    radial-gradient(46% 38% at 78% 88%, var(--glow-c), transparent 72%),
-    radial-gradient(34% 28% at 8% 78%, var(--glow-d), transparent 66%);
+    radial-gradient(40% 32% at 16% 14%, var(--glow-a), transparent 70%),
+    radial-gradient(36% 30% at 86% 10%, var(--glow-b), transparent 68%),
+    radial-gradient(44% 36% at 76% 86%, var(--glow-c), transparent 72%),
+    radial-gradient(34% 28% at 10% 80%, var(--glow-d), transparent 66%);
+  filter: blur(30px);
   transform-origin: 50% 40%;
-  animation: aurora 36s ease-in-out infinite alternate;
+  animation: aurora 40s ease-in-out infinite alternate;
 }
-body::after {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: 180px 180px;
-  opacity: var(--grain);
-  mix-blend-mode: overlay;
-}
-[data-theme="light"] body::after { mix-blend-mode: multiply; }
 
 @keyframes aurora {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
