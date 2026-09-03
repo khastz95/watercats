@@ -581,15 +581,17 @@ function playerCard(p) {
   </a>`;
 }
 
-// Elenco em estrela de 5 pontas, ponta de cima sempre o khastz.
-// Os outros entram no sentido horário pela ordem do painel.
+// Elenco em estrela de 5 pontas.
+// Topo: khastz. Direita superior: bill. Esquerda superior: fury.
+// Embaixo, horário: cadu à direita e s4mz à esquerda.
+const STAR_SLOTS = ["khastz", "bill", "cadu", "s4mz", "fury"];
+
 function starOrder(players) {
-  const list = (players || []).filter((p) => p && p.id);
-  const top = list.find((p) => p.id === "khastz");
-  const rest = list
-    .filter((p) => p.id !== "khastz")
-    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0) || String(a.name).localeCompare(String(b.name)));
-  return (top ? [top, ...rest] : rest).slice(0, 5);
+  const byId = Object.fromEntries((players || []).filter((p) => p && p.id).map((p) => [p.id, p]));
+  const placed = STAR_SLOTS.map((id) => byId[id]).filter(Boolean);
+  const used = new Set(placed.map((p) => p.id));
+  const extra = (players || []).filter((p) => p && p.id && !used.has(p.id));
+  return placed.concat(extra).slice(0, 5);
 }
 
 function starRoster(players, options = {}) {
@@ -604,14 +606,25 @@ function starRoster(players, options = {}) {
     const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
     return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
   });
+  const innerR = r * 0.382;
+  const inner = roster.map((_, i) => {
+    const a = Math.PI / 2 + i * (2 * Math.PI / 5);
+    return [cx + innerR * Math.cos(a), cy + innerR * Math.sin(a)];
+  });
   const star = [0, 2, 4, 1, 3].map((i) => pent[i % pent.length] || pent[0]);
   const pts = (arr) => arr.map((p) => p.map((n) => n.toFixed(2)).join(",")).join(" ");
   const uid = "star-" + Math.random().toString(36).slice(2, 8);
+  const rays = pent.map(([x, y], i) =>
+    `<line class="star-ray" x1="${cx}" y1="${cy}" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" style="--i:${i}" />`
+  ).join("");
+  const sparks = pent.map(([x, y], i) =>
+    `<circle class="star-spark" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="0.9" style="--i:${i}" />`
+  ).join("");
   const nodes = roster.map((p, i) => {
     const [x, y] = pent[i];
     const s = stats(p);
     const on = p.id === currentId;
-    return `<a class="star-node${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
+    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
       <span class="star-label">
         <span class="star-name">${escapeHtml(p.name)}</span>
@@ -623,13 +636,28 @@ function starRoster(players, options = {}) {
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
       <defs>
         <linearGradient id="${uid}-stroke" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#20b8ff"/>
-          <stop offset="0.5" stop-color="#006bff"/>
-          <stop offset="1" stop-color="#7ad7ff"/>
+          <stop offset="0" stop-color="#7ad7ff"/>
+          <stop offset="0.45" stop-color="#006bff"/>
+          <stop offset="1" stop-color="#20b8ff"/>
         </linearGradient>
+        <radialGradient id="${uid}-fill" cx="50%" cy="50%" r="55%">
+          <stop offset="0" stop-color="#006bff" stop-opacity="0.22"/>
+          <stop offset="1" stop-color="#006bff" stop-opacity="0.02"/>
+        </radialGradient>
+        <filter id="${uid}-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="1.4" result="b"/>
+          <feMerge>
+            <feMergeNode in="b"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <polygon class="star-ring" points="${pts(pent)}" />
-      <polygon class="star-shape" points="${pts(star)}" stroke="url(#${uid}-stroke)" />
+      <polygon class="star-fill" points="${pts(star)}" fill="url(#${uid}-fill)" />
+      <g class="star-rays">${rays}</g>
+      <polygon class="star-inner" points="${pts(inner)}" />
+      <polygon class="star-shape" points="${pts(star)}" stroke="url(#${uid}-stroke)" filter="url(#${uid}-glow)" />
+      <polygon class="star-flow" points="${pts(star)}" stroke="url(#${uid}-stroke)" />
+      ${sparks}
     </svg>
     <div class="star-core" aria-hidden="true"><span>WTC</span></div>
     ${nodes}
