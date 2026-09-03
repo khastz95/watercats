@@ -58,6 +58,8 @@ const I18N = {
     "profile.plays": "Jogadas",
     "profile.info": "Ficha",
     "profile.numbers": "Como tá jogando",
+    "profile.crew": "O resto da tag",
+    "profile.crewSub": "Clica em outro se quiser trocar de ficha.",
     "info.realName": "Nome",
     "info.role": "Função",
     "info.from": "De",
@@ -203,6 +205,8 @@ const I18N = {
     "profile.plays": "Clips",
     "profile.info": "Profile",
     "profile.numbers": "How they play",
+    "profile.crew": "The rest of the tag",
+    "profile.crewSub": "Click someone else to switch pages.",
     "info.realName": "Name",
     "info.role": "Role",
     "info.from": "From",
@@ -306,9 +310,12 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=26`;
-  const icon = `/img/icon-${t}.png?v=26`;
-  document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
+  const logo = `/img/logo-${t}.png?v=27`;
+  const icon = `/img/icon-${t}.png?v=27`;
+  document.querySelectorAll("[data-logo]").forEach((el) => {
+    if (el.classList.contains("is-player")) return;
+    el.src = logo;
+  });
   document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
   const fav = document.querySelector("link[rel=icon]");
   if (fav) fav.href = icon;
@@ -374,8 +381,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=26`;
-  const icon = `/img/icon-${th}.png?v=26`;
+  const logo = `/img/logo-${th}.png?v=27`;
+  const icon = `/img/icon-${th}.png?v=27`;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
@@ -589,11 +596,143 @@ function playerPhoto(p, cls = "photo") {
     : `<div class="${cls}" style="box-shadow: inset 0 0 40px ${escapeAttr(p.color || "#006BFF")}"></div>`;
 }
 
+function countBox(text, label, raw, digits = 0, suffix = "") {
+  const n = raw == null || raw === "" ? NaN : Number(raw);
+  const attr = Number.isFinite(n)
+    ? ` data-count="${n}" data-digits="${digits}" data-suffix="${escapeAttr(suffix)}"`
+    : "";
+  return `<div class="card stat"><b${attr}>${text}</b><span>${label}</span></div>`;
+}
+
+function skillBars(p) {
+  const s = stats(p);
+  const rows = [
+    ["lf.aim", s.aim],
+    ["lf.positioning", s.positioning],
+    ["lf.utility", s.utility]
+  ].filter(([, v]) => v != null && Number.isFinite(Number(v)));
+  if (!rows.length) return "";
+  return `<div class="skill-bars">${rows.map(([key, v]) => {
+    const n = Number(v);
+    const w = Math.max(0, Math.min(100, n));
+    return `<div class="skill">
+      <span>${t(key)}</span>
+      <i><b style="--w:${w}%"></b></i>
+      <em>${dash(n, 1)}</em>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function photoFrame(p) {
+  const icon = `/img/icon-${theme()}.png?v=27`;
+  return `<div class="photo-frame">
+    <span class="frame-orbit"></span>
+    <span class="frame-orbit is-slow"></span>
+    <img class="frame-mark" src="${icon}" alt="" data-icon>
+    ${playerPhoto(p, "frame-photo")}
+  </div>`;
+}
+
+function tintMark(src) {
+  const img = document.querySelector(".page-mark img");
+  if (!img) return;
+  if (src) {
+    img.src = src;
+    img.classList.add("is-player");
+  } else {
+    img.classList.remove("is-player");
+    applyTheme();
+  }
+}
+
+function profileHero(p, options = {}) {
+  const s = stats(p);
+  const src = photoOf(p);
+  const color = p.color || "#006BFF";
+  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  const highlights = [
+    countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2),
+    countBox(dash(s.premier), t("lf.premier"), s.premier),
+    countBox(s.winrate == null ? "—" : pct(s.winrate), t("lf.winrate"), s.winrate == null ? null : s.winrate * 100, 1, "%"),
+    countBox(dash(s.matches), t("lf.matches"), s.matches)
+  ].join("");
+  return `<section class="profile-hero" style="--player:${escapeAttr(color)}">
+    <div class="profile-back" aria-hidden="true">
+      ${src ? `<img src="${escapeAttr(src)}" alt="">` : ""}
+      <b>${escapeHtml(p.name)}</b>
+    </div>
+    <div class="profile-hero-grid">
+      ${photoFrame(p)}
+      <div class="profile-main">
+        <p class="kicker">${escapeHtml(sub || "Watercats")}</p>
+        <h1>${escapeHtml(p.name)}</h1>
+        <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
+        <p class="bio">${escapeHtml(p.bio) || t("profile.emptyBio")}</p>
+        ${options.links ? `<div class="links">${options.links}</div>` : ""}
+        ${recentForm(p).length ? `
+          <div class="form-block">
+            <p class="kicker">${t("lf.form")}</p>
+            ${formBadges(p)}
+          </div>` : ""}
+      </div>
+    </div>
+    <div class="grid stats-grid profile-hi">${highlights}</div>
+    ${skillBars(p)}
+  </section>`;
+}
+
+function matchRibbon(lf) {
+  const list = (lf && lf.matchesRecent) || [];
+  if (!list.length) return "";
+  return `<div class="match-ribbon">${list.slice(0, 8).map((m) => `
+    <div class="match-pill is-${escapeAttr(m.outcome || "")}">
+      <span class="form"><span class="form-${escapeAttr(m.outcome)}">${t("outcome." + m.outcome) || "?"}</span></span>
+      <div>
+        <b>${escapeHtml(mapName(m.map) || "—")}</b>
+        <em>${Array.isArray(m.score) ? m.score.join(" - ") : "—"}</em>
+      </div>
+      <strong>${metric(m.rating, 2)}</strong>
+    </div>`).join("")}</div>`;
+}
+
+function whoCell(p) {
+  return `<a class="who" href="/jogador/${encodeURIComponent(p.id)}">
+    ${playerPhoto(p, "who-photo")}
+    <span>${escapeHtml(p.name)}</span>
+  </a>`;
+}
+
+function runCounts(scope) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  (scope || document).querySelectorAll("[data-count]").forEach((el) => {
+    if (el.dataset.counted) return;
+    el.dataset.counted = "1";
+    const end = Number(el.dataset.count);
+    const digits = Number(el.dataset.digits || 0);
+    const suffix = el.dataset.suffix || "";
+    if (!Number.isFinite(end)) return;
+    if (reduce) {
+      el.textContent = (digits ? end.toFixed(digits) : String(Math.round(end))) + suffix;
+      return;
+    }
+    const start = performance.now();
+    const dur = 900;
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const n = end * eased;
+      el.textContent = (digits ? n.toFixed(digits) : String(Math.round(n))) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
 function playerCard(p) {
   const s = stats(p);
   const sub = p.realName || p.role || place(p);
   return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}">
-    ${playerPhoto(p)}
+    <div class="player-card-photo">${playerPhoto(p)}</div>
     <div class="player-card-head">
       <h3>${escapeHtml(p.name)}</h3>
       <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
@@ -604,6 +743,7 @@ function playerCard(p) {
       <div><dt>${t("lf.premier")}</dt><dd>${dash(s.premier)}</dd></div>
       <div><dt>${t("lf.aim")}</dt><dd>${dash(s.aim, 1)}</dd></div>
     </dl>
+    ${skillBars(p)}
     ${formBadges(p)}
   </a>`;
 }
@@ -666,7 +806,7 @@ function starRoster(players, options = {}) {
       ${starPop(p)}
     </a>`;
   }).join("");
-  const mark = `/img/icon-${theme()}.png?v=26`;
+  const mark = `/img/icon-${theme()}.png?v=27`;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
     <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
@@ -719,11 +859,13 @@ function factStrip(players, clips) {
   const all = (players || []).map(stats);
   const maps = all.reduce((n, s) => n + (s.matches || 0), 0);
   const items = [
-    [players.length, t("stat.players")],
-    [maps, t("stat.maps")],
-    [(clips || []).length, t("stat.clips")]
+    [players.length, t("stat.players"), players.length],
+    [maps, t("stat.maps"), maps],
+    [(clips || []).length, t("stat.clips"), (clips || []).length]
   ];
-  return items.map(([n, label]) => `<div class="fact"><b>${n}</b><span>${label}</span></div>`).join("");
+  return items.map(([n, label, raw]) =>
+    `<div class="fact"><b data-count="${raw}" data-digits="0">${n}</b><span>${label}</span></div>`
+  ).join("");
 }
 
 function houseCards(players, clips) {
@@ -736,21 +878,22 @@ function houseCards(players, clips) {
   const premiers = all.map((s) => s.premier).filter((v) => v != null);
   const topPremier = premiers.length ? Math.max(...premiers) : null;
   return [
-    [players.length, t("stat.players")],
-    [dash(topRating, 2), t("stat.rating")],
-    [dash(maps), t("stat.maps")],
-    [(clips || []).length, t("stat.clips")],
-    [avgWin == null ? "—" : pct(avgWin), t("stat.winrate")],
-    [dash(topPremier), t("stat.premier")]
-  ].map(([n, label]) => `<div class="card stat"><b>${n}</b><span>${label}</span></div>`).join("");
+    countBox(players.length, t("stat.players"), players.length),
+    countBox(dash(topRating, 2), t("stat.rating"), topRating, 2),
+    countBox(dash(maps), t("stat.maps"), maps),
+    countBox((clips || []).length, t("stat.clips"), (clips || []).length),
+    countBox(avgWin == null ? "—" : pct(avgWin), t("stat.winrate"), avgWin == null ? null : avgWin * 100, 1, "%"),
+    countBox(dash(topPremier), t("stat.premier"), topPremier)
+  ].join("");
 }
 
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login .card, .profile, .hot-grid, .card, .spot, .house-strip, .players";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
+    runCounts(document);
     return;
   }
   if (!motionIo) {
@@ -758,6 +901,7 @@ function motion() {
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
         e.target.classList.add("is-in");
+        runCounts(e.target);
         motionIo.unobserve(e.target);
       });
     }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
@@ -778,7 +922,8 @@ function fmtDuration(n) {
   return m ? `${m}:${String(r).padStart(2, "0")}` : `${s}s`;
 }
 
-function clipCard(c) {
+function clipCard(c, options = {}) {
+  const featured = Boolean(options && options.featured);
   const meta = [c.playerName, c.map, c.weapon].filter(Boolean).join(" · ");
   const time = c.duration != null ? fmtDuration(c.duration) : "";
   const poster = c.thumb
@@ -788,10 +933,12 @@ function clipCard(c) {
          ${time ? `<span class="clip-time">${escapeHtml(time)}</span>` : ""}
        </button>`
     : `<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
-  return `<article class="card clip">
+  return `<article class="card clip${featured ? " is-featured" : ""}">
     ${poster}
-    <h3>${escapeHtml(c.title)}</h3>
-    <p class="meta">${escapeHtml(meta)}${c.views != null ? ` · ${c.views}` : ""}</p>
+    <div class="clip-body">
+      <h3>${escapeHtml(c.title)}</h3>
+      <p class="meta">${escapeHtml(meta)}${c.views != null ? ` · ${c.views}` : ""}</p>
+    </div>
   </article>`;
 }
 
@@ -851,5 +998,6 @@ window.WTC = {
   playerCard, starRoster, clipCard, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, motion,
+  skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
   TOKEN_KEY
 };

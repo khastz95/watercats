@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogador · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=26" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=27" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=26">
+  <link rel="stylesheet" href="/css/app.css?v=27">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=26"></script>
+  <script src="/js/site.js?v=27"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -28,9 +28,13 @@
       return `<div><dt>${WTC.t(key)}</dt><dd>${esc(value)}</dd></div>`;
     }
 
-    function statCard(label, text) {
+    function statCard(label, text, raw, digits = 0, suffix = "") {
+      const n = raw == null || raw === "" ? NaN : Number(raw);
+      const attr = Number.isFinite(n)
+        ? ` data-count="${n}" data-digits="${digits}" data-suffix="${suffix}"`
+        : "";
       return `<div class="card stat">
-        <b>${text}</b>
+        <b${attr}>${text}</b>
         <span>${WTC.t(label)}</span>
       </div>`;
     }
@@ -133,6 +137,7 @@
       return `
         <section class="section">
           <div class="section-head"><div><h2>${WTC.t("lf.recent")}</h2></div></div>
+          ${WTC.matchRibbon(lf)}
           <div class="table-wrap"><table>
             <thead><tr>
               <th>${WTC.t("th.result")}</th><th>${WTC.t("th.map")}</th><th>${WTC.t("th.score")}</th>
@@ -167,38 +172,34 @@
         ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>`
         : `<p class="source">${WTC.t("lf.empty")}</p>`;
 
+      WTC.tintMark(WTC.photoOf(p));
+      const clips = p.clips || [];
       root.innerHTML = `
-        ${roster.length ? `<section class="section star-section">${WTC.starRoster(roster, { currentId: p.id, compact: true })}</section>` : ""}
-        <section class="profile">
-          <aside class="profile-side">
-            ${WTC.playerPhoto(p)}
-            <span class="chip chip-${p.status || "active"}">${esc(WTC.statusLabel(p.status))}</span>
-            ${info ? `<dl class="info-list">${info}</dl>` : ""}
-          </aside>
-          <div class="profile-main">
-            <p class="kicker">${esc(p.role || WTC.place(p) || "Watercats")}</p>
-            <h1>${esc(p.name)}</h1>
-            <p class="bio">${esc(p.bio) || WTC.t("profile.emptyBio")}</p>
-            ${links ? `<div class="links">${links}</div>` : ""}
-            ${WTC.recentForm(p).length ? `
-              <div class="form-block">
-                <p class="kicker">${WTC.t("lf.form")}</p>
-                ${WTC.formBadges(p)}
-              </div>` : ""}
+        ${WTC.profileHero(p, { links })}
+        ${info ? `<dl class="info-strip">${info}</dl>` : ""}
+
+        ${roster.length ? `<section class="section star-section">
+          <div class="section-head">
+            <div>
+              <p class="kicker">${WTC.t("profile.crew")}</p>
+              <h2>${WTC.t("profile.crew")}</h2>
+              <p>${WTC.t("profile.crewSub")}</p>
+            </div>
           </div>
-        </section>
+          ${WTC.starRoster(roster, { currentId: p.id, compact: true })}
+        </section>` : ""}
 
         <section class="section">
           <div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>
           <div class="grid stats-grid">
-            ${statCard("lf.rating", WTC.dash(s.rating, 2))}
-            ${statCard("lf.premier", WTC.dash(s.premier))}
-            ${statCard("lf.winrate", WTC.pct(s.winrate))}
-            ${statCard("lf.matches", WTC.dash(s.matches))}
-            ${statCard("lf.aim", WTC.dash(s.aim, 1))}
-            ${statCard("lf.positioning", WTC.dash(s.positioning, 1))}
-            ${statCard("lf.utility", WTC.dash(s.utility, 1))}
-            ${statCard("th.kd", WTC.dash(s.kd, 2))}
+            ${statCard("lf.rating", WTC.dash(s.rating, 2), s.rating, 2)}
+            ${statCard("lf.premier", WTC.dash(s.premier), s.premier)}
+            ${statCard("lf.winrate", WTC.pct(s.winrate), s.winrate == null ? null : s.winrate * 100, 1, "%")}
+            ${statCard("lf.matches", WTC.dash(s.matches), s.matches)}
+            ${statCard("lf.aim", WTC.dash(s.aim, 1), s.aim, 1)}
+            ${statCard("lf.positioning", WTC.dash(s.positioning, 1), s.positioning, 1)}
+            ${statCard("lf.utility", WTC.dash(s.utility, 1), s.utility, 1)}
+            ${statCard("th.kd", WTC.dash(s.kd, 2), s.kd, 2)}
           </div>
           ${synced}
         </section>
@@ -219,7 +220,7 @@
 
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
-          <div class="grid clips">${(p.clips || []).length ? p.clips.map(WTC.clipCard).join("") : WTC.emptyBox("empty.clips")}</div>
+          <div class="grid clips">${clips.length ? clips.map((c, i) => WTC.clipCard(c, { featured: i === 0 })).join("") : WTC.emptyBox("empty.clips")}</div>
         </section>`;
       if (window.WTC.motion) WTC.motion();
     }

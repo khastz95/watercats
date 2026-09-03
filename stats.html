@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Estatísticas · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=26" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=27" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=26">
+  <link rel="stylesheet" href="/css/app.css?v=27">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -23,7 +23,7 @@
     <div id="board"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=26"></script>
+  <script src="/js/site.js?v=27"></script>
   <script>
     function render() {
       const board = document.getElementById("board");
@@ -42,7 +42,7 @@
             lastSync = p.leetify.syncedAt;
           }
           return `<tr>
-            <th scope="row"><a href="/jogador/${encodeURIComponent(p.id)}">${WTC.escapeHtml(p.name)}</a></th>
+            <th scope="row">${WTC.whoCell(p)}</th>
             <td>${WTC.dash(s.rating, 2)}</td>
             <td>${WTC.dash(s.premier)}</td>
             <td>${WTC.pct(s.winrate)}</td>
