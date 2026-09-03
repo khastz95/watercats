@@ -144,17 +144,20 @@ Os números vêm da [API pública da Leetify](https://api-public-docs.cs-prod.le
 
 O painel tem o botão **Sincronizar Leetify** na aba Estatísticas. Ele chama `GET /v3/profile?steam64_id=…` para cada jogador e guarda o resultado em `player_stats.extra.leetify`, sem tocar no que foi preenchido à mão.
 
-O que a Leetify devolve e o site mostra:
+O perfil é guardado inteiro. O que a Leetify devolve e o site mostra:
 
-| Campo | Vem de |
-| --- | --- |
-| Rating Leetify | `ranks.leetify` |
-| Premier | `ranks.premier` |
-| Vitórias | `winrate` |
-| Partidas | `total_matches` |
-| Mira, Posicionamento, Utilitária, Clutch, Entrada | `rating.*` |
-| Tiros na cabeça, Rajada certeira, Pré-mira, Reação | `stats.*` |
-| Últimas 5 partidas | `recent_matches` |
+| Bloco | Vem de | Campos |
+| --- | --- | --- |
+| Ranks | `ranks` | Rating Leetify, Premier, Wingman, Renown, nível e Elo FACEIT |
+| Rank por mapa | `ranks.competitive` | um por mapa (mapa sem rank é omitido) |
+| Notas de habilidade | `rating` | mira, posicionamento, utilitária, clutch, entrada, lado CT, lado TR |
+| Mira | `stats` | precisão com inimigo à vista, tiros na cabeça, rajada, counter-strafe, pré-mira, reação |
+| Utilitária | `stats` | flashes jogadas, inimigos e aliados cegos por flash, tempo cegando, flash que virou abate, dano de HE em inimigos e aliados, utilitária perdida na morte |
+| Trocas e entrada | `stats` | chances de troca por round, trocas concluídas, mortes vingadas, primeiro duelo e agressão na entrada (CT e TR) |
+| Últimas partidas | `recent_matches` | 20 partidas com mapa, placar, resultado, rating, tiros na cabeça, pré-mira e reação |
+| Joga com | `recent_teammates` | quem aparece nas partidas recentes, ligado ao elenco quando é da casa |
+
+São 21 métricas de `stats`, todas as 7 notas de `rating` e os 6 ranks. As listagens (home, elenco, tabela) recebem só um resumo de ~500 bytes; a ficha do jogador recebe o perfil completo.
 
 **K/D e ADR a Leetify não devolve** — esses continuam saindo do painel. O perfil só responde para quem tem conta na Leetify com o perfil público; os cinco do elenco estão públicos.
 

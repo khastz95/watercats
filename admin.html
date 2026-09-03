@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Painel · WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=13" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=14" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=13">
+  <link rel="stylesheet" href="/css/app.css?v=14">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -29,35 +29,57 @@
     <p class="msg" id="flash"></p>
 
     <section class="panel is-on" id="panel-players">
-      <form id="player-form" class="card" style="margin-bottom:16px">
+      <form id="player-form" class="card form-card">
         <input type="hidden" name="id">
-        <div class="form-grid">
-          <div class="field"><label>Nick / ID</label><input name="name" required placeholder="s4mlz"></div>
-          <div class="field"><label>Nome real</label><input name="realName"></div>
-          <div class="field"><label>Função</label><input name="role" placeholder="AWPer, IGL, Rifler"></div>
-          <div class="field"><label>Status</label>
-            <select name="status">
-              <option value="active">Ativo</option>
-              <option value="inactive">Inativo</option>
-              <option value="alumni">Ex-jogador</option>
-            </select>
+
+        <fieldset>
+          <legend>Identidade</legend>
+          <div class="form-grid">
+            <div class="field"><label>Nick / ID</label><input name="name" required placeholder="s4mz"></div>
+            <div class="field"><label>Nome real</label><input name="realName"></div>
+            <div class="field"><label>Função</label><input name="role" placeholder="AWPer, IGL, Rifler"></div>
+            <div class="field"><label>Status</label>
+              <select name="status">
+                <option value="active">Ativo</option>
+                <option value="inactive">Inativo</option>
+                <option value="alumni">Ex-jogador</option>
+              </select>
+            </div>
+            <div class="field"><label>Cidade</label><input name="city"></div>
+            <div class="field"><label>País</label><input name="country"></div>
           </div>
-          <div class="field"><label>País</label><input name="country"></div>
-          <div class="field"><label>Cidade</label><input name="city"></div>
-          <div class="field"><label>Cor</label><input name="color" type="color" value="#006BFF"></div>
-          <div class="field"><label>Ordem</label><input name="sortOrder" type="number" value="0"></div>
-          <div class="field"><label>Ano que começou</label><input name="startedPlaying" type="number"></div>
-          <div class="field"><label>Entrou em</label><input name="joinedAt" type="date"></div>
-          <div class="field"><label>Steam URL</label><input name="steamUrl"></div>
-          <div class="field"><label>Steam ID</label><input name="steamId"></div>
-          <div class="field"><label>FACEIT URL</label><input name="faceitUrl"></div>
-          <div class="field"><label>FACEIT nick</label><input name="faceitNick"></div>
-          <div class="field"><label>FACEIT ELO</label><input name="faceitElo" type="number"></div>
-          <div class="field"><label>Discord</label><input name="discord"></div>
-          <div class="field"><label>Twitch</label><input name="twitchUrl"></div>
-        </div>
-        <div class="field" style="margin-top:12px"><label>Bio</label><textarea name="bio"></textarea></div>
-        <div class="field"><label>Foto (JPG/PNG até 1,5 MB)</label><input name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Contas</legend>
+          <div class="form-grid">
+            <div class="field"><label>SteamID64</label><input name="steamId" inputmode="numeric" placeholder="76561198…"></div>
+            <div class="field"><label>Steam URL</label><input name="steamUrl"></div>
+            <div class="field"><label>FACEIT nick</label><input name="faceitNick"></div>
+            <div class="field"><label>FACEIT URL</label><input name="faceitUrl"></div>
+            <div class="field"><label>FACEIT ELO</label><input name="faceitElo" type="number"></div>
+            <div class="field"><label>Twitch</label><input name="twitchUrl"></div>
+            <div class="field"><label>Discord</label><input name="discord"></div>
+          </div>
+          <p class="hint">O SteamID64 é o que a Leetify usa para puxar os números.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Casa</legend>
+          <div class="form-grid">
+            <div class="field"><label>Ano que começou</label><input name="startedPlaying" type="number"></div>
+            <div class="field"><label>Entrou em</label><input name="joinedAt" type="date"></div>
+            <div class="field"><label>Ordem no elenco</label><input name="sortOrder" type="number" value="0"></div>
+            <div class="field"><label>Cor</label><input name="color" type="color" value="#006BFF"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Perfil</legend>
+          <div class="field"><label>Bio</label><textarea name="bio"></textarea></div>
+          <div class="field"><label>Foto (JPG/PNG até 1,5 MB)</label><input name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
+        </fieldset>
+
         <div class="actions">
           <button class="btn" type="submit">Salvar jogador</button>
           <button class="btn btn-ghost" type="reset">Novo</button>
@@ -119,7 +141,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=13"></script>
-  <script src="/js/admin.js?v=13"></script>
+  <script src="/js/site.js?v=14"></script>
+  <script src="/js/admin.js?v=14"></script>
 </body>
 </html>

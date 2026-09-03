@@ -62,14 +62,53 @@ const I18N = {
     "lf.aim": "Mira",
     "lf.positioning": "Posicionamento",
     "lf.utility": "Utilitária",
-    "lf.clutch": "Clutch",
-    "lf.opening": "Entrada",
     "lf.hs": "Tiros na cabeça",
-    "lf.spray": "Rajada certeira",
-    "lf.preaim": "Pré-mira",
     "lf.reaction": "Reação",
     "lf.form": "Últimas partidas",
     "lf.since": "Primeira partida",
+    "lf.ranks": "Ranks",
+    "lf.skills": "Notas de habilidade",
+    "lf.maps": "Rank por mapa",
+    "lf.recent": "Últimas partidas",
+    "lf.mates": "Joga com",
+    "lf.matesUnit": "partidas juntos",
+    "lf.bans": "Punições",
+    "group.aim": "Mira",
+    "group.utility": "Utilitária",
+    "group.trade": "Trocas e entrada",
+    "rank.wingman": "Wingman",
+    "rank.renown": "Renown",
+    "rank.faceit": "Nível FACEIT",
+    "rank.faceitElo": "Elo FACEIT",
+    "sk.clutch": "Clutch",
+    "sk.opening": "Entrada",
+    "sk.ct": "Lado CT",
+    "sk.t": "Lado TR",
+    "m.accuracyEnemySpotted": "Precisão com inimigo à vista",
+    "m.accuracyHead": "Tiros na cabeça",
+    "m.sprayAccuracy": "Precisão em rajada",
+    "m.counterStrafing": "Counter-strafe certo",
+    "m.preaim": "Pré-mira",
+    "m.reactionMs": "Tempo de reação",
+    "m.flashThrown": "Flashes jogadas",
+    "m.flashFoePerFlash": "Inimigos cegos por flash",
+    "m.flashFoeDuration": "Tempo cegando inimigo",
+    "m.flashFriendPerFlash": "Aliados cegos por flash",
+    "m.flashToKill": "Flash que virou abate",
+    "m.heFoesDamage": "Dano de HE em inimigos",
+    "m.heFriendsDamage": "Dano de HE em aliados",
+    "m.utilityOnDeath": "Utilitária perdida na morte",
+    "m.tradeOpportunities": "Chances de troca por round",
+    "m.tradeKillsSuccess": "Trocas concluídas",
+    "m.tradedDeathsSuccess": "Mortes vingadas",
+    "m.ctOpeningDuel": "Primeiro duelo (CT)",
+    "m.tOpeningDuel": "Primeiro duelo (TR)",
+    "m.ctOpeningAggression": "Agressão na entrada (CT)",
+    "m.tOpeningAggression": "Agressão na entrada (TR)",
+    "th.map": "Mapa",
+    "th.score": "Placar",
+    "th.result": "Resultado",
+    "th.date": "Data",
     "outcome.win": "V",
     "outcome.loss": "D",
     "outcome.tie": "E",
@@ -154,14 +193,53 @@ const I18N = {
     "lf.aim": "Aim",
     "lf.positioning": "Positioning",
     "lf.utility": "Utility",
-    "lf.clutch": "Clutch",
-    "lf.opening": "Opening",
     "lf.hs": "Headshot accuracy",
-    "lf.spray": "Spray accuracy",
-    "lf.preaim": "Preaim",
     "lf.reaction": "Reaction",
     "lf.form": "Recent matches",
     "lf.since": "First match",
+    "lf.ranks": "Ranks",
+    "lf.skills": "Skill ratings",
+    "lf.maps": "Rank per map",
+    "lf.recent": "Recent matches",
+    "lf.mates": "Plays with",
+    "lf.matesUnit": "matches together",
+    "lf.bans": "Bans",
+    "group.aim": "Aim",
+    "group.utility": "Utility",
+    "group.trade": "Trading & opening",
+    "rank.wingman": "Wingman",
+    "rank.renown": "Renown",
+    "rank.faceit": "FACEIT level",
+    "rank.faceitElo": "FACEIT Elo",
+    "sk.clutch": "Clutch",
+    "sk.opening": "Opening",
+    "sk.ct": "CT side",
+    "sk.t": "T side",
+    "m.accuracyEnemySpotted": "Accuracy (enemy spotted)",
+    "m.accuracyHead": "Headshot accuracy",
+    "m.sprayAccuracy": "Spray accuracy",
+    "m.counterStrafing": "Good counter-strafe shots",
+    "m.preaim": "Preaim",
+    "m.reactionMs": "Reaction time",
+    "m.flashThrown": "Flashes thrown",
+    "m.flashFoePerFlash": "Foes blinded per flash",
+    "m.flashFoeDuration": "Avg. foe blind time",
+    "m.flashFriendPerFlash": "Friends blinded per flash",
+    "m.flashToKill": "Flashes leading to a kill",
+    "m.heFoesDamage": "HE damage on foes",
+    "m.heFriendsDamage": "HE damage on friends",
+    "m.utilityOnDeath": "Unused utility on death",
+    "m.tradeOpportunities": "Trade chances per round",
+    "m.tradeKillsSuccess": "Trade kills converted",
+    "m.tradedDeathsSuccess": "Deaths traded back",
+    "m.ctOpeningDuel": "Opening duel (CT)",
+    "m.tOpeningDuel": "Opening duel (T)",
+    "m.ctOpeningAggression": "Opening aggression (CT)",
+    "m.tOpeningAggression": "Opening aggression (T)",
+    "th.map": "Map",
+    "th.score": "Score",
+    "th.result": "Result",
+    "th.date": "Date",
     "outcome.win": "W",
     "outcome.loss": "L",
     "outcome.tie": "T",
@@ -200,8 +278,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=13`;
-  const icon = `/img/icon-${t}.png?v=13`;
+  const logo = `/img/logo-${t}.png?v=14`;
+  const icon = `/img/icon-${t}.png?v=14`;
   document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
   document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
   const fav = document.querySelector("link[rel=icon]");
@@ -238,8 +316,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=13`;
-  const icon = `/img/icon-${th}.png?v=13`;
+  const logo = `/img/logo-${th}.png?v=14`;
+  const icon = `/img/icon-${th}.png?v=14`;
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
@@ -316,28 +394,66 @@ function statusLabel(status) {
   return t("status." + (status || "active")) || status || "";
 }
 
+// As 21 métricas da Leetify, agrupadas como na ficha. Mesma ordem e
+// mesmas unidades de lib/leetify.js.
+const METRICS = [
+  { key: "accuracyEnemySpotted", group: "aim", digits: 1, unit: "%" },
+  { key: "accuracyHead", group: "aim", digits: 1, unit: "%" },
+  { key: "sprayAccuracy", group: "aim", digits: 1, unit: "%" },
+  { key: "counterStrafing", group: "aim", digits: 1, unit: "%" },
+  { key: "preaim", group: "aim", digits: 2, unit: "°" },
+  { key: "reactionMs", group: "aim", digits: 0, unit: " ms" },
+  { key: "flashThrown", group: "utility", digits: 1 },
+  { key: "flashFoePerFlash", group: "utility", digits: 2 },
+  { key: "flashFoeDuration", group: "utility", digits: 2, unit: "s" },
+  { key: "flashFriendPerFlash", group: "utility", digits: 2 },
+  { key: "flashToKill", group: "utility", digits: 1, unit: "%" },
+  { key: "heFoesDamage", group: "utility", digits: 1 },
+  { key: "heFriendsDamage", group: "utility", digits: 1 },
+  { key: "utilityOnDeath", group: "utility", digits: 0 },
+  { key: "tradeOpportunities", group: "trade", digits: 2 },
+  { key: "tradeKillsSuccess", group: "trade", digits: 1, unit: "%" },
+  { key: "tradedDeathsSuccess", group: "trade", digits: 1, unit: "%" },
+  { key: "ctOpeningDuel", group: "trade", digits: 1, unit: "%" },
+  { key: "tOpeningDuel", group: "trade", digits: 1, unit: "%" },
+  { key: "ctOpeningAggression", group: "trade", digits: 1, unit: "%" },
+  { key: "tOpeningAggression", group: "trade", digits: 1, unit: "%" }
+];
+
 // Números da Leetify quando existirem; senão, o que o painel preencheu.
 // A Leetify não devolve K/D nem ADR, então esses só vêm do painel.
 function stats(p) {
   const own = p.stats || {};
   const lf = p.leetify || {};
+  const ranks = lf.ranks || {};
+  const rating = lf.rating || {};
+  const metrics = lf.metrics || {};
   return {
-    rating: lf.ratingLeetify ?? own.rating,
-    premier: lf.premier,
-    winrate: lf.winrate,
+    rating: ranks.leetify ?? own.rating,
+    premier: ranks.premier ?? null,
+    faceitElo: ranks.faceitElo ?? own.faceitElo,
+    winrate: lf.winrate ?? null,
     matches: lf.matches ?? own.mapsPlayed,
-    aim: lf.aim,
-    positioning: lf.positioning,
-    utility: lf.utility,
-    clutch: lf.clutch,
-    opening: lf.opening,
-    hsAccuracy: lf.hsAccuracy ?? own.hsPercent,
-    sprayAccuracy: lf.sprayAccuracy,
-    preaim: lf.preaim,
-    reactionMs: lf.reactionMs,
+    aim: rating.aim ?? null,
+    positioning: rating.positioning ?? null,
+    utility: rating.utility ?? null,
+    hsAccuracy: metrics.accuracyHead ?? own.hsPercent,
+    reactionMs: metrics.reactionMs ?? null,
     kd: own.kd,
     adr: own.adr
   };
+}
+
+// Formata um número com os dígitos e a unidade da métrica.
+function metric(value, digits = 0, unit = "") {
+  if (value == null || value === "") return "—";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return (digits > 0 ? n.toFixed(digits) : String(Math.round(n))) + unit;
+}
+
+function mapName(name) {
+  return String(name || "").replace(/^de_/, "");
 }
 
 function pct(value, digits = 1) {
@@ -346,11 +462,22 @@ function pct(value, digits = 1) {
   return `${(n * 100).toFixed(digits)}%`;
 }
 
+// Aceita tanto o resumo (`form`) quanto o perfil completo (`matchesRecent`).
+function recentForm(p) {
+  const lf = p.leetify || {};
+  if (lf.form) return lf.form;
+  return (lf.matchesRecent || []).slice(0, 5).map((m) => ({
+    outcome: m.outcome,
+    map: m.map,
+    score: Array.isArray(m.score) ? m.score.join("-") : ""
+  }));
+}
+
 function formBadges(p) {
-  const form = (p.leetify && p.leetify.form) || [];
+  const form = recentForm(p);
   if (!form.length) return "";
   return `<div class="form">${form.map((m) =>
-    `<span class="form-${escapeAttr(m.outcome)}" title="${escapeAttr([m.map, m.score].filter(Boolean).join(" "))}">${t("outcome." + m.outcome) || "?"}</span>`
+    `<span class="form-${escapeAttr(m.outcome)}" title="${escapeAttr([mapName(m.map), m.score].filter(Boolean).join(" "))}">${t("outcome." + m.outcome) || "?"}</span>`
   ).join("")}</div>`;
 }
 
@@ -430,7 +557,8 @@ applyTheme();
 document.addEventListener("DOMContentLoaded", mountChrome);
 
 window.WTC = {
-  t, api, dash, pct, playerCard, clipCard, emptyBox, errorBox, statusLabel,
-  stats, place, playerPhoto, formBadges, escapeHtml, escapeAttr,
+  t, api, dash, pct, metric, mapName, METRICS,
+  playerCard, clipCard, emptyBox, errorBox, statusLabel,
+  stats, place, playerPhoto, formBadges, recentForm, escapeHtml, escapeAttr,
   TOKEN_KEY
 };

@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogador · WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=13" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=14" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=13">
+  <link rel="stylesheet" href="/css/app.css?v=14">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=13"></script>
+  <script src="/js/site.js?v=14"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
     let player = null;
+    let roster = [];
 
     const esc = (v) => WTC.escapeHtml(v);
 
@@ -32,6 +33,115 @@
         <b>${text}</b>
         <span>${WTC.t(label)}</span>
       </div>`;
+    }
+
+    // Linha "rótulo … valor" das listas de métricas.
+    function metricRow(label, text) {
+      return `<div class="metric"><span>${WTC.t(label)}</span><b>${text}</b></div>`;
+    }
+
+    function metricGroup(group, metrics) {
+      const rows = WTC.METRICS
+        .filter((m) => m.group === group)
+        .map((m) => metricRow("m." + m.key, WTC.metric(metrics[m.key], m.digits, m.unit || "")))
+        .join("");
+      return `<div class="card metric-card">
+        <h3>${WTC.t("group." + group)}</h3>
+        ${rows}
+      </div>`;
+    }
+
+    function ranksBlock(lf) {
+      const r = lf.ranks || {};
+      const rows = [
+        r.leetify != null && metricRow("lf.rating", WTC.metric(r.leetify, 2)),
+        r.premier != null && metricRow("lf.premier", WTC.metric(r.premier)),
+        r.wingman != null && metricRow("rank.wingman", WTC.metric(r.wingman)),
+        r.renown != null && metricRow("rank.renown", WTC.metric(r.renown)),
+        r.faceit != null && metricRow("rank.faceit", WTC.metric(r.faceit)),
+        r.faceitElo != null && metricRow("rank.faceitElo", WTC.metric(r.faceitElo))
+      ].filter(Boolean).join("");
+      if (!rows) return "";
+      return `<div class="card metric-card">
+        <h3>${WTC.t("lf.ranks")}</h3>
+        ${rows}
+      </div>`;
+    }
+
+    function skillsBlock(lf) {
+      const r = lf.rating || {};
+      const rows = [
+        metricRow("lf.aim", WTC.metric(r.aim, 1)),
+        metricRow("lf.positioning", WTC.metric(r.positioning, 1)),
+        metricRow("lf.utility", WTC.metric(r.utility, 1)),
+        metricRow("sk.clutch", WTC.metric(r.clutch, 3)),
+        metricRow("sk.opening", WTC.metric(r.opening, 3)),
+        metricRow("sk.ct", WTC.metric(r.ctLeetify, 3)),
+        metricRow("sk.t", WTC.metric(r.tLeetify, 3))
+      ].join("");
+      return `<div class="card metric-card">
+        <h3>${WTC.t("lf.skills")}</h3>
+        ${rows}
+      </div>`;
+    }
+
+    function mapsBlock(lf) {
+      const maps = (lf.ranks && lf.ranks.competitive) || [];
+      if (!maps.length) return "";
+      return `<div class="card metric-card">
+        <h3>${WTC.t("lf.maps")}</h3>
+        ${maps.map((m) => metricRow2(WTC.mapName(m.map), WTC.metric(m.rank))).join("")}
+      </div>`;
+    }
+
+    // Igual ao metricRow, mas com rótulo já traduzido (nome de mapa, nick).
+    function metricRow2(label, text) {
+      return `<div class="metric"><span>${esc(label)}</span><b>${text}</b></div>`;
+    }
+
+    function matesBlock(lf, roster) {
+      const mates = (lf.teammates || []).filter((m) => m.matches);
+      if (!mates.length) return "";
+      const bySteam = Object.fromEntries(roster.filter((r) => r.steamId).map((r) => [r.steamId, r]));
+      const rows = mates.map((m) => {
+        const mate = bySteam[m.steam64Id];
+        const label = mate
+          ? `<a href="/jogador/${encodeURIComponent(mate.id)}">${esc(mate.name)}</a>`
+          : `<a href="https://steamcommunity.com/profiles/${esc(m.steam64Id)}" target="_blank" rel="noreferrer">${esc(m.steam64Id)}</a>`;
+        return `<div class="metric"><span>${label}</span><b>${m.matches} <i>${WTC.t("lf.matesUnit")}</i></b></div>`;
+      }).join("");
+      return `<div class="card metric-card">
+        <h3>${WTC.t("lf.mates")}</h3>
+        ${rows}
+      </div>`;
+    }
+
+    function matchesBlock(lf) {
+      const list = lf.matchesRecent || [];
+      if (!list.length) return "";
+      const rows = list.map((m) => `
+        <tr>
+          <td><span class="form"><span class="form-${esc(m.outcome)}">${WTC.t("outcome." + m.outcome) || "?"}</span></span></td>
+          <td>${esc(WTC.mapName(m.map))}</td>
+          <td>${Array.isArray(m.score) ? m.score.join(" - ") : "—"}</td>
+          <td>${WTC.metric(m.rating, 2)}</td>
+          <td>${WTC.metric(m.accuracyHead, 1, "%")}</td>
+          <td>${WTC.metric(m.preaim, 2, "°")}</td>
+          <td>${WTC.metric(m.reactionMs, 0, " ms")}</td>
+          <td>${m.finishedAt ? new Date(m.finishedAt).toLocaleDateString() : "—"}</td>
+        </tr>`).join("");
+      return `
+        <section class="section">
+          <div class="section-head"><div><h2>${WTC.t("lf.recent")}</h2></div></div>
+          <div class="table-wrap"><table>
+            <thead><tr>
+              <th>${WTC.t("th.result")}</th><th>${WTC.t("th.map")}</th><th>${WTC.t("th.score")}</th>
+              <th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.hs")}</th><th>${WTC.t("m.preaim")}</th>
+              <th>${WTC.t("lf.reaction")}</th><th>${WTC.t("th.date")}</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table></div>
+        </section>`;
     }
 
     function draw() {
@@ -69,7 +179,7 @@
             <h1>${esc(p.name)}</h1>
             <p class="bio">${esc(p.bio) || WTC.t("profile.emptyBio")}</p>
             ${links ? `<div class="links">${links}</div>` : ""}
-            ${lf && lf.form && lf.form.length ? `
+            ${WTC.recentForm(p).length ? `
               <div class="form-block">
                 <p class="kicker">${WTC.t("lf.form")}</p>
                 ${WTC.formBadges(p)}
@@ -87,14 +197,24 @@
             ${statCard("lf.aim", WTC.dash(s.aim, 1))}
             ${statCard("lf.positioning", WTC.dash(s.positioning, 1))}
             ${statCard("lf.utility", WTC.dash(s.utility, 1))}
-            ${statCard("lf.hs", s.hsAccuracy == null ? "—" : WTC.dash(s.hsAccuracy, 1) + "%")}
-            ${statCard("lf.spray", s.sprayAccuracy == null ? "—" : WTC.dash(s.sprayAccuracy, 1) + "%")}
-            ${statCard("lf.preaim", WTC.dash(s.preaim, 2))}
-            ${statCard("lf.reaction", s.reactionMs == null ? "—" : WTC.dash(s.reactionMs) + " ms")}
             ${statCard("th.kd", WTC.dash(s.kd, 2))}
           </div>
           ${synced}
         </section>
+
+        ${lf ? `
+          <section class="section">
+            <div class="grid metric-grid">
+              ${ranksBlock(lf)}
+              ${skillsBlock(lf)}
+              ${metricGroup("aim", lf.metrics || {})}
+              ${metricGroup("utility", lf.metrics || {})}
+              ${metricGroup("trade", lf.metrics || {})}
+              ${mapsBlock(lf)}
+              ${matesBlock(lf, roster)}
+            </div>
+          </section>
+          ${matchesBlock(lf)}` : ""}
 
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
@@ -102,9 +222,14 @@
         </section>`;
     }
 
-    WTC.api("/api/players?id=" + encodeURIComponent(slug))
-      .then(({ player: p }) => {
+    // O elenco vem junto só para ligar os colegas de time ao perfil daqui.
+    Promise.all([
+      WTC.api("/api/players?id=" + encodeURIComponent(slug)),
+      WTC.api("/api/players").catch(() => ({ players: [] }))
+    ])
+      .then(([{ player: p }, { players }]) => {
         player = p;
+        roster = players || [];
         document.title = p.name + " · WATERCATS";
         draw();
       })
