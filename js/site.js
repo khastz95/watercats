@@ -593,6 +593,24 @@ function starOrder(players) {
   return placed.concat(extra).slice(0, 5);
 }
 
+function starPop(p) {
+  const s = stats(p);
+  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  return `<div class="star-pop">
+    <div class="star-pop-head">
+      <span class="star-pop-name">${escapeHtml(p.name)}</span>
+      <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
+    </div>
+    ${sub ? `<span class="star-pop-sub">${escapeHtml(sub)}</span>` : ""}
+    <div class="star-pop-stats">
+      <span><b>${dash(s.rating, 2)}</b>${t("lf.rating")}</span>
+      <span><b>${dash(s.premier)}</b>${t("lf.premier")}</span>
+      <span><b>${dash(s.aim, 1)}</b>${t("lf.aim")}</span>
+    </div>
+    ${formBadges(p)}
+  </div>`;
+}
+
 function starRoster(players, options = {}) {
   const roster = starOrder(players);
   if (!roster.length) return "";
@@ -600,29 +618,32 @@ function starRoster(players, options = {}) {
   const compact = Boolean(options.compact);
   const cx = 50;
   const cy = 50;
-  const r = 34;
+  const r = 33;
   const pent = [0, 1, 2, 3, 4].map((i) => {
     const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
     return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  });
+  const innerR = r * 0.382;
+  const inner = [0, 1, 2, 3, 4].map((i) => {
+    const a = Math.PI / 2 + i * (2 * Math.PI / 5);
+    return [cx + innerR * Math.cos(a), cy + innerR * Math.sin(a)];
   });
   const star = [0, 2, 4, 1, 3].map((i) => pent[i]);
   const pts = (arr) => arr.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
   const nodes = roster.map((p, i) => {
     const [x, y] = pent[i] || pent[0];
-    const s = stats(p);
     const on = p.id === currentId;
     return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
-      <span class="star-label">
-        <span class="star-name">${escapeHtml(p.name)}</span>
-        <span class="star-stat">${dash(s.rating, 2)}</span>
-      </span>
+      <span class="star-chip">${escapeHtml(p.name)}</span>
+      ${starPop(p)}
     </a>`;
   }).join("");
-  return `<div class="star-roster${compact ? " is-compact" : ""}" role="img" aria-label="${escapeAttr(t("star.sub"))}">
+  return `<div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
       <polygon class="star-ring" points="${pts(pent)}" />
       <polygon class="star-shape" points="${pts(star)}" />
+      <polygon class="star-inner" points="${pts(inner)}" />
     </svg>
     ${nodes}
   </div>`;
