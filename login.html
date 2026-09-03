@@ -4,27 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login · WATERCATS</title>
-  <link rel="icon" href="/img/logo.png?v=7" type="image/png">
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+  <link rel="icon" href="/img/logo.png?v=8" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=7">
+  <link rel="stylesheet" href="/css/app.css?v=8">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap login">
     <form class="card" id="form">
-      <h1>Área interna</h1>
-      <p>Entre para editar elenco, estatísticas e clipes da allstar.gg.</p>
+      <h1 data-i18n="login.title"></h1>
+      <p data-i18n="login.body"></p>
       <div class="field">
-        <label for="password">Senha</label>
+        <label for="password" data-i18n="login.password"></label>
         <input id="password" name="password" type="password" autocomplete="current-password" required>
       </div>
-      <button class="btn" type="submit">Entrar</button>
+      <button class="btn" type="submit" data-i18n="login.submit"></button>
       <p class="msg" id="msg"></p>
     </form>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=7"></script>
+  <script src="/js/site.js?v=8"></script>
   <script>
     if (sessionStorage.getItem(WTC.TOKEN_KEY)) location.replace("/admin");
     document.getElementById("form").addEventListener("submit", async (e) => {

@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin · WATERCATS</title>
-  <link rel="icon" href="/img/logo.png?v=7" type="image/png">
+  <title>Painel · WATERCATS</title>
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+  <link rel="icon" href="/img/logo.png?v=8" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=7">
+  <link rel="stylesheet" href="/css/app.css?v=8">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -16,13 +17,13 @@
       <div>
         <p class="live"><i></i> Editor</p>
         <h2>Painel</h2>
-        <p>Edite jogadores, stats e links da allstar.gg.</p>
+        <p>Edite jogadores, estatísticas e links da allstar.gg.</p>
       </div>
       <button class="btn btn-ghost" id="logout" type="button">Sair</button>
     </div>
     <div class="tabs">
       <button type="button" data-tab="players" class="is-on">Jogadores</button>
-      <button type="button" data-tab="stats">Stats</button>
+      <button type="button" data-tab="stats">Estatísticas</button>
       <button type="button" data-tab="clips">Clipes</button>
     </div>
     <p class="msg" id="flash"></p>
@@ -113,7 +114,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=7"></script>
-  <script src="/js/admin.js?v=7"></script>
+  <script src="/js/site.js?v=8"></script>
+  <script src="/js/admin.js?v=8"></script>
 </body>
 </html>
