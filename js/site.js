@@ -51,14 +51,28 @@ const I18N = {
     "info.since": "Joga desde",
     "info.joined": "Entrou em",
     "info.steamId": "SteamID64",
-    "csrep.title": "CSRep",
-    "csrep.sub": "Números puxados da API do CSRep.",
-    "csrep.synced": "Sincronizado em",
-    "csrep.empty": "Sem dados do CSRep ainda.",
-    "csrep.trust": "Trust score",
-    "csrep.sync": "Sincronizar CSRep",
-    "source.csrep": "via CSRep",
-    "source.manual": "preenchido no painel",
+    "lf.sub": "Números da API pública da Leetify.",
+    "lf.synced": "Sincronizado em",
+    "lf.empty": "Ainda não sincronizado com a Leetify.",
+    "lf.sync": "Sincronizar Leetify",
+    "lf.rating": "Rating Leetify",
+    "lf.premier": "Premier",
+    "lf.winrate": "Vitórias",
+    "lf.matches": "Partidas",
+    "lf.aim": "Mira",
+    "lf.positioning": "Posicionamento",
+    "lf.utility": "Utilitária",
+    "lf.clutch": "Clutch",
+    "lf.opening": "Entrada",
+    "lf.hs": "Tiros na cabeça",
+    "lf.spray": "Rajada certeira",
+    "lf.preaim": "Pré-mira",
+    "lf.reaction": "Reação",
+    "lf.form": "Últimas partidas",
+    "lf.since": "Primeira partida",
+    "outcome.win": "V",
+    "outcome.loss": "D",
+    "outcome.tie": "E",
     "th.player": "Jogador",
     "th.role": "Função",
     "th.rating": "Rating",
@@ -129,14 +143,28 @@ const I18N = {
     "info.since": "Playing since",
     "info.joined": "Joined",
     "info.steamId": "SteamID64",
-    "csrep.title": "CSRep",
-    "csrep.sub": "Numbers pulled from the CSRep API.",
-    "csrep.synced": "Synced",
-    "csrep.empty": "No CSRep data yet.",
-    "csrep.trust": "Trust score",
-    "csrep.sync": "Sync CSRep",
-    "source.csrep": "via CSRep",
-    "source.manual": "filled in the panel",
+    "lf.sub": "Numbers from the public Leetify API.",
+    "lf.synced": "Synced",
+    "lf.empty": "Not synced with Leetify yet.",
+    "lf.sync": "Sync Leetify",
+    "lf.rating": "Leetify rating",
+    "lf.premier": "Premier",
+    "lf.winrate": "Win rate",
+    "lf.matches": "Matches",
+    "lf.aim": "Aim",
+    "lf.positioning": "Positioning",
+    "lf.utility": "Utility",
+    "lf.clutch": "Clutch",
+    "lf.opening": "Opening",
+    "lf.hs": "Headshot accuracy",
+    "lf.spray": "Spray accuracy",
+    "lf.preaim": "Preaim",
+    "lf.reaction": "Reaction",
+    "lf.form": "Recent matches",
+    "lf.since": "First match",
+    "outcome.win": "W",
+    "outcome.loss": "L",
+    "outcome.tie": "T",
     "th.player": "Player",
     "th.role": "Role",
     "th.rating": "Rating",
@@ -172,8 +200,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=12`;
-  const icon = `/img/icon-${t}.png?v=12`;
+  const logo = `/img/logo-${t}.png?v=13`;
+  const icon = `/img/icon-${t}.png?v=13`;
   document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
   document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
   const fav = document.querySelector("link[rel=icon]");
@@ -210,8 +238,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=12`;
-  const icon = `/img/icon-${th}.png?v=12`;
+  const logo = `/img/logo-${th}.png?v=13`;
+  const icon = `/img/icon-${th}.png?v=13`;
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
@@ -288,27 +316,42 @@ function statusLabel(status) {
   return t("status." + (status || "active")) || status || "";
 }
 
-const STAT_FIELDS = [
-  "rating", "kd", "adr", "hsPercent", "mapsPlayed", "wins", "losses",
-  "kills", "deaths", "assists", "firstKills", "clutches", "mvp", "trust"
-];
-
-// O que o painel preencheu tem prioridade; o resto vem do CSRep.
-function effectiveStats(p) {
-  const manual = p.stats || {};
-  const csrep = (p.csrep && p.csrep.stats) || {};
-  const out = {};
-  for (const field of STAT_FIELDS) {
-    const own = manual[field];
-    if (own != null && own !== "") out[field] = { value: own, csrep: false };
-    else if (csrep[field] != null && csrep[field] !== "") out[field] = { value: csrep[field], csrep: true };
-    else out[field] = { value: null, csrep: false };
-  }
-  return out;
+// Números da Leetify quando existirem; senão, o que o painel preencheu.
+// A Leetify não devolve K/D nem ADR, então esses só vêm do painel.
+function stats(p) {
+  const own = p.stats || {};
+  const lf = p.leetify || {};
+  return {
+    rating: lf.ratingLeetify ?? own.rating,
+    premier: lf.premier,
+    winrate: lf.winrate,
+    matches: lf.matches ?? own.mapsPlayed,
+    aim: lf.aim,
+    positioning: lf.positioning,
+    utility: lf.utility,
+    clutch: lf.clutch,
+    opening: lf.opening,
+    hsAccuracy: lf.hsAccuracy ?? own.hsPercent,
+    sprayAccuracy: lf.sprayAccuracy,
+    preaim: lf.preaim,
+    reactionMs: lf.reactionMs,
+    kd: own.kd,
+    adr: own.adr
+  };
 }
 
-function fromCsrep(stats) {
-  return Object.values(stats).some((s) => s.csrep && s.value != null);
+function pct(value, digits = 1) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return `${(n * 100).toFixed(digits)}%`;
+}
+
+function formBadges(p) {
+  const form = (p.leetify && p.leetify.form) || [];
+  if (!form.length) return "";
+  return `<div class="form">${form.map((m) =>
+    `<span class="form-${escapeAttr(m.outcome)}" title="${escapeAttr([m.map, m.score].filter(Boolean).join(" "))}">${t("outcome." + m.outcome) || "?"}</span>`
+  ).join("")}</div>`;
 }
 
 function place(p) {
@@ -322,7 +365,7 @@ function playerPhoto(p, cls = "photo") {
 }
 
 function playerCard(p) {
-  const s = effectiveStats(p);
+  const s = stats(p);
   const sub = p.realName || p.role || place(p);
   return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}">
     ${playerPhoto(p)}
@@ -332,10 +375,11 @@ function playerCard(p) {
     </div>
     ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
     <dl class="mini-stats">
-      <div><dt>${t("th.rating")}</dt><dd>${dash(s.rating.value, 2)}</dd></div>
-      <div><dt>${t("th.kd")}</dt><dd>${dash(s.kd.value, 2)}</dd></div>
-      <div><dt>${t("th.adr")}</dt><dd>${dash(s.adr.value, 1)}</dd></div>
+      <div><dt>${t("lf.rating")}</dt><dd>${dash(s.rating, 2)}</dd></div>
+      <div><dt>${t("lf.premier")}</dt><dd>${dash(s.premier)}</dd></div>
+      <div><dt>${t("lf.aim")}</dt><dd>${dash(s.aim, 1)}</dd></div>
     </dl>
+    ${formBadges(p)}
   </a>`;
 }
 
@@ -386,7 +430,7 @@ applyTheme();
 document.addEventListener("DOMContentLoaded", mountChrome);
 
 window.WTC = {
-  t, api, dash, playerCard, clipCard, emptyBox, errorBox, statusLabel,
-  effectiveStats, fromCsrep, place, playerPhoto, escapeHtml, escapeAttr,
+  t, api, dash, pct, playerCard, clipCard, emptyBox, errorBox, statusLabel,
+  stats, place, playerPhoto, formBadges, escapeHtml, escapeAttr,
   TOKEN_KEY
 };

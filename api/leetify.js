@@ -1,5 +1,5 @@
-const { configured, adminOk, listPlayers, getPlayer, saveCsrep } = require("../lib/cloud");
-const { csrepConfigured, fetchCsrepPlayer } = require("../lib/csrep");
+const { configured, adminOk, listPlayers, getPlayer, saveLeetify } = require("../lib/cloud");
+const { fetchLeetifyProfile } = require("../lib/leetify");
 const { readBody, send, fail } = require("../lib/http");
 
 module.exports = async function handler(req, res) {
@@ -18,13 +18,12 @@ module.exports = async function handler(req, res) {
           send(res, 404, { error: "Jogador não encontrado" });
           return;
         }
-        send(res, 200, { id: player.id, csrep: player.csrep });
+        send(res, 200, { id: player.id, leetify: player.leetify });
         return;
       }
       const players = await listPlayers();
       send(res, 200, {
-        configured: csrepConfigured(),
-        players: players.map((p) => ({ id: p.id, steamId: p.steamId, csrep: p.csrep }))
+        players: players.map((p) => ({ id: p.id, steamId: p.steamId, leetify: p.leetify }))
       });
       return;
     }
@@ -39,10 +38,6 @@ module.exports = async function handler(req, res) {
       send(res, 401, { error: "Faça login para sincronizar" });
       return;
     }
-    if (!csrepConfigured()) {
-      send(res, 503, { error: "Defina CSREP_API_KEY para usar o CSRep" });
-      return;
-    }
 
     const only = String(req.query?.id || body.id || "").trim();
     const players = (await listPlayers()).filter((p) => p.steamId && (!only || p.id === only));
@@ -54,9 +49,9 @@ module.exports = async function handler(req, res) {
     const results = [];
     for (const player of players) {
       try {
-        const payload = await fetchCsrepPlayer(player.steamId);
-        await saveCsrep(player.id, payload);
-        results.push({ id: player.id, ok: true, syncedAt: payload.syncedAt });
+        const profile = await fetchLeetifyProfile(player.steamId);
+        await saveLeetify(player.id, profile);
+        results.push({ id: player.id, ok: true, syncedAt: profile.syncedAt });
       } catch (err) {
         results.push({ id: player.id, ok: false, error: err.message });
       }

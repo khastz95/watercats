@@ -1,6 +1,6 @@
 // Preenche o elenco com os dados públicos dos perfis da Steam.
 // Só grava o que é verificável: nick, nome real, cidade, país, Steam e Twitch.
-// Função, bio e estatísticas ficam vazias — quem preenche é o painel ou o CSRep.
+// Função, bio e estatísticas ficam vazias — quem preenche é o painel ou a Leetify.
 
 const { loadEnv, sql } = require("./db");
 
