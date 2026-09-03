@@ -25,6 +25,7 @@ create table public.players (
   color text not null default '#006BFF',
   steam_id text not null default '',
   steam_url text not null default '',
+  steam_avatar text not null default '',
   faceit_url text not null default '',
   faceit_nick text not null default '',
   faceit_elo int,

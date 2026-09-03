@@ -485,9 +485,16 @@ function place(p) {
   return [p.city, p.country].filter(Boolean).join(", ");
 }
 
+// A foto enviada pelo painel vem antes do avatar da Steam, que serve de
+// retrato padrão enquanto ninguém subir uma imagem melhor.
+function photoOf(p) {
+  return p.photo || p.steamAvatar || "";
+}
+
 function playerPhoto(p, cls = "photo") {
-  return p.photo
-    ? `<img class="${cls}" src="${escapeAttr(p.photo)}" alt="${escapeAttr(p.name)}">`
+  const src = photoOf(p);
+  return src
+    ? `<img class="${cls}" src="${escapeAttr(src)}" alt="${escapeAttr(p.name)}" loading="lazy">`
     : `<div class="${cls}" style="box-shadow: inset 0 0 40px ${escapeAttr(p.color || "#006BFF")}"></div>`;
 }
 
@@ -559,6 +566,6 @@ document.addEventListener("DOMContentLoaded", mountChrome);
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
   playerCard, clipCard, emptyBox, errorBox, statusLabel,
-  stats, place, playerPhoto, formBadges, recentForm, escapeHtml, escapeAttr,
+  stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   TOKEN_KEY
 };

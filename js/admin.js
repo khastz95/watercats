@@ -157,6 +157,23 @@ statsForm.addEventListener("submit", async (e) => {
   } catch (err) { say(err.message); }
 });
 
+document.getElementById("steam-sync").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  say("Buscando avatares na Steam…", true);
+  try {
+    const { results } = await WTC.api("/api/steam", { method: "POST", body: {} });
+    const falhas = results.filter((r) => !r.ok);
+    if (falhas.length) say(falhas.map((r) => `${r.id}: ${r.error}`).join(" · "));
+    else say(`Avatares atualizados (${results.length} jogadores).`, true);
+    await reload();
+  } catch (err) {
+    say(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
 document.getElementById("leetify-sync").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
   btn.disabled = true;
