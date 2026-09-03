@@ -581,10 +581,8 @@ function playerCard(p) {
   </a>`;
 }
 
-// Coroa Street King (Need for Speed: ProStreet): 5 pontas em alturas
-// diferentes, facetas em W e losango no topo — não é estrela pentagonal.
-// Topo: khastz. Direita sup: bill. Esquerda sup: fury.
-// Baixo dir: cadu. Baixo esq: s4mz.
+// Coroa Street King (ProStreet): losango no topo, quatro círculos, W no miolo.
+// khastz no topo, bill à direita, fury à esquerda, cadu e s4mz embaixo.
 const STAR_SLOTS = ["khastz", "bill", "cadu", "s4mz", "fury"];
 
 function starOrder(players) {
@@ -600,20 +598,18 @@ function starRoster(players, options = {}) {
   if (!roster.length) return "";
   const currentId = options.currentId || "";
   const compact = Boolean(options.compact);
-  // Pontas da coroa, na ordem dos slots.
   const tips = [
     [50, 14],
-    [70.5, 37.5],
-    [85, 56.5],
-    [15, 56.5],
-    [29.5, 37.5]
+    [69, 34],
+    [85.5, 51],
+    [14.5, 51],
+    [31, 34]
   ];
-  const uid = "crown-" + Math.random().toString(36).slice(2, 8);
   const nodes = roster.map((p, i) => {
     const [x, y] = tips[i] || tips[0];
     const s = stats(p);
     const on = p.id === currentId;
-    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x}%;top:${y}%;--i:${i}" aria-current="${on ? "page" : "false"}">
+    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x}%;top:${y}%;" aria-current="${on ? "page" : "false"}">
       <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
       <span class="star-label">
         <span class="star-name">${escapeHtml(p.name)}</span>
@@ -623,37 +619,17 @@ function starRoster(players, options = {}) {
   }).join("");
   return `<div class="star-roster${compact ? " is-compact" : ""}" role="img" aria-label="${escapeAttr(t("star.sub"))}">
     <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
-      <defs>
-        <linearGradient id="${uid}-stroke" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#7ad7ff"/>
-          <stop offset="0.55" stop-color="#006bff"/>
-          <stop offset="1" stop-color="#20b8ff"/>
-        </linearGradient>
-        <linearGradient id="${uid}-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#006bff" stop-opacity="0.28"/>
-          <stop offset="1" stop-color="#001428" stop-opacity="0.55"/>
-        </linearGradient>
-        <filter id="${uid}-glow" x="-25%" y="-25%" width="150%" height="150%">
-          <feGaussianBlur stdDeviation="0.9" result="b"/>
-          <feMerge>
-            <feMergeNode in="b"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <g class="crown" filter="url(#${uid}-glow)" stroke="url(#${uid}-stroke)" fill="url(#${uid}-fill)">
-        <path class="crown-body" pathLength="1000" d="M20 89 L11.5 69 L15 56.5 L24.5 51 L29.5 37.5 L40 49 L46.5 20 L50 6.5 L53.5 20 L60 49 L70.5 37.5 L75.5 51 L85 56.5 L88.5 69 L80 89 L64.5 76.5 L50 93.5 L35.5 76.5 Z"/>
-        <path class="crown-facet" d="M50 18 L41.5 51 L50 80 L58.5 51 Z"/>
-        <path class="crown-facet" d="M15 56.5 L24.5 51 L35.5 76.5 L20 89 Z"/>
-        <path class="crown-facet" d="M85 56.5 L75.5 51 L64.5 76.5 L80 89 Z"/>
-        <path class="crown-facet" d="M29.5 37.5 L40 49 L24.5 51 Z"/>
-        <path class="crown-facet" d="M70.5 37.5 L60 49 L75.5 51 Z"/>
-        <path class="crown-facet" d="M40 49 L50 93.5 L60 49 L50 80 Z"/>
-        <path class="crown-diamond" d="M50 6.5 L56 14.2 L50 21.8 L44 14.2 Z"/>
-      </g>
-      <path class="crown-flow" pathLength="1000" d="M20 89 L11.5 69 L15 56.5 L24.5 51 L29.5 37.5 L40 49 L46.5 20 L50 6.5 L53.5 20 L60 49 L70.5 37.5 L75.5 51 L85 56.5 L88.5 69 L80 89 L64.5 76.5 L50 93.5 L35.5 76.5 Z" stroke="url(#${uid}-stroke)"/>
+      <path class="crown-body" d="M50 3 L58.6 15.2 L53 24.6 L56 45 L69 34 L75 44 L85.5 51 L75.5 62 L70 84 L50 94 L30 84 L24.5 62 L14.5 51 L25 44 L31 34 L44 45 L47 24.6 L41.4 15.2 Z"/>
+      <path class="crown-facet" d="M50 24 L41 54 L50 74 L59 54 Z"/>
+      <path class="crown-line" d="M31 34 L50 74 L69 34"/>
+      <path class="crown-line" d="M14.5 51 L30 80 L50 94 L70 80 L85.5 51"/>
+      <path class="crown-line" d="M50 15 L50 74"/>
+      <polygon class="crown-jewel" points="50,3 58.6,15.2 50,24.6 41.4,15.2"/>
+      <circle class="crown-jewel" cx="69" cy="34" r="6.5"/>
+      <circle class="crown-jewel" cx="85.5" cy="51" r="7"/>
+      <circle class="crown-jewel" cx="14.5" cy="51" r="7"/>
+      <circle class="crown-jewel" cx="31" cy="34" r="6.5"/>
     </svg>
-    <div class="star-core" aria-hidden="true"><span>WTC</span></div>
     ${nodes}
   </div>`;
 }
