@@ -51,15 +51,34 @@ function playerOptions(select, selected) {
 }
 
 function renderPlayers() {
-  document.getElementById("player-list").innerHTML = players.map((p) => `
-    <div class="row">
-      <div><strong>${p.name}</strong><div class="meta">${p.role || "sem função"} · ${WTC.statusLabel(p.status)}</div></div>
-      <div class="row-actions">
-        <button class="btn btn-ghost" type="button" data-edit="${p.id}">Editar</button>
-        <button class="btn btn-danger" type="button" data-del="${p.id}">Apagar</button>
-      </div>
-    </div>
-  `).join("");
+  document.getElementById("player-list").innerHTML = players.map((p) => {
+    const s = WTC.stats(p);
+    const meta = [p.realName, p.role, WTC.place(p)].filter(Boolean).join(" · ");
+    const lf = p.leetify
+      ? `<div class="row-stats">
+           <span>${WTC.t("lf.rating")} <b>${WTC.dash(s.rating, 2)}</b></span>
+           <span>${WTC.t("lf.premier")} <b>${WTC.dash(s.premier)}</b></span>
+           <span>${WTC.t("lf.matches")} <b>${WTC.dash(s.matches)}</b></span>
+         </div>`
+      : `<div class="row-stats"><span class="row-warn">Sem Leetify${p.steamId ? "" : " (falta SteamID64)"}</span></div>`;
+    return `
+      <div class="row row-player">
+        ${WTC.playerPhoto(p, "row-photo")}
+        <div class="row-body">
+          <div class="row-title">
+            <strong>${WTC.escapeHtml(p.name)}</strong>
+            <span class="chip chip-${WTC.escapeAttr(p.status || "active")}">${WTC.escapeHtml(WTC.statusLabel(p.status))}</span>
+          </div>
+          ${meta ? `<div class="meta">${WTC.escapeHtml(meta)}</div>` : ""}
+          ${lf}
+        </div>
+        <div class="row-actions">
+          <a class="btn btn-ghost" href="/jogador/${encodeURIComponent(p.id)}" target="_blank" rel="noreferrer">Ver</a>
+          <button class="btn btn-ghost" type="button" data-edit="${p.id}">Editar</button>
+          <button class="btn btn-danger" type="button" data-del="${p.id}">Apagar</button>
+        </div>
+      </div>`;
+  }).join("");
   playerOptions(statsForm.playerId);
   playerOptions(clipForm.playerId);
 }

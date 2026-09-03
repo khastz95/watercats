@@ -346,6 +346,38 @@ button { cursor: pointer; border: 0; background: none; }
 .form-block { margin-top: 22px; }
 .form-block .form { margin-top: 8px; }
 
+/* Blocos de métricas da Leetify: rótulo à esquerda, número à direita. */
+.metric-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); align-items: start; }
+.metric-card { padding: 16px 18px; }
+.metric-card h3 {
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.metric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.metric:last-child { border-bottom: 0; padding-bottom: 0; }
+.metric > span { color: var(--muted); font-size: 13px; }
+.metric > span a { color: var(--text); }
+.metric > span a:hover { color: var(--blue); }
+.metric > b {
+  font-family: var(--display);
+  font-size: 16px;
+  white-space: nowrap;
+}
+.metric > b i { font-family: var(--font); font-size: 11px; font-style: normal; color: var(--muted); }
+
 .stat { text-align: left; padding: 16px; }
 .stat b {
   display: block;
@@ -458,6 +490,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .msg { margin-top: 10px; color: var(--red); min-height: 1.2em; font-size: 13px; }
 
 .admin { padding: 32px 0 64px; }
+.form-card { margin-bottom: 20px; padding: 4px 18px 18px; }
+.form-card fieldset { border: 0; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.form-card fieldset:last-of-type { border-bottom: 0; }
+.form-card legend {
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  padding-bottom: 10px;
+}
+.hint { color: var(--muted); font-size: 12px; margin-top: 8px; }
+.form-card .actions { padding-top: 16px; border-top: 1px solid var(--line); }
 .tabs { display: flex; gap: 20px; margin: 16px 0 24px; border-bottom: 1px solid var(--line); }
 .tabs button {
   padding: 10px 0;
@@ -481,8 +526,32 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   background: var(--surface);
 }
 .row strong { text-transform: uppercase; letter-spacing: 0.04em; font-size: 14px; }
-.row-actions { display: flex; gap: 8px; }
+.row-actions { display: flex; gap: 8px; flex: none; }
 .row-actions .btn { min-height: 34px; padding: 0 12px; }
+
+/* Linha do elenco no painel: foto, dados, números da Leetify, ações. */
+.row-player { align-items: center; gap: 14px; padding: 12px 14px; }
+.row-player:hover { border-color: var(--blue); }
+.row-photo {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--photo);
+  border: 1px solid var(--line);
+}
+.row-body { flex: 1; min-width: 0; }
+.row-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.row-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+.row-stats span {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.row-stats b { font-family: var(--display); font-size: 14px; color: var(--text); letter-spacing: 0; }
+.row-warn { color: var(--red) !important; }
 .panel { display: none; }
 .panel.is-on { display: block; }
 
