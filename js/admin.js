@@ -84,15 +84,26 @@ function renderPlayers() {
 }
 
 function renderClips() {
-  document.getElementById("clip-list").innerHTML = clips.map((c) => `
-    <div class="row">
-      <div><strong>${c.title}</strong><div class="meta">${c.playerName || "—"} · ${c.map || "sem mapa"}</div></div>
-      <div class="row-actions">
-        <button class="btn btn-ghost" type="button" data-cedit="${c.id}">Editar</button>
-        <button class="btn btn-danger" type="button" data-cdel="${c.id}">Apagar</button>
-      </div>
-    </div>
-  `).join("");
+  document.getElementById("clip-list").innerHTML = clips.map((c) => {
+    const thumb = c.thumb
+      ? `<img class="row-clip-thumb" src="${WTC.escapeAttr(c.thumb)}" alt="">`
+      : `<div class="row-clip-thumb"></div>`;
+    const meta = [c.playerName || "—", c.map, c.weapon, c.source === "allstar" ? "allstar" : "manual"]
+      .filter(Boolean).join(" · ");
+    return `
+      <div class="row row-player">
+        ${thumb}
+        <div class="row-body">
+          <div class="row-title"><strong>${WTC.escapeHtml(c.title)}</strong></div>
+          <div class="meta">${WTC.escapeHtml(meta)}</div>
+        </div>
+        <div class="row-actions">
+          <a class="btn btn-ghost" href="${WTC.escapeAttr(c.url)}" target="_blank" rel="noreferrer">Abrir</a>
+          <button class="btn btn-ghost" type="button" data-cedit="${c.id}">Editar</button>
+          <button class="btn btn-danger" type="button" data-cdel="${c.id}">Apagar</button>
+        </div>
+      </div>`;
+  }).join("");
 }
 
 async function reload() {
@@ -208,6 +219,24 @@ clipForm.addEventListener("submit", async (e) => {
     say("Clipe salvo.", true);
     await reload();
   } catch (err) { say(err.message); }
+});
+
+document.getElementById("allstar-sync").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  say("Buscando clipes na allstar.gg…", true);
+  try {
+    const { results } = await WTC.api("/api/allstar", { method: "POST", body: {} });
+    const falhas = results.filter((r) => !r.ok);
+    const total = results.reduce((n, r) => n + (r.imported || 0), 0);
+    if (falhas.length) say(falhas.map((r) => `${r.id}: ${r.error}`).join(" · "));
+    else say(`Clipes atualizados (${total}).`, true);
+    await reload();
+  } catch (err) {
+    say(err.message);
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 document.getElementById("clip-list").addEventListener("click", async (e) => {

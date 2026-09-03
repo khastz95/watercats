@@ -25,7 +25,9 @@ const I18N = {
     "stats.sub": "Todos os jogadores da casa. Sem número inventado — se estiver vazio, ainda não foi preenchido.",
     "clips.kicker": "allstar.gg",
     "clips.title": "Jogadas",
-    "clips.sub": "Clipes pelo link da Allstar. Sem upload pesado — cola o URL no painel e aparece aqui.",
+    "clips.sub": "Clipes da allstar.gg de cada jogador, ligados pelo SteamID64.",
+    "clips.all": "Todos",
+    "clips.play": "Assistir",
     "empty.players": "O elenco ainda está sendo cadastrado no painel.",
     "empty.clips": "Nenhum clipe da allstar.gg por enquanto.",
     "empty.stats": "As estatísticas entram quando o admin preencher.",
@@ -156,7 +158,9 @@ const I18N = {
     "stats.sub": "Every player in the house. No made-up numbers — empty means it has not been filled in yet.",
     "clips.kicker": "allstar.gg",
     "clips.title": "Clips",
-    "clips.sub": "Clips via Allstar link. No heavy upload — paste the URL in the panel and it shows up here.",
+    "clips.sub": "allstar.gg clips from each player, linked by SteamID64.",
+    "clips.all": "All",
+    "clips.play": "Watch",
     "empty.players": "The roster is still being added in the admin panel.",
     "empty.clips": "No allstar.gg clips yet.",
     "empty.stats": "Stats show up when an admin fills them in.",
@@ -517,11 +521,28 @@ function playerCard(p) {
   </a>`;
 }
 
+function fmtDuration(n) {
+  const s = Math.round(Number(n));
+  if (!Number.isFinite(s) || s < 0) return "";
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return m ? `${m}:${String(r).padStart(2, "0")}` : `${s}s`;
+}
+
 function clipCard(c) {
+  const meta = [c.playerName, c.map, c.weapon].filter(Boolean).join(" · ");
+  const time = c.duration != null ? fmtDuration(c.duration) : "";
+  const poster = c.thumb
+    ? `<button type="button" class="clip-play" data-play-clip="${escapeAttr(c.embed)}" data-play-title="${escapeAttr(c.title)}" aria-label="${escapeAttr(t("clips.play") + ": " + c.title)}">
+         <img src="${escapeAttr(c.thumb)}" alt="" loading="lazy">
+         <span class="clip-play-icon" aria-hidden="true"></span>
+         ${time ? `<span class="clip-time">${escapeHtml(time)}</span>` : ""}
+       </button>`
+    : `<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
   return `<article class="card clip">
-    <iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>
+    ${poster}
     <h3>${escapeHtml(c.title)}</h3>
-    <p class="meta">${escapeHtml([c.playerName, c.map].filter(Boolean).join(" · "))}</p>
+    <p class="meta">${escapeHtml(meta)}${c.views != null ? ` · ${c.views}` : ""}</p>
   </article>`;
 }
 
@@ -562,6 +583,16 @@ function escapeAttr(s) {
 
 applyTheme();
 document.addEventListener("DOMContentLoaded", mountChrome);
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-play-clip]");
+  if (!btn) return;
+  const frame = document.createElement("iframe");
+  frame.src = btn.dataset.playClip;
+  frame.title = btn.dataset.playTitle || "";
+  frame.allow = "autoplay; fullscreen; picture-in-picture";
+  frame.allowFullscreen = true;
+  btn.replaceWith(frame);
+});
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,

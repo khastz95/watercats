@@ -26,6 +26,8 @@ create table public.players (
   steam_id text not null default '',
   steam_url text not null default '',
   steam_avatar text not null default '',
+  allstar_user text not null default '',
+  allstar_username text not null default '',
   faceit_url text not null default '',
   faceit_nick text not null default '',
   faceit_elo int,
@@ -65,13 +67,22 @@ create table public.clips (
   player_id text references public.players(id) on delete cascade,
   title text not null,
   allstar_url text not null,
-  clip_id text not null,
+  clip_id text not null unique,
   map text not null default '',
   featured boolean not null default false,
+  -- 'manual' quando o link foi colado no painel, 'allstar' quando veio da sincronização.
+  source text not null default 'manual',
+  thumb_url text not null default '',
+  weapon text not null default '',
+  kills int,
+  views int,
+  duration numeric(8,2),
+  clipped_at timestamptz,
   created_at timestamptz not null default now()
 );
 
 create index clips_player_idx on public.clips (player_id, created_at desc);
+create index clips_clipped_idx on public.clips (clipped_at desc nulls last);
 create index clips_featured_idx on public.clips (featured, created_at desc);
 create index players_sort_idx on public.players (sort_order, name);
 
