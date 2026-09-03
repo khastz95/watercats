@@ -583,10 +583,17 @@ function place(p) {
   return [p.city, p.country].filter(Boolean).join(", ");
 }
 
-// A foto enviada pelo painel vem antes do avatar da Steam, que serve de
-// retrato padrão enquanto ninguém subir uma imagem melhor.
+const PORTRAITS = {
+  s4mz: "/img/players/s4mz.png?v=28",
+  bill: "/img/players/bill.png?v=28",
+  khastz: "/img/players/khastz.png?v=28",
+  fury: "/img/players/fury.png?v=28",
+  cadu: "/img/players/cadu.png?v=28"
+};
+
 function photoOf(p) {
-  return p.photo || p.steamAvatar || "";
+  if (p && PORTRAITS[p.id]) return PORTRAITS[p.id];
+  return (p && p.photo) || "";
 }
 
 function playerPhoto(p, cls = "photo") {
