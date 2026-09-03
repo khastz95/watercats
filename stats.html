@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Estatísticas · WATERCATS</title>
+  <title>Estatísticas · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=25" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=26" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=25">
+  <link rel="stylesheet" href="/css/app.css?v=26">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -23,11 +23,14 @@
     <div id="board"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=25"></script>
+  <script src="/js/site.js?v=26"></script>
   <script>
     function render() {
       const board = document.getElementById("board");
-      WTC.api("/api/players").then(({ players }) => {
+      Promise.all([
+        WTC.api("/api/players"),
+        WTC.api("/api/clips").catch(() => ({ clips: [] }))
+      ]).then(([{ players }, { clips }]) => {
         let lastSync = null;
         // Maior rating primeiro; quem não tem número vai para o fim.
         const ordered = players
@@ -60,6 +63,7 @@
           ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lastSync).toLocaleDateString()}.</p>`
           : `<p class="source">${WTC.t("lf.empty")}</p>`;
         board.innerHTML = `
+          <div class="grid stats-grid home-stats house-stats">${WTC.houseCards(players, clips)}</div>
           <div class="table-wrap"><table>
             <thead><tr>
               <th>${WTC.t("th.player")}</th><th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.premier")}</th>
