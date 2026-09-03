@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogador · WATERCATS</title>
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap" id="main"></main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js"></script>
+  <script>
+    const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
+    const root = document.getElementById("main");
+    WTC.api("/api/players?id=" + encodeURIComponent(slug))
+      .then(({ player: p }) => {
+        document.title = p.name + " · WATERCATS";
+        const s = p.stats || {};
+        const photo = p.photo
+          ? `<img class="photo" src="${p.photo}" alt="${p.name}">`
+          : `<div class="photo"></div>`;
+        const links = [
+          p.steamUrl && `<a class="btn btn-ghost" href="${p.steamUrl}" target="_blank" rel="noreferrer">Steam</a>`,
+          p.faceitUrl && `<a class="btn btn-ghost" href="${p.faceitUrl}" target="_blank" rel="noreferrer">FACEIT</a>`,
+          p.twitchUrl && `<a class="btn btn-ghost" href="${p.twitchUrl}" target="_blank" rel="noreferrer">Twitch</a>`
+        ].filter(Boolean).join("");
+        root.innerHTML = `
+          <section class="profile">
+            <aside class="profile-side">${photo}</aside>
+            <div>
+              <p class="kicker">${WTC.statusLabel(p.status)}${p.role ? " · " + p.role : ""}</p>
+              <h1>${p.name}</h1>
+              <p class="meta">${[p.realName, p.city, p.country].filter(Boolean).join(" · ")}</p>
+              <p class="bio">${p.bio || "Sem bio ainda — o admin preenche no login."}</p>
+              <div class="links">${links}</div>
+              <div class="grid stats-grid">
+                <div class="card stat"><b>${WTC.dash(s.rating, 2)}</b><span>Rating</span></div>
+                <div class="card stat"><b>${WTC.dash(s.kd, 2)}</b><span>K/D</span></div>
+                <div class="card stat"><b>${WTC.dash(s.adr, 1)}</b><span>ADR</span></div>
+                <div class="card stat"><b>${WTC.dash(s.hsPercent, 1)}</b><span>HS%</span></div>
+                <div class="card stat"><b>${WTC.dash(s.mapsPlayed)}</b><span>Mapas</span></div>
+                <div class="card stat"><b>${WTC.dash(s.mvp)}</b><span>MVP</span></div>
+              </div>
+            </div>
+          </section>
+          <section class="section">
+            <div class="section-head"><h2>Jogadas</h2></div>
+            <div class="grid clips">${(p.clips || []).length ? p.clips.map(WTC.clipCard).join("") : WTC.emptyBox("empty.clips")}</div>
+          </section>`;
+      })
+      .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
+  </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WATERCATS</title>
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <a class="skip" href="#main">Pular para o conteúdo</a>
+  <header class="header" id="header"></header>
+  <main id="main">
+    <section class="wrap hero">
+      <div class="hero-copy">
+        <p class="kicker" data-i18n="hero.kicker"></p>
+        <h1>WATER<span>CATS</span></h1>
+        <p class="tagline">OLD PLAYERS. <em>SAME GAME.</em></p>
+        <p class="lede" data-i18n="hero.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/players" data-i18n="cta.players"></a>
+          <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+        </div>
+      </div>
+      <div class="hero-logo">
+        <div class="orb"></div>
+        <img src="/img/logo.png" alt="Logo WATERCATS">
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div>
+          <p class="live"><i></i> Live roster</p>
+          <h2 data-i18n="home.roster"></h2>
+        </div>
+        <a href="/players" data-i18n="cta.players"></a>
+      </div>
+      <div id="roster" class="grid players"></div>
+    </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="home.stats"></h2>
+        </div>
+        <a href="/stats">Stats</a>
+      </div>
+      <div id="stats" class="grid stats-grid"></div>
+    </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="home.clips"></h2>
+        </div>
+        <a href="/clips" data-i18n="cta.clips"></a>
+      </div>
+      <div id="clips" class="grid clips"></div>
+    </section>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js"></script>
+  <script>
+    async function boot() {
+      const roster = document.getElementById("roster");
+      const stats = document.getElementById("stats");
+      const clips = document.getElementById("clips");
+      try {
+        const [{ players }, { clips: allClips }] = await Promise.all([
+          WTC.api("/api/players"),
+          WTC.api("/api/clips")
+        ]);
+        roster.innerHTML = players.length
+          ? players.map(WTC.playerCard).join("")
+          : WTC.emptyBox("empty.players");
+
+        const withRating = players.filter((p) => p.stats && p.stats.rating != null);
+        const maps = players.reduce((n, p) => n + (p.stats.mapsPlayed || 0), 0);
+        const featured = allClips.filter((c) => c.featured);
+        const showClips = (featured.length ? featured : allClips).slice(0, 3);
+
+        stats.innerHTML = `
+          <div class="card stat"><b>${players.length}</b><span>Jogadores</span></div>
+          <div class="card stat"><b>${WTC.dash(withRating[0] && withRating[0].stats.rating, 2)}</b><span>Top rating</span></div>
+          <div class="card stat"><b>${WTC.dash(maps)}</b><span>Mapas</span></div>
+          <div class="card stat"><b>${allClips.length}</b><span>Clipes</span></div>
+        `;
+        clips.innerHTML = showClips.length ? showClips.map(WTC.clipCard).join("") : WTC.emptyBox("empty.clips");
+      } catch {
+        roster.innerHTML = WTC.errorBox();
+        stats.innerHTML = "";
+        clips.innerHTML = "";
+      }
+    }
+    boot();
+  </script>
+</body>
+</html>

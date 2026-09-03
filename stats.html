@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stats · WATERCATS</title>
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap section">
+    <div class="section-head">
+      <div>
+        <p class="live"><i></i> Numbers</p>
+        <h2>Estatísticas</h2>
+        <p>Todos os jogadores da casa. Sem número inventado — se estiver vazio, ainda não foi preenchido.</p>
+      </div>
+    </div>
+    <div id="board"></div>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js"></script>
+  <script>
+    WTC.api("/api/players").then(({ players }) => {
+      const rows = players.map((p) => {
+        const s = p.stats || {};
+        return `<tr>
+          <td><a href="/players/${p.id}">${p.name}</a></td>
+          <td>${p.role || "—"}</td>
+          <td>${WTC.dash(s.rating, 2)}</td>
+          <td>${WTC.dash(s.kd, 2)}</td>
+          <td>${WTC.dash(s.adr, 1)}</td>
+          <td>${WTC.dash(s.hsPercent, 1)}</td>
+          <td>${WTC.dash(s.mapsPlayed)}</td>
+          <td>${WTC.dash(s.wins)}/${WTC.dash(s.losses)}</td>
+          <td>${WTC.dash(s.kills)}</td>
+          <td>${WTC.dash(s.clutches)}</td>
+        </tr>`;
+      }).join("");
+      document.getElementById("board").innerHTML = players.length ? `
+        <div class="table-wrap"><table>
+          <thead><tr>
+            <th>Jogador</th><th>Função</th><th>Rating</th><th>K/D</th><th>ADR</th>
+            <th>HS%</th><th>Mapas</th><th>W/L</th><th>Kills</th><th>Clutches</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>` : WTC.emptyBox("empty.stats");
+    }).catch(() => { document.getElementById("board").innerHTML = WTC.errorBox(); });
+  </script>
+</body>
+</html>
