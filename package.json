@@ -11,7 +11,8 @@
   "scripts": {
     "migrate": "node scripts/migrate.js",
     "seed": "node scripts/seed-roster.js",
-    "avatars": "node scripts/steam-avatars.js"
+    "avatars": "node scripts/steam-avatars.js",
+    "clips": "node scripts/allstar-clips.js"
   },
   "dependencies": {
     "postgres": "^3.4.7"

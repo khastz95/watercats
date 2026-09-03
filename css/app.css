@@ -405,12 +405,71 @@ td { border-top: 1px solid var(--line); }
 td a { color: var(--text); }
 td a:hover { color: var(--blue); }
 
-.clip iframe {
+.clip iframe,
+.clip-play {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
   border-radius: 4px;
   background: #000;
+}
+.clip-play {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+.clip-play img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.clip-play-icon {
+  position: absolute;
+  inset: 0;
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blue) 88%, #000);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.clip-play-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  transform: translate(-40%, -50%);
+  border-style: solid;
+  border-width: 8px 0 8px 13px;
+  border-color: transparent transparent transparent #fff;
+}
+.clip-time {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+.clip-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.clip-filters .chip {
+  cursor: pointer;
+  background: transparent;
+}
+.clip-filters .chip.is-on {
+  color: var(--blue);
+  border-color: var(--blue);
 }
 .clip h3 { margin: 10px 0 4px; font-size: 15px; font-weight: 600; }
 .empty, .error {
@@ -540,6 +599,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   border-radius: var(--radius);
   background: var(--photo);
   border: 1px solid var(--line);
+}
+.row-clip-thumb {
+  width: 88px;
+  height: 50px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #000;
 }
 .row-body { flex: 1; min-width: 0; }
 .row-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }

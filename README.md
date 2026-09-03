@@ -109,6 +109,7 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `api/photo.js` | `POST` | Envio de foto (JPG, PNG, WEBP, GIF, até 1,5 MB). |
 | `api/leetify.js` | `GET` `POST` | Lê o que já veio da Leetify; o `POST` sincroniza os jogadores com SteamID64. |
 | `api/steam.js` | `POST` | Busca o avatar do perfil da Steam de cada jogador com SteamID64. |
+| `api/allstar.js` | `POST` | Busca os clipes públicos da allstar.gg de cada jogador com SteamID64. |
 
 ### Servidor (`lib/` e `scripts/`)
 
@@ -117,11 +118,13 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `lib/cloud.js` | Acesso ao Supabase, sessão, leitura do clipe e gravação. A chave de serviço fica só aqui. |
 | `lib/leetify.js` | Chamada à API pública da Leetify e leitura da resposta. |
 | `lib/steam.js` | Lê o avatar no XML público do perfil da Steam. |
+| `lib/allstar.js` | Resolve o SteamID64 na allstar.gg e lista os clipes. |
 | `lib/http.js` | Leitura do corpo da requisição e respostas JSON. |
 | `scripts/db.js` | Carrega o `.env.local` e abre a conexão com o Postgres. |
 | `scripts/migrate.js` | Aplica `supabase.sql` no Postgres. |
 | `scripts/seed-roster.js` | Grava os dados públicos dos 5 perfis da Steam. |
 | `scripts/steam-avatars.js` | Busca os avatares da Steam pela linha de comando (`npm run avatars`). |
+| `scripts/allstar-clips.js` | Busca os clipes da allstar.gg pela linha de comando (`npm run clips`). |
 | `supabase.sql` | Tabelas `players`, `player_stats` e `clips`. Não mexe em `org_*`. |
 | `vercel.json` | URLs sem `.html` e rewrite `/jogador/:slug` → `player.html`. |
 | `package.json` | Scripts `migrate` e `seed`, e o cliente `postgres`. |
@@ -137,7 +140,7 @@ Três tabelas no schema `public`:
 
 - **`players`** — ficha (nick, nome, função, país, Steam, FACEIT, Discord, Twitch, bio, foto, avatar da Steam, status).
 - **`player_stats`** — rating, K/D, ADR, HS%, mapas, vitórias/derrotas, kills, clutches, MVP.
-- **`clips`** — título, URL da allstar.gg, mapa, destaque, jogador.
+- **`clips`** — título, URL da allstar.gg, mapa, arma, views, duração, thumbnail, origem (`manual` ou `allstar`), destaque, jogador.
 
 Estatísticas vazias aparecem como "—" no site.
 
@@ -185,6 +188,16 @@ São colunas separadas de propósito: buscar os avatares de novo não apaga foto
 
 O maior tamanho que a Steam devolve é **184×184** (`_full.jpg`), então nos cards grandes a imagem fica um pouco macia. Para ficar nítido, é preciso enviar a foto pelo painel.
 
+## Clipes da allstar.gg
+
+O botão **Buscar clipes da allstar.gg**, na aba Clipes, resolve o SteamID64 na GraphQL pública da allstar (`playerSearch` + `clipsNew`) e grava cada vídeo pelo `clip_id`. O mesmo dá pelo terminal com `npm run clips`.
+
+O que entra no banco por clipe: título, URL `https://allstar.gg/clip?clip=…`, thumbnail, mapa, arma, abates, views, duração e data. O player do site usa o iframe oficial; a grade mostra a thumbnail e só carrega o vídeo quando alguém clica em play.
+
+A sincronização **não apaga** clipes colados à mão e **não desmarca** destaque. Se o mesmo `clip_id` já existir, só atualiza título, mapa e números.
+
+Os cinco do elenco têm conta pública na allstar.gg.
+
 O mesmo projeto Supabase pode ter tabelas `org_*` da [watercatsgg](https://github.com/khastz95/watercatsgg). A migração deste repositório **não** as apaga.
 
 ## Ambiente
@@ -205,6 +218,7 @@ npm install
 npm run migrate
 npm run seed
 npm run avatars
+npm run clips
 npx vercel --prod
 ```
 
