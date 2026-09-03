@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=23" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=24" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=23">
+  <link rel="stylesheet" href="/css/app.css?v=24">
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
@@ -16,7 +16,7 @@
   <main id="main">
     <section class="wrap hero">
       <div class="hero-logo">
-        <img src="/img/logo-dark.png?v=23" alt="Logo WATERCATS" data-logo>
+        <img src="/img/logo-dark.png?v=24" alt="Logo WATERCATS" data-logo>
       </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
@@ -26,8 +26,13 @@
         <div class="actions">
           <a class="btn" href="/players" data-i18n="cta.players"></a>
           <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+          <a class="btn btn-ghost" href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer" data-i18n="cta.discord"></a>
         </div>
       </div>
+    </section>
+
+    <section class="wrap">
+      <p class="house-strip" data-i18n="home.strip"></p>
     </section>
 
     <section class="wrap section">
@@ -62,7 +67,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=23"></script>
+  <script src="/js/site.js?v=24"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");
