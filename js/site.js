@@ -357,6 +357,13 @@ function applyI18n() {
     const open = document.querySelector(".header")?.classList.contains("is-open");
     toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
   }
+  document.querySelectorAll("[data-menu-close]").forEach((btn) => {
+    btn.setAttribute("aria-label", t("nav.close"));
+  });
+  const panel = document.querySelector(".mobile-menu__panel");
+  if (panel) panel.setAttribute("aria-label", t("nav.menu"));
+  const links = document.querySelector(".mobile-menu__links");
+  if (links) links.setAttribute("aria-label", t("nav.menu"));
   document.dispatchEvent(new Event("wtc:lang"));
 }
 
@@ -381,17 +388,32 @@ function navItems(here) {
   ).join("");
 }
 
+let menuLastFocus = null;
+
 function setMenu(open) {
   const header = document.getElementById("header");
   const toggle = document.querySelector("[data-menu]");
-  const sheet = document.getElementById("nav-sheet");
-  if (!header) return;
+  const menu = document.getElementById("mobile-menu");
+  if (!header || !menu) return;
+  const isOpen = header.classList.contains("is-open");
+  if (open === isOpen) return;
   header.classList.toggle("is-open", open);
+  menu.classList.toggle("is-open", open);
+  menu.setAttribute("aria-hidden", open ? "false" : "true");
+  document.documentElement.classList.toggle("nav-open", open);
   document.body.classList.toggle("nav-open", open);
-  if (sheet) sheet.setAttribute("aria-hidden", open ? "false" : "true");
   if (toggle) {
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
+  }
+  if (open) {
+    menuLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const closeBtn = menu.querySelector(".mobile-menu__close");
+    requestAnimationFrame(() => closeBtn?.focus());
+  } else if (menuLastFocus && typeof menuLastFocus.focus === "function") {
+    const target = menuLastFocus;
+    menuLastFocus = null;
+    requestAnimationFrame(() => target.focus());
   }
 }
 
@@ -426,26 +448,31 @@ function mountChrome() {
             <div class="nav-links">${navItems(here)}</div>
             <div class="nav-tools">${tools}</div>
           </nav>
-          <button class="menu-toggle" type="button" data-menu aria-controls="nav-sheet" aria-expanded="false" aria-label="${t("nav.menu")}">
+          <button class="menu-toggle" type="button" data-menu aria-controls="mobile-menu" aria-expanded="false" aria-label="${t("nav.menu")}">
             <span></span><span></span><span></span>
           </button>
         </div>
       </div>`;
-    let sheet = document.getElementById("nav-sheet");
-    if (!sheet) {
-      sheet = document.createElement("div");
-      sheet.id = "nav-sheet";
-      sheet.className = "nav-sheet";
-      document.body.appendChild(sheet);
+    let menu = document.getElementById("mobile-menu");
+    if (!menu) {
+      menu = document.createElement("div");
+      menu.id = "mobile-menu";
+      menu.className = "mobile-menu";
+      menu.setAttribute("aria-hidden", "true");
+      document.body.appendChild(menu);
     }
-    sheet.setAttribute("aria-hidden", "true");
-    sheet.innerHTML = `
-      <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
-      <nav class="nav-mobile" aria-label="${t("nav.menu")}">
-        <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
-        ${navItems(here)}
-        <div class="nav-mobile-tools">${tools}</div>
-      </nav>`;
+    menu.innerHTML = `
+      <button class="mobile-menu__backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
+      <aside class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="${t("nav.menu")}">
+        <div class="mobile-menu__head">
+          <p class="mobile-menu__slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
+          <button class="mobile-menu__close" type="button" data-menu-close data-i18n="nav.close" aria-label="${t("nav.close")}"></button>
+        </div>
+        <nav class="mobile-menu__links" aria-label="${t("nav.menu")}">
+          ${navItems(here)}
+        </nav>
+        <div class="mobile-menu__tools">${tools}</div>
+      </aside>`;
   }
   if (footer) {
     footer.innerHTML = `
@@ -491,7 +518,7 @@ function mountChrome() {
         setMenu(!head?.classList.contains("is-open"));
         return;
       }
-      if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a")) {
+      if (e.target.closest("[data-menu-close]") || e.target.closest(".mobile-menu__links a") || e.target.closest(".mobile-menu__tools a")) {
         setMenu(false);
       }
       if (e.target.closest("[data-lang]")) {
