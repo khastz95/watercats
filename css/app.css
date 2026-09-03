@@ -268,7 +268,33 @@ button { cursor: pointer; border: 0; background: none; }
   border-radius: var(--radius);
   padding: 14px;
 }
-.player-card { text-align: left; }
+.player-card { text-align: left; display: block; }
+.player-card:hover { border-color: var(--blue); }
+.player-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.mini-stats dt {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mini-stats dd {
+  font-family: var(--display);
+  font-size: 18px;
+  margin-top: 2px;
+}
 .player-card .photo {
   width: 100%;
   aspect-ratio: 1;
@@ -286,12 +312,26 @@ button { cursor: pointer; border: 0; background: none; }
 .meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
 .chip {
   display: inline-block;
-  margin-top: 8px;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 8px;
+  white-space: nowrap;
 }
+.chip-active { color: var(--blue); border-color: var(--blue); }
+
+.source {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+/* Número que veio do CSRep, não do painel. */
+.is-csrep { position: relative; }
+td.is-csrep { color: var(--blue); }
+.stat.is-csrep b { color: var(--blue); }
 
 .stat { text-align: left; padding: 16px; }
 .stat b {
@@ -337,10 +377,12 @@ td a:hover { color: var(--blue); }
 
 .profile {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 32px;
-  padding: 40px 0 64px;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  padding: 40px 0 24px;
+  align-items: start;
 }
+.profile-side { display: grid; gap: 12px; justify-items: start; }
 .profile-side .photo {
   width: 100%;
   aspect-ratio: 1;
@@ -349,6 +391,20 @@ td a:hover { color: var(--blue); }
   background: var(--photo);
   border: 1px solid var(--line);
 }
+.info-list {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.info-list dt {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.info-list dd { font-size: 14px; margin-top: 2px; word-break: break-word; }
 .profile h1 {
   font-family: var(--display);
   font-size: clamp(32px, 6vw, 56px);

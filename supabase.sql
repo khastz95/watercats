@@ -78,8 +78,10 @@ alter table public.players enable row level security;
 alter table public.player_stats enable row level security;
 alter table public.clips enable row level security;
 
+-- Elenco base. Os dados públicos (Steam, nome real, cidade) entram
+-- pelo `npm run seed`; função, bio e números ficam vazios de propósito.
 insert into public.players (id, name, color, sort_order, status) values
-  ('s4mlz', 's4mlz', '#20B8FF', 1, 'active'),
+  ('s4mz', 's4mz', '#20B8FF', 1, 'active'),
   ('fury', 'fury', '#008CFF', 2, 'active'),
   ('bill', 'bill', '#006BFF', 3, 'active'),
   ('khastz', 'khastz', '#7AD7FF', 4, 'active'),
