@@ -2,27 +2,29 @@ const I18N = {
   pt: {
     "nav.home": "Início",
     "nav.players": "Elenco",
-    "nav.stats": "Estatísticas",
+    "nav.stats": "Números",
     "nav.clips": "Jogadas",
+    "nav.about": "Sobre",
     "nav.login": "Entrar",
     "nav.admin": "Painel",
     "nav.menu": "Menu",
     "nav.close": "Fechar",
-    "hero.kicker": "WTC · CS2",
-    "hero.tagline": "Cinco nomes. Uma tag.",
-    "hero.lede": "A casa dos Watercats. Quem joga, como cada um tá jogando e as jogadas que a gente não deixa morrer.",
-    "cta.players": "Quem tá na tag",
+    "hero.kicker": "Watercats · CS2",
+    "hero.tagline": "OLD FRIENDS. SAME GAMES.",
+    "hero.lede": "A amizade veio antes do servidor. Aqui mora o time, o momento de cada um e as jogadas que a gente ainda manda no grupo.",
+    "cta.players": "Ver o time",
     "cta.clips": "Ver as jogadas",
-    "cta.discord": "Discord da casa",
-    "home.kicker": "O time",
-    "home.roster": "O time",
+    "cta.discord": "Discord",
+    "cta.about": "Quem somos",
+    "home.kicker": "Cinco pontas",
+    "home.roster": "Quem joga",
     "home.strip": "Cinco na tag. Fichas, números e jogadas no mesmo lugar.",
-    "star.sub": "Cinco pontas. O time todo aqui.",
-    "star.hint": "Passe o mouse em alguém pra ver o resumo. Clica se quiser a ficha inteira.",
-    "home.clips": "As que a gente não cansa de ver",
-    "home.stats": "O placar da casa",
+    "star.sub": "O time inteiro numa estrela.",
+    "star.hint": "Passe o mouse pra ver o resumo. Clica se quiser a ficha.",
+    "home.clips": "As que ficam",
+    "home.stats": "O placar",
     "home.hot": "Em fase",
-    "home.hot.sub": "Os três com o rating mais alto agora.",
+    "home.hot.sub": "Quem tá com o rating mais alto agora.",
     "home.now": "Agora",
     "stat.players": "Jogadores",
     "stat.rating": "Melhor rating",
@@ -30,13 +32,19 @@ const I18N = {
     "stat.clips": "Jogadas",
     "stat.winrate": "Vitórias",
     "stat.premier": "Premier",
-    "players.kicker": "Elenco",
-    "players.sub": "O time inteiro numa estrela. Passe o mouse, ou entra na ficha e vai fundo.",
-    "stats.kicker": "Números",
-    "stats.sub": "Quem tá voando, quem tá de fase e quem ainda deve um clutch. Sem invenção: se tá vazio, ainda não deu.",
+    "players.kicker": "O time",
+    "players.sub": "Cinco nomes, uma estrela. Entra na ficha de quem você veio ver.",
+    "stats.kicker": "Temporada",
+    "stats.sub": "O que cada um tá fazendo na fila. Se o número não apareceu, ainda não deu.",
     "clips.kicker": "Destaques",
     "clips.title": "Jogadas",
-    "clips.sub": "As jogadas da casa. Filtra por jogador se você veio caçar alguém específico.",
+    "clips.sub": "O que a gente não apaga. Filtra por jogador se veio atrás de alguém.",
+    "about.kicker": "A casa",
+    "about.title": "Quem somos",
+    "about.p1": "Watercats é o que sobra quando a amizade dura mais que o jogo da vez. A gente se conhece de antes, joga junto até agora e não tem pressa de virar outra coisa.",
+    "about.p2": "Cinco na tag: khastz, bill, fury, cadu e s4mz. Ficha de cada um, os números da temporada e as jogadas que ainda rodam no grupo.",
+    "about.p3": "CS2 é o servidor de agora. O resto é o de sempre: entrar, jogar e rir do clutch que não veio.",
+    "about.crew": "O time",
     "clips.all": "Todo mundo",
     "clips.play": "Ver jogada",
     "empty.players": "O time ainda tá sendo montado aqui.",
@@ -45,21 +53,21 @@ const I18N = {
     "error.load": "Deu ruim pra carregar. Tenta de novo.",
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
-    "footer.tag": "CS da antiga. Servidor de agora.",
-    "footer.blurb": "Fichas, números e jogadas dos Watercats.",
+    "footer.tag": "OLD FRIENDS. SAME GAMES.",
+    "footer.blurb": "O time, os números e as jogadas dos Watercats.",
     "footer.explore": "Pelas páginas",
     "footer.community": "Onde a gente fala",
     "footer.house": "Painel",
-    "footer.copy": "Feito em casa, pelos Watercats.",
+    "footer.copy": "Feito em casa. Pelos Watercats.",
     "status.active": "Na rotação",
     "status.inactive": "Sumido",
     "status.alumni": "Já foi da casa",
-    "profile.emptyBio": "Bio em branco. O cara existe, o texto que não.",
+    "profile.emptyBio": "Bio em branco. O cara existe. O texto, ainda não.",
     "profile.plays": "Jogadas",
     "profile.info": "Ficha",
     "profile.numbers": "Como tá jogando",
-    "profile.crew": "O resto da tag",
-    "profile.crewSub": "Clica em outro se quiser trocar de ficha.",
+    "profile.crew": "O resto do time",
+    "profile.crewSub": "Clica em outro pra trocar de ficha.",
     "info.realName": "Nome",
     "info.role": "Função",
     "info.from": "De",
@@ -149,27 +157,29 @@ const I18N = {
   en: {
     "nav.home": "Home",
     "nav.players": "Roster",
-    "nav.stats": "Stats",
+    "nav.stats": "Numbers",
     "nav.clips": "Clips",
+    "nav.about": "About",
     "nav.login": "Sign in",
     "nav.admin": "Admin",
     "nav.menu": "Menu",
     "nav.close": "Close",
-    "hero.kicker": "WTC · CS2",
-    "hero.tagline": "Five names. One tag.",
-    "hero.lede": "The Watercats house. Who plays, how they're playing, and the clips nobody lets die.",
-    "cta.players": "See the crew",
+    "hero.kicker": "Watercats · CS2",
+    "hero.tagline": "OLD FRIENDS. SAME GAMES.",
+    "hero.lede": "The friendship was here before the server. This is the roster, how each of us is playing, and the clips we still send in the chat.",
+    "cta.players": "See the roster",
     "cta.clips": "Watch the clips",
-    "cta.discord": "House Discord",
-    "home.kicker": "The crew",
-    "home.roster": "The crew",
+    "cta.discord": "Discord",
+    "cta.about": "Who we are",
+    "home.kicker": "Five points",
+    "home.roster": "Who plays",
     "home.strip": "Five on the tag. Profiles, numbers and clips in one place.",
-    "star.sub": "Five points. The whole crew.",
-    "star.hint": "Hover someone for a snapshot. Click if you want the full page.",
-    "home.clips": "The ones we keep sending",
-    "home.stats": "House scoreboard",
+    "star.sub": "The whole roster on a star.",
+    "star.hint": "Hover for a snapshot. Click for the full page.",
+    "home.clips": "The ones that stay",
+    "home.stats": "The board",
     "home.hot": "In form",
-    "home.hot.sub": "The three highest ratings right now.",
+    "home.hot.sub": "Highest ratings right now.",
     "home.now": "Now",
     "stat.players": "Players",
     "stat.rating": "Best rating",
@@ -177,13 +187,19 @@ const I18N = {
     "stat.clips": "Clips",
     "stat.winrate": "Wins",
     "stat.premier": "Premier",
-    "players.kicker": "Roster",
-    "players.sub": "The whole crew on a star. Hover, or open a page and go deep.",
-    "stats.kicker": "Numbers",
-    "stats.sub": "Who's popping off, who's in a slump, and who still owes a clutch. Empty means we don't have it yet.",
+    "players.kicker": "The roster",
+    "players.sub": "Five names, one star. Open the page of whoever you came for.",
+    "stats.kicker": "Season",
+    "stats.sub": "What each of us is doing in queue. Empty means it isn't in yet.",
     "clips.kicker": "Highlights",
     "clips.title": "Clips",
-    "clips.sub": "House clips. Filter by player if you came looking for someone.",
+    "clips.sub": "The ones we don't delete. Filter by player if you came looking for someone.",
+    "about.kicker": "The house",
+    "about.title": "Who we are",
+    "about.p1": "Watercats is what remains when friendship outlasts the game of the month. We knew each other first. We still play. We're not in a rush to become something else.",
+    "about.p2": "Five on the tag: khastz, bill, fury, cadu and s4mz. A page for each, the season's numbers, and the clips that still loop in the chat.",
+    "about.p3": "CS2 is the server now. The rest is the same as always: queue up, play, and laugh at the clutch that didn't come.",
+    "about.crew": "The roster",
     "clips.all": "Everyone",
     "clips.play": "Watch clip",
     "empty.players": "The crew isn't up here yet.",
@@ -192,12 +208,12 @@ const I18N = {
     "error.load": "Couldn't load this. Try again.",
     "retry": "Try again",
     "skip": "Skip to content",
-    "footer.tag": "Old CS. Current servers.",
-    "footer.blurb": "Profiles, numbers and clips from the Watercats.",
+    "footer.tag": "OLD FRIENDS. SAME GAMES.",
+    "footer.blurb": "The roster, the numbers and the clips from Watercats.",
     "footer.explore": "Around the site",
     "footer.community": "Where we talk",
     "footer.house": "Panel",
-    "footer.copy": "Made at home, by Watercats.",
+    "footer.copy": "Made at home. By Watercats.",
     "status.active": "In rotation",
     "status.inactive": "MIA",
     "status.alumni": "Used to be here",
@@ -205,7 +221,7 @@ const I18N = {
     "profile.plays": "Clips",
     "profile.info": "Profile",
     "profile.numbers": "How they play",
-    "profile.crew": "The rest of the tag",
+    "profile.crew": "The rest of the roster",
     "profile.crewSub": "Click someone else to switch pages.",
     "info.realName": "Name",
     "info.role": "Role",
@@ -310,8 +326,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=27`;
-  const icon = `/img/icon-${t}.png?v=27`;
+  const logo = `/img/logo-${t}.png?v=29`;
+  const icon = `/img/icon-${t}.png?v=29`;
   document.querySelectorAll("[data-logo]").forEach((el) => {
     if (el.classList.contains("is-player")) return;
     el.src = logo;
@@ -348,6 +364,7 @@ function pageId() {
   const path = location.pathname.replace(/\/+$/, "") || "/";
   if (path === "/" || path === "/index") return "home";
   if (path.startsWith("/players/") || path.startsWith("/jogador/")) return "player";
+  if (path.startsWith("/sobre") || path.startsWith("/about")) return "about";
   if (path.startsWith("/login") || path.startsWith("/admin")) return "login";
   return path.replace(/^\//, "");
 }
@@ -357,7 +374,8 @@ function navItems(here) {
     ["/", here === "home", "nav.home"],
     ["/players", here === "players" || here === "player", "nav.players"],
     ["/stats", here === "stats", "nav.stats"],
-    ["/clips", here === "clips", "nav.clips"]
+    ["/clips", here === "clips", "nav.clips"],
+    ["/sobre", here === "about", "nav.about"]
   ].map(([href, on, key]) =>
     `<a href="${href}" class="${on ? "is-on" : ""}" data-i18n="${key}"></a>`
   ).join("");
@@ -366,9 +384,11 @@ function navItems(here) {
 function setMenu(open) {
   const header = document.getElementById("header");
   const toggle = document.querySelector("[data-menu]");
+  const sheet = document.getElementById("nav-sheet");
   if (!header) return;
   header.classList.toggle("is-open", open);
   document.body.classList.toggle("nav-open", open);
+  if (sheet) sheet.setAttribute("aria-hidden", open ? "false" : "true");
   if (toggle) {
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
@@ -381,8 +401,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=27`;
-  const icon = `/img/icon-${th}.png?v=27`;
+  const logo = `/img/logo-${th}.png?v=29`;
+  const icon = `/img/icon-${th}.png?v=29`;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
@@ -410,14 +430,22 @@ function mountChrome() {
             <span></span><span></span><span></span>
           </button>
         </div>
-      </div>
-      <div class="nav-sheet" id="nav-sheet">
-        <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
-        <nav class="nav-mobile" aria-label="${t("nav.menu")}">
-          ${navItems(here)}
-          ${tools}
-        </nav>
       </div>`;
+    let sheet = document.getElementById("nav-sheet");
+    if (!sheet) {
+      sheet = document.createElement("div");
+      sheet.id = "nav-sheet";
+      sheet.className = "nav-sheet";
+      document.body.appendChild(sheet);
+    }
+    sheet.setAttribute("aria-hidden", "true");
+    sheet.innerHTML = `
+      <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
+      <nav class="nav-mobile" aria-label="${t("nav.menu")}">
+        <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
+        ${navItems(here)}
+        <div class="nav-mobile-tools">${tools}</div>
+      </nav>`;
   }
   if (footer) {
     footer.innerHTML = `
@@ -433,6 +461,7 @@ function mountChrome() {
           <a href="/players" data-i18n="nav.players"></a>
           <a href="/stats" data-i18n="nav.stats"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
+          <a href="/sobre" data-i18n="nav.about"></a>
         </div>
         <div class="footer-col">
           <h3 data-i18n="footer.community"></h3>
@@ -454,30 +483,34 @@ function mountChrome() {
         </div>
       </div>`;
   }
-  header?.addEventListener("click", (e) => {
-    if (e.target.closest("[data-menu]")) {
-      setMenu(!header.classList.contains("is-open"));
-      return;
-    }
-    if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a")) {
-      setMenu(false);
-    }
-    if (e.target.closest("[data-lang]")) {
-      localStorage.setItem(LANG_KEY, lang() === "pt" ? "en" : "pt");
-      applyI18n();
-    }
-    if (e.target.closest("[data-theme-btn]")) {
-      localStorage.setItem(THEME_KEY, theme() === "light" ? "dark" : "light");
-      applyTheme();
-      applyI18n();
-    }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setMenu(false);
-  });
-  window.addEventListener("resize", () => {
-    if (window.matchMedia("(min-width: 901px)").matches) setMenu(false);
-  });
+  if (!document.documentElement.dataset.chromeBound) {
+    document.documentElement.dataset.chromeBound = "1";
+    document.addEventListener("click", (e) => {
+      const head = document.getElementById("header");
+      if (e.target.closest("[data-menu]")) {
+        setMenu(!head?.classList.contains("is-open"));
+        return;
+      }
+      if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a")) {
+        setMenu(false);
+      }
+      if (e.target.closest("[data-lang]")) {
+        localStorage.setItem(LANG_KEY, lang() === "pt" ? "en" : "pt");
+        applyI18n();
+      }
+      if (e.target.closest("[data-theme-btn]")) {
+        localStorage.setItem(THEME_KEY, theme() === "light" ? "dark" : "light");
+        applyTheme();
+        applyI18n();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setMenu(false);
+    });
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 901px)").matches) setMenu(false);
+    });
+  }
   applyI18n();
 }
 
@@ -631,7 +664,7 @@ function skillBars(p) {
 }
 
 function photoFrame(p) {
-  const icon = `/img/icon-${theme()}.png?v=27`;
+  const icon = `/img/icon-${theme()}.png?v=29`;
   return `<div class="photo-frame">
     <span class="frame-orbit"></span>
     <span class="frame-orbit is-slow"></span>
@@ -813,7 +846,7 @@ function starRoster(players, options = {}) {
       ${starPop(p)}
     </a>`;
   }).join("");
-  const mark = `/img/icon-${theme()}.png?v=27`;
+  const mark = `/img/icon-${theme()}.png?v=29`;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
     <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
@@ -897,7 +930,7 @@ function houseCards(players, clips) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);

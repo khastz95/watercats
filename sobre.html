@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobre · Watercats</title>
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+  <link rel="icon" href="/img/icon-dark.png?v=29" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css?v=29">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap">
+    <section class="about-hero">
+      <p class="kicker" data-i18n="about.kicker"></p>
+      <h1 data-i18n="about.title"></h1>
+      <p class="tagline">OLD FRIENDS. <span>SAME GAMES.</span></p>
+      <div class="about-copy">
+        <p data-i18n="about.p1"></p>
+        <p data-i18n="about.p2"></p>
+        <p data-i18n="about.p3"></p>
+      </div>
+      <div class="actions">
+        <a class="btn" href="/players" data-i18n="cta.players"></a>
+        <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+        <a class="btn btn-ghost" href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer" data-i18n="cta.discord"></a>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="about.crew"></p>
+          <h2 data-i18n="about.crew"></h2>
+        </div>
+        <a href="/players" data-i18n="cta.players"></a>
+      </div>
+      <div id="roster"></div>
+    </section>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js?v=29"></script>
+  <script>
+    function render() {
+      WTC.api("/api/players")
+        .then(({ players }) => {
+          document.getElementById("roster").innerHTML = players.length
+            ? WTC.starRoster(players)
+            : WTC.emptyBox("empty.players");
+          WTC.motion();
+        })
+        .catch(() => { document.getElementById("roster").innerHTML = WTC.errorBox(); });
+    }
+    render();
+    document.addEventListener("wtc:lang", render);
+  </script>
+</body>
+</html>
