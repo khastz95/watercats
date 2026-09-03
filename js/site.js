@@ -134,7 +134,14 @@ function theme() {
 }
 
 function applyTheme() {
-  document.documentElement.setAttribute("data-theme", theme());
+  const t = theme();
+  document.documentElement.setAttribute("data-theme", t);
+  const logo = `/img/logo-${t}.png?v=10`;
+  const icon = `/img/icon-${t}.png?v=10`;
+  document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
+  document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
+  const fav = document.querySelector("link[rel=icon]");
+  if (fav) fav.href = icon;
 }
 
 function t(key) {
@@ -166,12 +173,14 @@ function mountChrome() {
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const here = pageId();
-  const logo = "/img/logo.png?v=9";
+  const th = theme();
+  const logo = `/img/logo-${th}.png?v=10`;
+  const icon = `/img/icon-${th}.png?v=10`;
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
         <a class="brand" href="/">
-          <img src="${logo}" alt="">
+          <img src="${icon}" alt="" data-icon>
           <span class="brand-name">WATER<span>CATS</span></span>
         </a>
         <nav class="nav">
@@ -189,7 +198,7 @@ function mountChrome() {
     footer.innerHTML = `
       <div class="wrap footer-grid">
         <div class="footer-brand">
-          <img src="${logo}" alt="WATERCATS">
+          <img src="${logo}" alt="WATERCATS" data-logo>
           <p class="footer-tag" data-i18n="footer.tag"></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
         </div>
