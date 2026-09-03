@@ -306,8 +306,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=14`;
-  const icon = `/img/icon-${t}.png?v=14`;
+  const logo = `/img/logo-${t}.png?v=26`;
+  const icon = `/img/icon-${t}.png?v=26`;
   document.querySelectorAll("[data-logo]").forEach(el => el.src = logo);
   document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
   const fav = document.querySelector("link[rel=icon]");
@@ -374,12 +374,19 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=14`;
-  const icon = `/img/icon-${th}.png?v=14`;
+  const logo = `/img/logo-${th}.png?v=26`;
+  const icon = `/img/icon-${th}.png?v=26`;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
     <a class="nav-login" href="/login" data-i18n="nav.login"></a>`;
+  if (!document.querySelector(".page-mark")) {
+    const mark = document.createElement("div");
+    mark.className = "page-mark";
+    mark.setAttribute("aria-hidden", "true");
+    mark.innerHTML = `<img src="${logo}" alt="" data-logo>`;
+    document.body.insertBefore(mark, document.body.firstChild);
+  }
   if (header) {
     header.innerHTML = `
       <div class="header-bar">
@@ -388,7 +395,7 @@ function mountChrome() {
             <img src="${icon}" alt="" data-icon>
             <span class="brand-name">WATER<span>CATS</span></span>
           </a>
-          <nav class="nav" aria-label="WATERCATS">
+          <nav class="nav" aria-label="Watercats">
             <div class="nav-links">${navItems(here)}</div>
             <div class="nav-tools">${tools}</div>
           </nav>
@@ -409,7 +416,7 @@ function mountChrome() {
     footer.innerHTML = `
       <div class="wrap footer-grid">
         <div class="footer-brand">
-          <img src="${logo}" alt="WATERCATS" data-logo>
+          <img src="${logo}" alt="Watercats" data-logo>
           <p class="footer-tag" data-i18n="footer.tag"></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
         </div>
@@ -435,7 +442,7 @@ function mountChrome() {
       </div>
       <div class="footer-bar">
         <div class="wrap">
-          <p>WATERCATS · 2026</p>
+          <p>Watercats · 2026</p>
           <p data-i18n="footer.copy"></p>
         </div>
       </div>`;
@@ -659,14 +666,25 @@ function starRoster(players, options = {}) {
       ${starPop(p)}
     </a>`;
   }).join("");
-  return `<div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
-    <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
-      <polygon class="star-ring" points="${pts(pent)}" />
-      <polygon class="star-shape" pathLength="100" points="${pts(star)}" />
-      <polygon class="star-inner" points="${pts(inner)}" />
-    </svg>
-    ${nodes}
-  </div>${compact ? "" : `<p class="star-hint">${escapeHtml(t("star.hint"))}</p>`}`;
+  const mark = `/img/icon-${theme()}.png?v=26`;
+  return `<div class="star-stage${compact ? " is-compact" : ""}">
+    <div class="star-glow" aria-hidden="true"></div>
+    <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
+      <div class="star-back" aria-hidden="true">
+        <span class="star-orbit"></span>
+        <span class="star-orbit is-mid"></span>
+        <span class="star-orbit is-slow"></span>
+        <img class="star-logo" src="${mark}" alt="" data-icon>
+      </div>
+      <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
+        <polygon class="star-ring" points="${pts(pent)}" />
+        <polygon class="star-shape" pathLength="100" points="${pts(star)}" />
+        <polygon class="star-inner" points="${pts(inner)}" />
+      </svg>
+      ${nodes}
+    </div>
+    ${compact ? "" : `<p class="star-hint">${escapeHtml(t("star.hint"))}</p>`}
+  </div>`;
 }
 
 function spotCard(p, rank) {
@@ -708,10 +726,29 @@ function factStrip(players, clips) {
   return items.map(([n, label]) => `<div class="fact"><b>${n}</b><span>${label}</span></div>`).join("");
 }
 
+function houseCards(players, clips) {
+  const all = (players || []).map(stats);
+  const ratings = all.map((s) => s.rating).filter((v) => v != null);
+  const topRating = ratings.length ? Math.max(...ratings) : null;
+  const maps = all.reduce((n, s) => n + (s.matches || 0), 0);
+  const winrates = all.map((s) => s.winrate).filter((v) => v != null);
+  const avgWin = winrates.length ? winrates.reduce((a, b) => a + b, 0) / winrates.length : null;
+  const premiers = all.map((s) => s.premier).filter((v) => v != null);
+  const topPremier = premiers.length ? Math.max(...premiers) : null;
+  return [
+    [players.length, t("stat.players")],
+    [dash(topRating, 2), t("stat.rating")],
+    [dash(maps), t("stat.maps")],
+    [(clips || []).length, t("stat.clips")],
+    [avgWin == null ? "—" : pct(avgWin), t("stat.winrate")],
+    [dash(topPremier), t("stat.premier")]
+  ].map(([n, label]) => `<div class="card stat"><b>${n}</b><span>${label}</span></div>`).join("");
+}
+
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-roster, .table-wrap, .clip-filters, .login .card, .profile, .hot-grid, .card, .spot, .house-strip";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login .card, .profile, .hot-grid, .card, .spot, .house-strip, .players";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     return;
@@ -813,6 +850,6 @@ window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
   playerCard, starRoster, clipCard, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
-  spotCard, pulseLine, factStrip, motion,
+  spotCard, pulseLine, factStrip, houseCards, motion,
   TOKEN_KEY
 };
