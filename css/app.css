@@ -328,10 +328,23 @@ button { cursor: pointer; border: 0; background: none; }
   color: var(--muted);
   font-size: 12px;
 }
-/* Número que veio do CSRep, não do painel. */
-.is-csrep { position: relative; }
-td.is-csrep { color: var(--blue); }
-.stat.is-csrep b { color: var(--blue); }
+/* Resultado das últimas partidas (Leetify). */
+.form { display: flex; gap: 4px; margin-top: 12px; }
+.form span {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.form .form-win { color: #fff; background: var(--blue); border-color: transparent; }
+.form .form-loss { color: #fff; background: var(--red); border-color: transparent; }
+.form-block { margin-top: 22px; }
+.form-block .form { margin-top: 8px; }
 
 .stat { text-align: left; padding: 16px; }
 .stat b {

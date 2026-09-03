@@ -138,15 +138,15 @@ statsForm.addEventListener("submit", async (e) => {
   } catch (err) { say(err.message); }
 });
 
-document.getElementById("csrep-sync").addEventListener("click", async (e) => {
+document.getElementById("leetify-sync").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
   btn.disabled = true;
-  say("Sincronizando com o CSRep…", true);
+  say("Sincronizando com a Leetify…", true);
   try {
-    const { results } = await WTC.api("/api/csrep", { method: "POST", body: {} });
+    const { results } = await WTC.api("/api/leetify", { method: "POST", body: {} });
     const falhas = results.filter((r) => !r.ok);
     if (falhas.length) say(falhas.map((r) => `${r.id}: ${r.error}`).join(" · "));
-    else say(`CSRep sincronizado (${results.length} jogadores).`, true);
+    else say(`Leetify sincronizada (${results.length} jogadores).`, true);
     await reload();
   } catch (err) {
     say(err.message);

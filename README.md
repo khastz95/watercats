@@ -107,14 +107,14 @@ Toda alteração exige token (`x-admin-token`) depois do login, ou o PIN em `x-e
 | `api/stats.js` | `PUT` | Atualiza estatísticas de um jogador. |
 | `api/clips.js` | `GET` `PUT` `DELETE` | Clipes; o link precisa ser da allstar.gg. |
 | `api/photo.js` | `POST` | Envio de foto (JPG, PNG, WEBP, GIF, até 1,5 MB). |
-| `api/csrep.js` | `GET` `POST` | Lê o que já veio do CSRep; o `POST` sincroniza os jogadores com SteamID64. |
+| `api/leetify.js` | `GET` `POST` | Lê o que já veio da Leetify; o `POST` sincroniza os jogadores com SteamID64. |
 
 ### Servidor (`lib/` e `scripts/`)
 
 | Arquivo | Descrição |
 | --- | --- |
 | `lib/cloud.js` | Acesso ao Supabase, sessão, leitura do clipe e gravação. A chave de serviço fica só aqui. |
-| `lib/csrep.js` | Chamada à API do CSRep e leitura da resposta. |
+| `lib/leetify.js` | Chamada à API pública da Leetify e leitura da resposta. |
 | `lib/http.js` | Leitura do corpo da requisição e respostas JSON. |
 | `scripts/db.js` | Carrega o `.env.local` e abre a conexão com o Postgres. |
 | `scripts/migrate.js` | Aplica `supabase.sql` no Postgres. |
@@ -138,19 +138,25 @@ Três tabelas no schema `public`:
 
 Estatísticas vazias aparecem como "—" no site.
 
-## CSRep
+## Leetify
 
-O [CSRep](https://csrep.gg/docs) libera a API por pedido, então é preciso ter a chave em `CSREP_API_KEY`. A rota também é configurável, porque a documentação fica atrás de login:
+Os números vêm da [API pública da Leetify](https://api-public-docs.cs-prod.leetify.com). Não precisa de chave: `LEETIFY_API_KEY` é opcional e só afrouxa o limite de requisições ([pega em leetify.com/app/developer](https://leetify.com/app/developer)).
 
-```
-CSREP_API_KEY=            chave recebida do CSRep
-CSREP_API_BASE=           padrão https://csrep.gg/api
-CSREP_API_PATH=           padrão /v1/players/{steamId}
-```
+O painel tem o botão **Sincronizar Leetify** na aba Estatísticas. Ele chama `GET /v3/profile?steam64_id=…` para cada jogador e guarda o resultado em `player_stats.extra.leetify`, sem tocar no que foi preenchido à mão.
 
-O painel tem o botão **Sincronizar CSRep** na aba Estatísticas. Ele busca cada jogador pelo SteamID64 e guarda a resposta inteira em `player_stats.extra.csrep` — nada é reescrito por cima do que foi preenchido à mão.
+O que a Leetify devolve e o site mostra:
 
-Na tela, número que veio do CSRep aparece em azul; o que foi digitado no painel fica na cor normal. Campo preenchido à mão sempre ganha do CSRep.
+| Campo | Vem de |
+| --- | --- |
+| Rating Leetify | `ranks.leetify` |
+| Premier | `ranks.premier` |
+| Vitórias | `winrate` |
+| Partidas | `total_matches` |
+| Mira, Posicionamento, Utilitária, Clutch, Entrada | `rating.*` |
+| Tiros na cabeça, Rajada certeira, Pré-mira, Reação | `stats.*` |
+| Últimas 5 partidas | `recent_matches` |
+
+**K/D e ADR a Leetify não devolve** — esses continuam saindo do painel. O perfil só responde para quem tem conta na Leetify com o perfil público; os cinco do elenco estão públicos.
 
 Os SteamID64 do elenco:
 
@@ -173,7 +179,6 @@ SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 EDIT_PIN=
 POSTGRES_URL_NON_POOLING=
-CSREP_API_KEY=
 ```
 
 `EDIT_PIN` é a senha de `/login`. `POSTGRES_URL_NON_POOLING` só é preciso para a migração.

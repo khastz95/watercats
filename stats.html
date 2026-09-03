@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Estatísticas · WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=12" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=13" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=12">
+  <link rel="stylesheet" href="/css/app.css?v=13">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -23,32 +23,32 @@
     <div id="board"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=12"></script>
+  <script src="/js/site.js?v=13"></script>
   <script>
     function render() {
       const board = document.getElementById("board");
       WTC.api("/api/players").then(({ players }) => {
-        let anyCsrep = false;
         let lastSync = null;
-        const rows = players.map((p) => {
-          const s = WTC.effectiveStats(p);
-          if (WTC.fromCsrep(s)) anyCsrep = true;
-          if (p.csrep && p.csrep.syncedAt && (!lastSync || p.csrep.syncedAt > lastSync)) {
-            lastSync = p.csrep.syncedAt;
+        // Maior rating primeiro; quem não tem número vai para o fim.
+        const ordered = players
+          .map((p) => ({ p, s: WTC.stats(p) }))
+          .sort((a, b) => (b.s.rating ?? -Infinity) - (a.s.rating ?? -Infinity));
+
+        const rows = ordered.map(({ p, s }) => {
+          if (p.leetify && p.leetify.syncedAt && (!lastSync || p.leetify.syncedAt > lastSync)) {
+            lastSync = p.leetify.syncedAt;
           }
-          const cell = (entry, digits = 0) =>
-            `<td${entry.csrep ? ' class="is-csrep"' : ""}>${WTC.dash(entry.value, digits)}</td>`;
           return `<tr>
             <th scope="row"><a href="/jogador/${encodeURIComponent(p.id)}">${WTC.escapeHtml(p.name)}</a></th>
-            <td>${WTC.escapeHtml(p.role) || "—"}</td>
-            ${cell(s.rating, 2)}
-            ${cell(s.kd, 2)}
-            ${cell(s.adr, 1)}
-            ${cell(s.hsPercent, 1)}
-            ${cell(s.mapsPlayed)}
-            <td>${WTC.dash(s.wins.value)}/${WTC.dash(s.losses.value)}</td>
-            ${cell(s.kills)}
-            ${cell(s.clutches)}
+            <td>${WTC.dash(s.rating, 2)}</td>
+            <td>${WTC.dash(s.premier)}</td>
+            <td>${WTC.pct(s.winrate)}</td>
+            <td>${WTC.dash(s.matches)}</td>
+            <td>${WTC.dash(s.aim, 1)}</td>
+            <td>${WTC.dash(s.positioning, 1)}</td>
+            <td>${WTC.dash(s.utility, 1)}</td>
+            <td>${s.hsAccuracy == null ? "—" : WTC.dash(s.hsAccuracy, 1) + "%"}</td>
+            <td>${s.reactionMs == null ? "—" : WTC.dash(s.reactionMs)}</td>
           </tr>`;
         }).join("");
 
@@ -56,16 +56,16 @@
           board.innerHTML = WTC.emptyBox("empty.stats");
           return;
         }
-        const note = anyCsrep
-          ? `<p class="source">${WTC.t("csrep.sub")}${lastSync ? ` ${WTC.t("csrep.synced")} ${new Date(lastSync).toLocaleDateString()}.` : ""}</p>`
-          : "";
+        const note = lastSync
+          ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lastSync).toLocaleDateString()}.</p>`
+          : `<p class="source">${WTC.t("lf.empty")}</p>`;
         board.innerHTML = `
           <div class="table-wrap"><table>
             <thead><tr>
-              <th>${WTC.t("th.player")}</th><th>${WTC.t("th.role")}</th><th>${WTC.t("th.rating")}</th>
-              <th>${WTC.t("th.kd")}</th><th>${WTC.t("th.adr")}</th><th>${WTC.t("th.hs")}</th>
-              <th>${WTC.t("th.maps")}</th><th>${WTC.t("th.wl")}</th><th>${WTC.t("th.kills")}</th>
-              <th>${WTC.t("th.clutches")}</th>
+              <th>${WTC.t("th.player")}</th><th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.premier")}</th>
+              <th>${WTC.t("lf.winrate")}</th><th>${WTC.t("lf.matches")}</th><th>${WTC.t("lf.aim")}</th>
+              <th>${WTC.t("lf.positioning")}</th><th>${WTC.t("lf.utility")}</th><th>${WTC.t("lf.hs")}</th>
+              <th>${WTC.t("lf.reaction")}</th>
             </tr></thead>
             <tbody>${rows}</tbody>
           </table></div>${note}`;
