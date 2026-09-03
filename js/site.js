@@ -381,11 +381,26 @@ function navItems(here) {
   ).join("");
 }
 
+let menuScrollY = 0;
+
 function setMenu(open) {
   const header = document.getElementById("header");
   const toggle = document.querySelector("[data-menu]");
   const sheet = document.getElementById("nav-sheet");
   if (!header) return;
+  const isOpen = header.classList.contains("is-open");
+  if (open === isOpen) return;
+  if (open) {
+    menuScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = `-${menuScrollY}px`;
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+  } else {
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, menuScrollY);
+  }
   header.classList.toggle("is-open", open);
   document.body.classList.toggle("nav-open", open);
   if (sheet) sheet.setAttribute("aria-hidden", open ? "false" : "true");
@@ -491,7 +506,7 @@ function mountChrome() {
         setMenu(!head?.classList.contains("is-open"));
         return;
       }
-      if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a")) {
+      if (e.target.closest("[data-menu-close]") || e.target.closest(".nav-mobile a") || e.target.closest(".nav-mobile button")) {
         setMenu(false);
       }
       if (e.target.closest("[data-lang]")) {

@@ -60,6 +60,8 @@ body {
   position: relative;
   isolation: isolate;
   min-height: 100dvh;
+  width: 100%;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   font-family: var(--font);
@@ -123,7 +125,11 @@ main { flex: 1; position: relative; z-index: 1; }
 [data-theme="light"] .page-mark img { opacity: 0.08; }
 [data-theme="light"] .page-mark img.is-player { opacity: 0.1; }
 
-body.nav-open { overflow: hidden; }
+body.nav-open {
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
 
 img { max-width: 100%; display: block; }
 .star-photo,
@@ -245,7 +251,7 @@ button { cursor: pointer; border: 0; background: none; }
   z-index: 3;
   width: 44px;
   height: 44px;
-  margin-right: -8px;
+  margin-right: 0;
   align-items: center;
   justify-content: center;
   flex: none;
@@ -1575,6 +1581,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hot-grid, .facts { grid-template-columns: 1fr; }
   .clip.is-featured { grid-template-columns: 1fr; }
   .profile-hero { padding: 24px 18px 20px; }
+  .header-inner { gap: 14px; }
   .nav { display: none; }
   .menu-toggle { display: inline-flex; }
   .nav-sheet {
@@ -1587,6 +1594,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     z-index: 35;
     pointer-events: none;
     visibility: hidden;
+    overflow: hidden;
   }
   body.nav-open .nav-sheet {
     pointer-events: auto;
@@ -1607,7 +1615,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(360px, 88vw);
+    width: min(340px, 100vw);
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -1680,13 +1689,16 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hero, .profile, .profile-hero-grid, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr; }
   .home-stats { grid-template-columns: repeat(2, 1fr); }
   .hero { padding-top: 28px; }
+  .header-inner { gap: 10px; }
   .skill { grid-template-columns: 1fr auto; }
   .skill i { grid-column: 1 / -1; }
   .brand img { height: 40px; }
   .brand-name { font-size: 18px; }
+  .star-stage,
+  .star-roster { overflow-x: hidden; }
   :root { --header: 64px; }
   .star-node { width: 20%; }
-  .star-chip { font-size: 10px; padding: 3px 6px; }
+  .star-chip { font-size: 10px; padding: 3px 6px; max-width: 100%; }
   .star-pop { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
