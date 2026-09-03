@@ -133,7 +133,7 @@ statsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   try {
     await WTC.api("/api/stats", { method: "PUT", body: formData(statsForm) });
-    say("Stats salvas.", true);
+    say("Estatísticas salvas.", true);
     await reload();
   } catch (err) { say(err.message); }
 });

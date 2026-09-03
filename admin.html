@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Painel · WATERCATS</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/logo.png?v=8" type="image/png">
+  <link rel="icon" href="/img/logo.png?v=9" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:ital,wght@0,500;0,700;1,700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=8">
+  <link rel="stylesheet" href="/css/app.css?v=9">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap admin">
     <div class="section-head">
       <div>
-        <p class="live"><i></i> Editor</p>
+        <p class="live"><i></i> Edição</p>
         <h2>Painel</h2>
         <p>Edite jogadores, estatísticas e links da allstar.gg.</p>
       </div>
@@ -39,7 +39,7 @@
             <select name="status">
               <option value="active">Ativo</option>
               <option value="inactive">Inativo</option>
-              <option value="alumni">Alumni</option>
+              <option value="alumni">Ex-jogador</option>
             </select>
           </div>
           <div class="field"><label>País</label><input name="country"></div>
@@ -77,15 +77,15 @@
           <div class="field"><label>Mapas</label><input name="mapsPlayed" type="number"></div>
           <div class="field"><label>Vitórias</label><input name="wins" type="number"></div>
           <div class="field"><label>Derrotas</label><input name="losses" type="number"></div>
-          <div class="field"><label>Kills</label><input name="kills" type="number"></div>
-          <div class="field"><label>Deaths</label><input name="deaths" type="number"></div>
-          <div class="field"><label>Assists</label><input name="assists" type="number"></div>
-          <div class="field"><label>First kills</label><input name="firstKills" type="number"></div>
+          <div class="field"><label>Abates</label><input name="kills" type="number"></div>
+          <div class="field"><label>Mortes</label><input name="deaths" type="number"></div>
+          <div class="field"><label>Assistências</label><input name="assists" type="number"></div>
+          <div class="field"><label>Primeiros abates</label><input name="firstKills" type="number"></div>
           <div class="field"><label>Clutches</label><input name="clutches" type="number"></div>
           <div class="field"><label>MVP</label><input name="mvp" type="number"></div>
         </div>
         <div class="actions" style="margin-top:12px">
-          <button class="btn" type="submit">Salvar stats</button>
+          <button class="btn" type="submit">Salvar estatísticas</button>
         </div>
       </form>
     </section>
@@ -114,7 +114,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=8"></script>
-  <script src="/js/admin.js?v=8"></script>
+  <script src="/js/site.js?v=9"></script>
+  <script src="/js/admin.js?v=9"></script>
 </body>
 </html>

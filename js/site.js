@@ -38,7 +38,7 @@ const I18N = {
     "footer.copy": "Feito pelos Watercats.",
     "status.active": "Ativo",
     "status.inactive": "Inativo",
-    "status.alumni": "Alumni",
+    "status.alumni": "Ex-jogador",
     "profile.emptyBio": "Sem bio ainda — o painel preenche no login.",
     "profile.plays": "Jogadas",
     "th.player": "Jogador",
@@ -166,7 +166,7 @@ function mountChrome() {
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const here = pageId();
-  const logo = "/img/logo.png?v=8";
+  const logo = "/img/logo.png?v=9";
   if (header) {
     header.innerHTML = `
       <div class="wrap header-inner">
