@@ -1846,14 +1846,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   color: inherit;
 }
 .star-node.is-on { z-index: 3; }
-.star-node.is-locked {
-  width: 12%;
-  pointer-events: none;
-  z-index: 0;
-}
-.star-node.is-locked .star-orb {
-  animation: lockedPulse 3.6s ease-in-out infinite;
-}
 .locked-face {
   position: relative;
   display: grid;
@@ -2146,8 +2138,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .reveal,
   .reveal.is-in { animation: none; opacity: 1; transform: none; stroke-dashoffset: 0; }
   .locked-face,
-  .locked-face::after,
-  .star-node.is-locked .star-orb { animation: none; }
+  .locked-face::after { animation: none; }
   .is-in .skill i b { transition: none; }
   body::before,
   .water-caustics,
