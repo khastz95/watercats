@@ -361,8 +361,8 @@ const I18N = {
 
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
-const MARK = "/img/badge.png?v=61";
-const WORD = "/img/wordmark-dark.png?v=61";
+const MARK = "/img/badge.png?v=62";
+const WORD = "/img/wordmark-dark.png?v=62";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
