@@ -26,6 +26,10 @@ const I18N = {
     "star.sub": "Os cinco na mesa.",
     "players.locked": "Fechado",
     "star.hint": "Puxe a ficha da mesa.",
+    "deal.set": "Watercats",
+    "deal.game": "CS2",
+    "deal.xp": "sessões",
+    "deal.campaign": "Campanha",
     "home.clips": "Jogadas",
     "home.clips.sub": "Rounds que alguém gravou. A seleção muda a cada visita; o arquivo completo está na página de jogadas.",
     "home.stats": "A temporada",
@@ -203,6 +207,10 @@ const I18N = {
     "star.sub": "The five on the table.",
     "players.locked": "Locked",
     "star.hint": "Pull a sheet from the table.",
+    "deal.set": "Watercats",
+    "deal.game": "CS2",
+    "deal.xp": "sessions",
+    "deal.campaign": "Campaign",
     "home.clips": "Clips",
     "home.clips.sub": "Rounds someone recorded. The selection changes every visit; the full archive is on the clips page.",
     "home.stats": "The season",
@@ -358,8 +366,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=56";
-const WORD = (t) => `/img/wordmark-${t}.png?v=56`;
+const MARK = "/img/badge.png?v=57";
+const WORD = (t) => `/img/wordmark-${t}.png?v=57`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -882,6 +890,18 @@ function playerCard(p) {
 
 // Mão na mesa, esquerda → direita. khastz no centro.
 const STAR_SLOTS = ["fury", "s4mz", "khastz", "cadu", "bill"];
+const CARD_INK = {
+  khastz: "#6A70C8",
+  s4mz: "#4A88D6",
+  cadu: "#C88868",
+  bill: "#4C9A88",
+  fury: "#3A6CB8"
+};
+
+function cardInk(p) {
+  if (p && CARD_INK[p.id]) return CARD_INK[p.id];
+  return (p && p.color) || "#4A7CC8";
+}
 
 function starOrder(players) {
   const byId = Object.fromEntries((players || []).filter((p) => p && p.id).map((p) => [p.id, p]));
@@ -894,29 +914,38 @@ function starOrder(players) {
 function dealCard(p, options = {}) {
   const s = stats(p);
   const on = p.id === options.currentId;
-  const klass = p.role || "Watercats";
+  const klass = p.role || t("deal.set");
   const from = place(p);
-  const color = p.color || "#006BFF";
+  const color = cardInk(p);
   const pip = dash(s.rating, 2);
   const form = formBadges(p);
+  const slot = String(options.slot || 1).padStart(2, "0");
+  const party = String(options.party || 5).padStart(2, "0");
+  const wr = s.winrate == null || s.winrate === "" ? null : Math.max(0, Math.min(100, Number(s.winrate) * 100));
+  const wrLabel = wr == null ? "" : `${wr.toFixed(0)}%`;
   return `<a class="deal-card${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(color)}" aria-current="${on ? "page" : "false"}">
-    <span class="deal-pip" aria-hidden="true"><b>${pip}</b><i>WTC</i></span>
-    <span class="deal-pip is-foot" aria-hidden="true"><b>${pip}</b><i>WTC</i></span>
+    <span class="deal-pip" aria-hidden="true"><b>${pip}</b><em class="deal-gem"></em></span>
+    <span class="deal-no" aria-hidden="true">${slot}/${party}</span>
+    <span class="deal-pip is-foot" aria-hidden="true"><b>${pip}</b><em class="deal-gem"></em></span>
     <span class="deal-inner">
+      <span class="deal-cuts" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span class="deal-art">
         ${playerPhoto(p, "deal-photo")}
         <span class="deal-plate">
           <span class="deal-name">${escapeHtml(p.name)}</span>
-          <span class="deal-type">${escapeHtml(klass)}${from ? ` · ${escapeHtml(from)}` : ""}</span>
+          <span class="deal-type">${escapeHtml(t("deal.set"))} — ${escapeHtml(klass)}${from ? ` · ${escapeHtml(from)}` : ""}</span>
         </span>
       </span>
+      <span class="deal-rule" aria-hidden="true"></span>
       <span class="deal-sheet">
         <span class="deal-stats">
           <span class="deal-stat"><b>${dash(s.rating, 2)}</b><i>${t("lf.rating")}</i></span>
           <span class="deal-stat"><b>${dash(s.premier)}</b><i>${t("lf.premier")}</i></span>
           <span class="deal-stat"><b>${dash(s.aim, 1)}</b><i>${t("lf.aim")}</i></span>
         </span>
+        ${wr == null ? "" : `<span class="deal-camp"><span class="deal-camp-lab">${escapeHtml(t("deal.campaign"))}<b>${wrLabel}</b></span><span class="deal-bar"><i style="width:${wr}%"></i></span></span>`}
         ${form ? `<span class="deal-quests">${form}</span>` : ""}
+        <span class="deal-foot"><span>${escapeHtml(t("deal.game"))}</span><span>${dash(s.matches)} ${escapeHtml(t("deal.xp"))}</span></span>
       </span>
     </span>
   </a>`;
@@ -926,7 +955,7 @@ function starRoster(players, options = {}) {
   const roster = starOrder(players);
   if (!roster.length) return "";
   const compact = Boolean(options.compact);
-  const cards = roster.map((p) => dealCard(p, options)).join("");
+  const cards = roster.map((p, i) => dealCard(p, { ...options, slot: i + 1, party: roster.length })).join("");
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="deal${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
       ${cards}
