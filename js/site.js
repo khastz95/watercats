@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=53";
-const WORD = (t) => `/img/wordmark-${t}.png?v=53`;
+const MARK = "/img/badge.png?v=54";
+const WORD = (t) => `/img/wordmark-${t}.png?v=54`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -756,13 +756,7 @@ function skillBars(p) {
 }
 
 function photoFrame(p) {
-  const icon = MARK;
-  return `<div class="photo-frame">
-    <span class="frame-orbit"></span>
-    <span class="frame-orbit is-slow"></span>
-    <img class="frame-mark" src="${icon}" alt="" data-icon>
-    ${playerPhoto(p, "frame-photo")}
-  </div>`;
+  return `<div class="photo-frame">${playerPhoto(p, "frame-photo")}</div>`;
 }
 
 function tintMark(src) {
@@ -928,12 +922,6 @@ function starRoster(players, options = {}) {
     const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
     return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
   });
-  const innerR = r * 0.382;
-  const inner = [0, 1, 2, 3, 4].map((i) => {
-    const a = Math.PI / 2 + i * (2 * Math.PI / 5);
-    return [cx + innerR * Math.cos(a), cy + innerR * Math.sin(a)];
-  });
-  const star = [0, 2, 4, 1, 3].map((i) => pent[i]);
   const pts = (arr) => arr.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
   const nodes = roster.map((p, i) => {
     const [x, y] = pent[i] || pent[0];
@@ -946,18 +934,12 @@ function starRoster(players, options = {}) {
   }).join("");
   const mark = MARK;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
-    <div class="star-glow" aria-hidden="true"></div>
     <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
       <div class="star-back" aria-hidden="true">
-        <span class="star-orbit"></span>
-        <span class="star-orbit is-mid"></span>
-        <span class="star-orbit is-slow"></span>
         <img class="star-logo" src="${mark}" alt="" data-icon>
       </div>
       <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
         <polygon class="star-ring" points="${pts(pent)}" />
-        <polygon class="star-shape" pathLength="100" points="${pts(star)}" />
-        <polygon class="star-inner" points="${pts(inner)}" />
       </svg>
       ${nodes}
     </div>
