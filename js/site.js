@@ -176,8 +176,6 @@ const I18N = {
     "login.password": "Senha",
     "login.submit": "Entrar",
     "login.bad": "Senha errada.",
-    "theme.light": "Claro",
-    "theme.dark": "Escuro",
     "lang.switch": "EN"
   },
   en: {
@@ -357,31 +355,21 @@ const I18N = {
     "login.password": "Password",
     "login.submit": "Sign in",
     "login.bad": "Wrong password.",
-    "theme.light": "Light",
-    "theme.dark": "Dark",
     "lang.switch": "PT"
   }
 };
 
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
-const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=60";
-const WORD = (t) => `/img/wordmark-${t}.png?v=60`;
+const MARK = "/img/badge.png?v=61";
+const WORD = "/img/wordmark-dark.png?v=61";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
 }
 
-function theme() {
-  return localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
-}
-
 function applyTheme() {
-  const t = theme();
-  document.documentElement.setAttribute("data-theme", t);
-  const word = WORD(t);
-  document.querySelectorAll("[data-wordmark]").forEach((el) => { el.src = word; });
+  document.querySelectorAll("[data-wordmark]").forEach((el) => { el.src = WORD; });
   document.querySelectorAll("[data-logo]").forEach((el) => {
     if (el.classList.contains("is-player")) return;
     el.src = MARK;
@@ -400,9 +388,6 @@ function applyI18n() {
   });
   document.querySelectorAll("[data-lang]").forEach((el) => {
     el.textContent = t("lang.switch");
-  });
-  document.querySelectorAll("[data-theme-btn]").forEach((el) => {
-    el.textContent = t(theme() === "light" ? "theme.dark" : "theme.light");
   });
   const toggle = document.querySelector("[data-menu]");
   if (toggle) {
@@ -500,7 +485,6 @@ function mountChrome() {
   const logo = MARK;
   const tools = `
     <button class="lang" type="button" data-lang></button>
-    <button class="theme" type="button" data-theme-btn></button>
     <a class="nav-login" href="/login" data-i18n="nav.login"></a>`;
   if (!document.querySelector(".page-mark")) {
     const mark = document.createElement("div");
@@ -516,7 +500,7 @@ function mountChrome() {
           <a class="brand" href="/">
             <img class="brand-seal" src="${logo}" alt="" data-icon>
             <span class="brand-lockup">
-              <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
+              <img src="${WORD}" alt="Watercats" data-wordmark>
               <span class="brand-sub">OLD FRIENDS. <em>SAME GAMES.</em></span>
             </span>
           </a>
@@ -541,7 +525,7 @@ function mountChrome() {
       <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
       <nav class="nav-mobile" aria-label="${t("nav.menu")}">
         <div class="nav-mobile-head">
-          <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
+          <img src="${WORD}" alt="Watercats" data-wordmark>
           <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
         </div>
         <div class="nav-mobile-links">${navItems(here)}</div>
@@ -554,7 +538,7 @@ function mountChrome() {
         <div class="footer-brand">
           <a class="footer-mark" href="/">
             <img class="footer-seal" src="${logo}" alt="" data-icon>
-            <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
+            <img src="${WORD}" alt="Watercats" data-wordmark>
           </a>
           <p class="footer-tag">OLD FRIENDS. <em>SAME GAMES.</em></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
@@ -598,11 +582,6 @@ function mountChrome() {
       }
       if (e.target.closest("[data-lang]")) {
         localStorage.setItem(LANG_KEY, lang() === "pt" ? "en" : "pt");
-        applyI18n();
-      }
-      if (e.target.closest("[data-theme-btn]")) {
-        localStorage.setItem(THEME_KEY, theme() === "light" ? "dark" : "light");
-        applyTheme();
         applyI18n();
       }
     });
