@@ -693,8 +693,78 @@ function formBadges(p) {
   ).join("")}</div>`;
 }
 
+const IDENTITY = {
+  khastz: { given: "Saulo", tag: "khastz95", family: "Padilha", city: "Guarapuava", region: "PR", role: "Entry Fragger", mark: "'" },
+  fury: { given: "Junior", tag: "fury", family: "Lisboa", city: "Guarapuava", region: "PR", role: "IGL", mark: "'" },
+  s4mz: { given: "Samuel", tag: "s4mz", family: "Lisboa", city: "Curitiba", region: "PR", role: "AWP", mark: "'" },
+  bill: { given: "Yago", tag: "BILLZERA", family: "Ventura", city: "Seropédica", region: "RJ", role: "Entry Fragger", mark: "'" },
+  cadu: { given: "Victor", tag: "Cadu", family: "Assunção", city: "Belém", region: "PA", role: "Lucker", mark: '"' }
+};
+
+function identity(p) {
+  const extra = IDENTITY[p && p.id] || {};
+  const city = extra.city || (p && p.city) || "";
+  const region = extra.region || (p && p.country) || "";
+  const given = extra.given || "";
+  const family = extra.family || "";
+  return {
+    given,
+    tag: extra.tag || (p && p.name) || "",
+    family,
+    mark: extra.mark || "'",
+    realName: given && family ? `${given} ${family}` : ((p && p.realName) || ""),
+    city,
+    region,
+    role: extra.role || (p && p.role) || "",
+    place: [city, region].filter(Boolean).join(" ")
+  };
+}
+
 function place(p) {
-  return [p.city, p.country].filter(Boolean).join(", ");
+  return identity(p).place;
+}
+
+function displayName(p) {
+  const idn = identity(p);
+  if (idn.given && idn.family) return `${idn.given} ${idn.mark}${idn.tag}${idn.mark} ${idn.family}`;
+  return (p && (p.realName || p.name)) || "";
+}
+
+function displayNameHtml(p) {
+  const idn = identity(p);
+  if (idn.given && idn.family) {
+    return `${escapeHtml(idn.given)} <b class="aka">${escapeHtml(idn.mark)}${escapeHtml(idn.tag)}${escapeHtml(idn.mark)}</b> ${escapeHtml(idn.family)}`;
+  }
+  return escapeHtml((p && p.name) || "");
+}
+
+function steamId64(p) {
+  const id = String((p && p.steamId) || "").replace(/\D/g, "");
+  return id.length >= 15 ? id : "";
+}
+
+function profileLinks(p) {
+  const id = steamId64(p);
+  const items = [];
+  const steam = (p && p.steamUrl) || (id && `https://steamcommunity.com/profiles/${id}`);
+  if (steam) items.push(["Steam", steam]);
+  if (id) items.push(["Leetify", `https://leetify.com/app/profile/${id}`]);
+  if (id) items.push(["CSRep", `https://csrep.gg/player/${id}`]);
+  const faceit = (p && p.faceitUrl)
+    || (p && p.faceitNick && `https://www.faceit.com/pt/players/${encodeURIComponent(p.faceitNick)}`)
+    || (id && `https://www.faceit.com/pt/search/players/${id}`);
+  if (faceit) items.push(["FACEIT", faceit]);
+  if (id) items.push(["GC", `https://gcsteamcommunity.com/profiles/${id}`]);
+  if (p && p.twitchUrl) items.push(["Twitch", p.twitchUrl]);
+  return items;
+}
+
+function profileLinkBar(p) {
+  const items = profileLinks(p);
+  if (!items.length) return "";
+  return `<nav class="dossier-links" aria-label="Perfis">${items.map(([label, href]) =>
+    `<a class="dossier-link" href="${escapeAttr(href)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`
+  ).join("")}</nav>`;
 }
 
 const PORTRAITS = {
@@ -745,7 +815,11 @@ function skillBars(p) {
 }
 
 function photoFrame(p) {
-  return `<div class="photo-frame">${playerPhoto(p, "frame-photo")}</div>`;
+  return `<div class="photo-frame dossier-frame">
+    <span class="seal-ring" aria-hidden="true"></span>
+    <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    ${playerPhoto(p, "frame-photo")}
+  </div>`;
 }
 
 function tintMark(src) {
@@ -763,27 +837,34 @@ function tintMark(src) {
 function profileHero(p, options = {}) {
   const s = stats(p);
   const src = photoOf(p);
-  const color = p.color || "#006BFF";
-  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  const idn = identity(p);
+  const color = cardInk(p);
   const highlights = [
     countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2),
     countBox(dash(s.premier), t("lf.premier"), s.premier),
     countBox(s.winrate == null ? "—" : pct(s.winrate), t("lf.winrate"), s.winrate == null ? null : s.winrate * 100, 1, "%"),
     countBox(dash(s.matches), t("lf.matches"), s.matches)
   ].join("");
-  return `<section class="profile-hero" style="--player:${escapeAttr(color)}">
+  const tags = [
+    idn.role && `<span class="chip chip-role">${escapeHtml(idn.role)}</span>`,
+    idn.place && `<span class="chip chip-place">${escapeHtml(idn.place)}</span>`,
+    `<span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>`
+  ].filter(Boolean).join("");
+  return `<section class="profile-hero dossier" style="--player:${escapeAttr(color)}">
     <div class="profile-back" aria-hidden="true">
       ${src ? `<img src="${escapeAttr(src)}" alt="">` : ""}
-      <b>${escapeHtml(p.name)}</b>
+      <b>${escapeHtml(idn.tag || p.name)}</b>
     </div>
     <div class="profile-hero-grid">
       ${photoFrame(p)}
       <div class="profile-main">
-        <p class="kicker">${escapeHtml(sub || "Watercats")}</p>
-        <h1>${escapeHtml(p.name)}</h1>
-        <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
-        <p class="bio">${escapeHtml(p.bio) || t("profile.emptyBio")}</p>
-        ${options.links ? `<div class="links">${options.links}</div>` : ""}
+        <p class="kicker">${escapeHtml(idn.role || t("nav.players"))}</p>
+        <h1 class="dossier-name">${displayNameHtml(p)}</h1>
+        ${idn.place ? `<p class="dossier-place">${escapeHtml(idn.place)}</p>` : ""}
+        <div class="dossier-tags">${tags}</div>
+        ${p.bio ? `<p class="bio">${escapeHtml(p.bio)}</p>` : ""}
+        ${profileLinkBar(p)}
+        ${options.links || ""}
         ${recentForm(p).length ? `
           <div class="form-block">
             <p class="kicker">${t("lf.form")}</p>
@@ -851,11 +932,12 @@ function lockedCard() {
 
 function playerCard(p) {
   const s = stats(p);
-  const sub = p.realName || p.role || place(p);
-  return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}">
+  const idn = identity(p);
+  const sub = [idn.realName, idn.place, idn.role].filter(Boolean).join(" · ");
+  return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
     <div class="player-card-photo">${playerPhoto(p)}</div>
     <div class="player-card-head">
-      <h3>${escapeHtml(p.name)}</h3>
+      <h3>${escapeHtml(idn.tag || p.name)}</h3>
       <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
     </div>
     ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
@@ -947,8 +1029,9 @@ function starRoster(players, options = {}) {
 
 function spotCard(p, rank) {
   const s = stats(p);
-  const sub = p.role || place(p);
-  return `<a class="card spot" href="/jogador/${encodeURIComponent(p.id)}">
+  const idn = identity(p);
+  const sub = [idn.realName, idn.role || idn.place].filter(Boolean).join(" · ");
+  return `<a class="card spot" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
     <span class="spot-rank">${String(rank).padStart(2, "0")}</span>
     ${playerPhoto(p, "spot-photo")}
     <div class="spot-body">
@@ -1079,7 +1162,8 @@ function seasonNum(key, text, on) {
 }
 
 function seasonSheet(p, s, rank, lead) {
-  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  const idn = identity(p);
+  const sub = [idn.realName, idn.role, idn.place].filter(Boolean).join(" · ");
   const ink = cardInk(p);
   return `<a class="card season-sheet is-${rank}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(ink)}">
     <span class="season-rank">${String(rank).padStart(2, "0")}</span>
@@ -1256,5 +1340,6 @@ window.WTC = {
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
+  identity, displayName, profileLinks, cardInk,
   TOKEN_KEY
 };

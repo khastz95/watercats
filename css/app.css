@@ -2729,3 +2729,127 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .season-face { display: none; }
   .season-nums { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.dossier {
+  padding: 28px 28px 24px;
+  background:
+    linear-gradient(125deg, color-mix(in srgb, var(--player, var(--blue)) 18%, transparent), transparent 42%),
+    var(--surface);
+}
+.dossier-frame {
+  overflow: hidden;
+  border-radius: 0;
+  background:
+    var(--cut-frame),
+    color-mix(in srgb, var(--player, var(--blue)) 12%, var(--surface));
+  box-shadow:
+    inset 0 0 0 7px color-mix(in srgb, var(--player, var(--blue)) 16%, transparent),
+    0 18px 36px rgba(0, 12, 32, 0.28);
+}
+.dossier-frame .seal-ring {
+  inset: 10px;
+  z-index: 2;
+}
+.dossier-frame .seal-gems { z-index: 3; }
+.dossier-frame .frame-photo,
+.dossier-frame .photo {
+  width: 86%;
+  border-radius: 0;
+  border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 50%, var(--line));
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--player, var(--blue)) 22%, transparent);
+}
+.dossier-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.18em 0.35em;
+  font-size: clamp(28px, 4.6vw, 52px) !important;
+  letter-spacing: 0.04em !important;
+  text-transform: none !important;
+  line-height: 1.05 !important;
+}
+.dossier-name .aka {
+  color: var(--player, var(--blue));
+  font-weight: 800;
+  font-style: oblique;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: var(--title-glow);
+}
+.dossier-place {
+  margin-top: 8px;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--player, var(--blue)) 70%, var(--text));
+}
+.dossier-place::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--player, var(--blue));
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--player, var(--blue)) 50%, transparent);
+  vertical-align: 1px;
+}
+.dossier-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.dossier-tags .chip-role {
+  color: var(--player, var(--blue));
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 45%, var(--line));
+}
+.dossier-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 4px;
+}
+.dossier-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 36%, var(--line));
+  background: color-mix(in srgb, var(--player, var(--blue)) 10%, transparent);
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.dossier-link:hover {
+  color: #fff;
+  border-color: var(--player, var(--blue));
+  background: color-mix(in srgb, var(--player, var(--blue)) 42%, transparent);
+  transform: translateY(-2px);
+}
+.dossier .profile-hi .stat {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 12%, transparent), transparent 70%),
+    var(--surface);
+}
+.dossier .skill i b { background: var(--player, var(--blue)); }
+.dossier-info {
+  margin-top: 16px;
+}
+.dossier-info > div {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 10%, transparent), var(--surface));
+}
+
+@media (max-width: 640px) {
+  .dossier { padding: 20px 16px 18px; }
+  .dossier-name { font-size: clamp(24px, 8vw, 36px) !important; }
+}
