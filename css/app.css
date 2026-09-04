@@ -76,6 +76,7 @@ body {
   background-attachment: fixed;
   overflow-x: hidden;
   max-width: 100%;
+  padding-top: var(--header);
 }
 body::before {
   content: "";
@@ -259,8 +260,10 @@ button { cursor: pointer; border: 0; background: none; }
 .skip:focus { top: 8px; }
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 40;
   max-width: 100%;
 }
