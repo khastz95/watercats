@@ -356,8 +356,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=45";
-const WORD = (t) => `/img/wordmark-${t}.png?v=45`;
+const MARK = "/img/badge.png?v=46";
+const WORD = (t) => `/img/wordmark-${t}.png?v=46`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -377,8 +377,6 @@ function applyTheme() {
     el.src = MARK;
   });
   document.querySelectorAll("[data-icon]").forEach((el) => { el.src = MARK; });
-  const fav = document.querySelector("link[rel=icon]");
-  if (fav) fav.href = MARK;
 }
 
 function t(key) {
