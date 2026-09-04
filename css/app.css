@@ -284,43 +284,37 @@ body.nav-open .header { z-index: 210; }
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   min-width: 0;
   flex: 1 1 auto;
-}
-.brand img {
-  height: 42px;
-  width: 42px;
-  object-fit: contain;
-  flex: none;
-  border-radius: 50%;
 }
 .brand-lockup {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: flex-start;
+  gap: 5px;
   min-width: 0;
 }
-.brand-name {
-  font-family: var(--display);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: 1;
-  white-space: nowrap;
+.brand img {
+  height: 28px;
+  width: auto;
+  max-width: min(210px, 54vw);
+  object-fit: contain;
+  object-position: left center;
+  flex: none;
+  border-radius: 0;
 }
-.brand-name span { color: var(--blue); }
 .brand-sub {
   font-family: var(--display);
-  font-size: clamp(7px, 1.7vw, 9px);
+  font-size: clamp(7px, 1.6vw, 9px);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   line-height: 1;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 .brand-sub em { color: var(--blue); font-style: normal; }
 .nav {
@@ -1951,9 +1945,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hero { padding-top: 28px; }
   .skill { grid-template-columns: 1fr auto; }
   .skill i { grid-column: 1 / -1; }
-  .brand img { height: 36px; width: 36px; }
-  .brand-name { font-size: 17px; letter-spacing: 0.08em; }
-  .brand-sub { letter-spacing: 0.08em; }
+  .brand img { height: 22px; width: auto; max-width: min(168px, 52vw); }
+  .brand-sub { letter-spacing: 0.1em; }
   :root { --header: 68px; }
   .star-node { width: 20%; }
   .star-chip { font-size: 10px; padding: 3px 6px; }
