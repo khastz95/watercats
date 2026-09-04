@@ -366,8 +366,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=57";
-const WORD = (t) => `/img/wordmark-${t}.png?v=57`;
+const MARK = "/img/badge.png?v=58";
+const WORD = (t) => `/img/wordmark-${t}.png?v=58`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -891,11 +891,11 @@ function playerCard(p) {
 // Mão na mesa, esquerda → direita. khastz no centro.
 const STAR_SLOTS = ["fury", "s4mz", "khastz", "cadu", "bill"];
 const CARD_INK = {
-  khastz: "#6A70C8",
-  s4mz: "#4A88D6",
-  cadu: "#C88868",
-  bill: "#4C9A88",
-  fury: "#3A6CB8"
+  khastz: "#7B68D4",
+  s4mz: "#3D8EEC",
+  cadu: "#E09050",
+  bill: "#3CB08A",
+  fury: "#E0C45C"
 };
 
 function cardInk(p) {
