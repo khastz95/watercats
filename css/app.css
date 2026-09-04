@@ -439,7 +439,7 @@ body.nav-open .header { z-index: 210; }
   align-items: center;
   gap: 36px;
   width: max-content;
-  animation: marquee 32s linear infinite;
+  animation: marquee 48s linear infinite;
 }
 .pulse:hover .pulse-track { animation-play-state: paused; }
 .pulse-item {
