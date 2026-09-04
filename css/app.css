@@ -1552,12 +1552,15 @@ td a:hover { color: var(--blue); }
 .profile-hero .chip { margin-top: 10px; }
 
 .info-strip {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin: 8px 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0;
 }
 .info-strip > div {
+  flex: 1 1 calc((100% - 42px) / 4);
+  min-width: 0;
+  min-height: 76px;
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -1569,7 +1572,14 @@ td a:hover { color: var(--blue); }
   text-transform: uppercase;
   color: var(--muted);
 }
-.info-strip dd { font-size: 15px; margin-top: 4px; word-break: break-word; }
+.info-strip dd {
+  font-size: 15px;
+  margin-top: 4px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .skill-bars { display: grid; gap: 10px; margin-top: 22px; position: relative; z-index: 1; }
 .skill {
@@ -2428,6 +2438,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 
 @media (max-width: 900px) {
   .profile, .profile-hero-grid, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr 1fr; }
+  .info-strip > div { flex-basis: calc((100% - 14px) / 2); }
   .footer-brand { grid-column: 1 / -1; }
   .home-stats { grid-template-columns: repeat(3, 1fr); }
   .hot-grid, .facts, .story-grid, .place-box { grid-template-columns: 1fr; }
@@ -2868,9 +2879,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 .dossier .skill i b { background: var(--player, var(--blue)); }
 .dossier-info {
-  margin-top: 16px;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid color-mix(in srgb, var(--player, var(--blue)) 22%, var(--line));
 }
 .dossier-info > div {
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 28%, var(--line));
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 10%, transparent), var(--surface));
 }
@@ -2880,6 +2894,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .dossier-name { font-size: clamp(24px, 8vw, 36px) !important; }
 }
 
+.lf-sheet { padding-top: 36px; }
 .lf-sheet .stats-grid { margin-bottom: 8px; }
 .lf-kicker {
   margin: 22px 0 10px;

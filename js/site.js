@@ -1093,6 +1093,7 @@ function profileHero(p, options = {}) {
     </div>
     <div class="grid stats-grid profile-hi">${highlights}</div>
     ${skillBars(p)}
+    ${options.info ? `<dl class="info-strip dossier-info">${options.info}</dl>` : ""}
   </section>`;
 }
 

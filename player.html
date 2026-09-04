@@ -25,13 +25,13 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=67">
+  <link rel="stylesheet" href="/css/app.css?v=68">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=67"></script>
+  <script src="/js/site.js?v=68"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -77,8 +77,7 @@
       root.style.setProperty("--player", WTC.cardInk(p));
       const clips = p.clips || [];
       root.innerHTML = `
-        ${WTC.profileHero(p)}
-        ${info ? `<dl class="info-strip dossier-info">${info}</dl>` : ""}
+        ${WTC.profileHero(p, { info })}
 
         ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
 
