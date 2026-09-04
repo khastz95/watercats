@@ -57,6 +57,7 @@ const I18N = {
     "stat.premier": "Premier",
     "players.kicker": "Membros",
     "players.sub": "Quem faz parte do clube hoje. Abra uma ficha para ver o perfil, as estatísticas e as jogadas de cada um.",
+    "players.deck": "Fichas",
     "stats.kicker": "Temporada",
     "stats.sub": "Um recorte da temporada: rating, Premier, vitórias e mira dos membros.",
     "clips.kicker": "Arquivo",
@@ -262,6 +263,7 @@ const I18N = {
     "stat.premier": "Premier",
     "players.kicker": "Members",
     "players.sub": "Who's in the club today. Open a profile for stats, clips, and the rest of the page.",
+    "players.deck": "Sheets",
     "stats.kicker": "Season",
     "stats.sub": "A snapshot of the season: rating, Premier, wins, and aim for the members.",
     "clips.kicker": "Archive",
@@ -1141,18 +1143,30 @@ function runCounts(scope) {
   });
 }
 
-function lockedCard() {
+function lockedCard(options = {}) {
+  const no = options.slot ? String(options.slot).padStart(2, "0") : "";
   return `<div class="card player-card is-locked" aria-hidden="true">
+    ${no ? `<span class="sheet-no">${no}</span>` : ""}
+    <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <div class="player-card-photo"><span class="locked-face">?</span></div>
+    <p class="locked-lab">${escapeHtml(t("players.locked"))}</p>
   </div>`;
 }
 
-function playerCard(p) {
+function playerCard(p, options = {}) {
   const s = stats(p);
   const idn = identity(p);
-  const sub = [idn.realName, idn.place, idn.role].filter(Boolean).join(" · ");
+  const sub = [idn.realName, idn.place].filter(Boolean).join(" · ");
+  const slot = options.slot ? String(options.slot).padStart(2, "0") : "";
+  const party = options.party ? String(options.party).padStart(2, "0") : "";
+  const wr = s.winrate == null || s.winrate === "" ? null : Math.max(0, Math.min(100, Number(s.winrate) * 100));
   return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
-    <div class="player-card-photo">${playerPhoto(p)}</div>
+    ${slot ? `<span class="sheet-no">${slot}${party ? "/" + party : ""}</span>` : ""}
+    <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <div class="player-card-photo">
+      ${playerPhoto(p)}
+      ${idn.role ? `<span class="sheet-class">${escapeHtml(idn.role)}</span>` : ""}
+    </div>
     <div class="player-card-head">
       <h3>${escapeHtml(idn.tag || p.name)}</h3>
       <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
@@ -1164,8 +1178,22 @@ function playerCard(p) {
       <div><dt>${t("lf.aim")}</dt><dd>${dash(s.aim, 1)}</dd></div>
     </dl>
     ${skillBars(p)}
+    ${wr == null ? "" : `<span class="sheet-camp"><span>${escapeHtml(t("deal.campaign"))}<b>${wr.toFixed(0)}%</b></span><i><b style="--w:${wr}%"></b></i></span>`}
     ${formBadges(p)}
+    <span class="sheet-foot"><span>${escapeHtml(t("deal.game"))}</span><span>${dash(s.matches)} ${escapeHtml(t("deal.xp"))}</span></span>
   </a>`;
+}
+
+function playerDeck(players) {
+  const roster = starOrder(players);
+  if (!roster.length) return "";
+  const party = roster.length;
+  const sheets = roster.map((p, i) => playerCard(p, { slot: i + 1, party })).join("");
+  const empty = [party + 1, party + 2].map((n) => lockedCard({ slot: n })).join("");
+  return `<div class="players-deck">
+    <p class="kicker players-deck-kicker">${escapeHtml(t("players.deck"))}</p>
+    <div class="grid players">${sheets}${empty}</div>
+  </div>`;
 }
 
 // Mão na mesa, esquerda → direita. khastz no centro.
@@ -1236,7 +1264,11 @@ function starRoster(players, options = {}) {
   if (!roster.length) return "";
   const compact = Boolean(options.compact);
   const cards = roster.map((p, i) => dealCard(p, { ...options, slot: i + 1, party: roster.length })).join("");
+  const glow = compact ? "" : `<div class="party-glow" aria-hidden="true">${roster.map((p) =>
+    `<i style="--player:${escapeAttr(cardInk(p))}"></i>`
+  ).join("")}</div>`;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
+    ${glow}
     <div class="deal${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
       ${cards}
     </div>
@@ -1269,7 +1301,7 @@ function pulseLine(players) {
   if (!list.length) return "";
   const bits = list.map((p) => {
     const s = stats(p);
-    return `<span class="pulse-item">${playerPhoto(p, "pulse-photo")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
+    return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "pulse-photo")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
   }).join("");
   const copies = Math.max(4, Math.ceil(14 / list.length) * 2);
   return `<div class="pulse-track">${Array.from({ length: copies }, () => bits).join("")}</div>`;
@@ -1553,7 +1585,7 @@ document.addEventListener("click", (e) => {
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
-  playerCard, lockedCard, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
+  playerCard, lockedCard, playerDeck, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,

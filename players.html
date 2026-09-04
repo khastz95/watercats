@@ -25,9 +25,9 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=66">
+  <link rel="stylesheet" href="/css/app.css?v=67">
 </head>
-<body>
+<body class="is-players">
   <header class="header" id="header"></header>
   <div class="pulse" id="pulse"></div>
   <main class="wrap section">
@@ -41,7 +41,7 @@
     <div id="list"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=66"></script>
+  <script src="/js/site.js?v=67"></script>
   <script>
     function render() {
       WTC.api("/api/players")
@@ -49,7 +49,9 @@
           const pulse = document.getElementById("pulse");
           if (pulse) pulse.innerHTML = WTC.pulseLine(players);
           document.getElementById("list").innerHTML = players.length
-            ? WTC.starRoster(players) + `<div class="grid players">${players.map(WTC.playerCard).join("")}${WTC.lockedCard()}${WTC.lockedCard()}</div>`
+            ? `<div class="party-inks" aria-hidden="true">${players.map((p) =>
+                `<i style="--player:${WTC.cardInk(p)}"></i>`
+              ).join("")}</div>` + WTC.starRoster(players) + WTC.playerDeck(players)
             : WTC.emptyBox("empty.players");
           WTC.motion();
         })
