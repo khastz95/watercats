@@ -318,6 +318,7 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
+const MARK = "/img/badge.png?v=32";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -328,17 +329,14 @@ function theme() {
 }
 
 function applyTheme() {
-  const t = theme();
-  document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=31`;
-  const icon = `/img/icon-${t}.png?v=31`;
+  document.documentElement.setAttribute("data-theme", theme());
   document.querySelectorAll("[data-logo]").forEach((el) => {
     if (el.classList.contains("is-player")) return;
-    el.src = logo;
+    el.src = MARK;
   });
-  document.querySelectorAll("[data-icon]").forEach(el => el.src = icon);
+  document.querySelectorAll("[data-icon]").forEach((el) => { el.src = MARK; });
   const fav = document.querySelector("link[rel=icon]");
-  if (fav) fav.href = icon;
+  if (fav) fav.href = MARK;
 }
 
 function t(key) {
@@ -407,9 +405,8 @@ function mountChrome() {
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const here = pageId();
-  const th = theme();
-  const logo = `/img/logo-${th}.png?v=31`;
-  const icon = `/img/icon-${th}.png?v=31`;
+  const logo = MARK;
+  const icon = MARK;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
@@ -671,7 +668,7 @@ function skillBars(p) {
 }
 
 function photoFrame(p) {
-  const icon = `/img/icon-${theme()}.png?v=31`;
+  const icon = MARK;
   return `<div class="photo-frame">
     <span class="frame-orbit"></span>
     <span class="frame-orbit is-slow"></span>
@@ -853,7 +850,7 @@ function starRoster(players, options = {}) {
       ${starPop(p)}
     </a>`;
   }).join("");
-  const mark = `/img/icon-${theme()}.png?v=31`;
+  const mark = MARK;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
     <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
