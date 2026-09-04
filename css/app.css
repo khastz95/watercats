@@ -341,11 +341,11 @@ body.nav-open .header { z-index: 210; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
-  padding: 0 11px;
+  min-height: 40px;
+  padding: 0 13px;
   color: var(--muted);
   font-family: var(--display);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -364,9 +364,9 @@ body.nav-open .header { z-index: 210; }
 .nav-links a.is-on::after {
   content: "";
   position: absolute;
-  left: 11px;
-  right: 11px;
-  bottom: 7px;
+  left: 13px;
+  right: 13px;
+  bottom: 8px;
   height: 1px;
   background: var(--blue);
 }
@@ -376,11 +376,11 @@ body.nav-open .header { z-index: 210; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
-  padding: 0 11px;
+  min-height: 36px;
+  padding: 0 13px;
   color: var(--muted);
   font-family: var(--display);
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -504,7 +504,7 @@ body.nav-open .header { z-index: 210; }
   }
   .nav-slogan {
     font-family: var(--display);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
@@ -524,7 +524,7 @@ body.nav-open .header { z-index: 210; }
     width: 100%;
     text-align: left;
     font-family: var(--display);
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -556,11 +556,11 @@ body.nav-open .header { z-index: 210; }
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 40px;
+    min-height: 44px;
     text-align: center;
     border: 1px solid var(--line);
     border-radius: 3px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
