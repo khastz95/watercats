@@ -366,8 +366,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=58";
-const WORD = (t) => `/img/wordmark-${t}.png?v=58`;
+const MARK = "/img/badge.png?v=59";
+const WORD = (t) => `/img/wordmark-${t}.png?v=59`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -514,6 +514,7 @@ function mountChrome() {
       <div class="header-bar">
         <div class="wrap header-inner">
           <a class="brand" href="/">
+            <img class="brand-seal" src="${logo}" alt="" data-icon>
             <span class="brand-lockup">
               <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
               <span class="brand-sub">OLD FRIENDS. <em>SAME GAMES.</em></span>
@@ -552,6 +553,7 @@ function mountChrome() {
       <div class="wrap footer-grid">
         <div class="footer-brand">
           <a class="footer-mark" href="/">
+            <img class="footer-seal" src="${logo}" alt="" data-icon>
             <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
           </a>
           <p class="footer-tag">OLD FRIENDS. <em>SAME GAMES.</em></p>
