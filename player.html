@@ -80,6 +80,13 @@
         ${WTC.profileHero(p)}
         ${info ? `<dl class="info-strip dossier-info">${info}</dl>` : ""}
 
+        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
+
+        <section class="section">
+          <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
+          <div class="grid clips">${WTC.clipPager(clips, shownClips)}</div>
+        </section>
+
         ${roster.length ? `<section class="section star-section">
           <div class="section-head">
             <div>
@@ -89,14 +96,7 @@
             </div>
           </div>
           ${WTC.starRoster(roster, { currentId: p.id, compact: true })}
-        </section>` : ""}
-
-        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
-
-        <section class="section">
-          <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
-          <div class="grid clips">${WTC.clipPager(clips, shownClips)}</div>
-        </section>`;
+        </section>` : ""}`;
       if (window.WTC.motion) WTC.motion();
     }
 
