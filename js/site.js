@@ -21,11 +21,11 @@ const I18N = {
     "cta.about": "O clube",
     "home.kicker": "O clube",
     "home.roster": "Quem joga agora",
-    "home.roster.sub": "Os cinco de hoje. Abra a ficha de cada um para ver perfil, números e jogadas.",
+    "home.roster.sub": "Cinco fichas na mesa. Abra uma para ver perfil, números e jogadas.",
     "home.strip": "Quem já passou por aqui deixou o nome. Quem está agora segue com ele.",
-    "star.sub": "Os cinco de agora.",
+    "star.sub": "Os cinco na mesa.",
     "players.locked": "Fechado",
-    "star.hint": "Puxe uma carta da mesa, ou abra a ficha.",
+    "star.hint": "Puxe a ficha da mesa.",
     "home.clips": "Jogadas",
     "home.clips.sub": "Rounds que alguém gravou. A seleção muda a cada visita; o arquivo completo está na página de jogadas.",
     "home.stats": "A temporada",
@@ -198,11 +198,11 @@ const I18N = {
     "cta.about": "The club",
     "home.kicker": "The club",
     "home.roster": "Who's playing now",
-    "home.roster.sub": "The five today. Open a profile for stats, clips, and the rest of the page.",
+    "home.roster.sub": "Five sheets on the table. Open one for the profile, stats, and clips.",
     "home.strip": "Whoever passed through left the name. Whoever's here now still carries it.",
-    "star.sub": "The five right now.",
+    "star.sub": "The five on the table.",
     "players.locked": "Locked",
-    "star.hint": "Pull a card from the table, or open the profile.",
+    "star.hint": "Pull a sheet from the table.",
     "home.clips": "Clips",
     "home.clips.sub": "Rounds someone recorded. The selection changes every visit; the full archive is on the clips page.",
     "home.stats": "The season",
@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=55";
-const WORD = (t) => `/img/wordmark-${t}.png?v=55`;
+const MARK = "/img/badge.png?v=56";
+const WORD = (t) => `/img/wordmark-${t}.png?v=56`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -894,20 +894,29 @@ function starOrder(players) {
 function dealCard(p, options = {}) {
   const s = stats(p);
   const on = p.id === options.currentId;
-  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  const klass = p.role || "Watercats";
+  const from = place(p);
   const color = p.color || "#006BFF";
+  const pip = dash(s.rating, 2);
+  const form = formBadges(p);
   return `<a class="deal-card${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(color)}" aria-current="${on ? "page" : "false"}">
-    <span class="deal-art">
-      ${playerPhoto(p, "deal-photo")}
-      <span class="deal-stamp">WTC</span>
-    </span>
-    <span class="deal-body">
-      <span class="deal-name">${escapeHtml(p.name)}</span>
-      ${sub ? `<span class="deal-class">${escapeHtml(sub)}</span>` : ""}
-      <span class="deal-stats">
-        <span><b>${dash(s.rating, 2)}</b>${t("lf.rating")}</span>
-        <span><b>${dash(s.premier)}</b>${t("lf.premier")}</span>
-        <span><b>${dash(s.aim, 1)}</b>${t("lf.aim")}</span>
+    <span class="deal-pip" aria-hidden="true"><b>${pip}</b><i>WTC</i></span>
+    <span class="deal-pip is-foot" aria-hidden="true"><b>${pip}</b><i>WTC</i></span>
+    <span class="deal-inner">
+      <span class="deal-art">
+        ${playerPhoto(p, "deal-photo")}
+        <span class="deal-plate">
+          <span class="deal-name">${escapeHtml(p.name)}</span>
+          <span class="deal-type">${escapeHtml(klass)}${from ? ` · ${escapeHtml(from)}` : ""}</span>
+        </span>
+      </span>
+      <span class="deal-sheet">
+        <span class="deal-stats">
+          <span class="deal-stat"><b>${dash(s.rating, 2)}</b><i>${t("lf.rating")}</i></span>
+          <span class="deal-stat"><b>${dash(s.premier)}</b><i>${t("lf.premier")}</i></span>
+          <span class="deal-stat"><b>${dash(s.aim, 1)}</b><i>${t("lf.aim")}</i></span>
+        </span>
+        ${form ? `<span class="deal-quests">${form}</span>` : ""}
       </span>
     </span>
   </a>`;
