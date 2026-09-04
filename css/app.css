@@ -2899,6 +2899,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 
 .lf-sheet { padding-top: 36px; }
+.section-head .lf-sync {
+  flex: none;
+  align-self: center;
+  min-height: 36px;
+  padding: 0 14px;
+}
 .lf-sheet .stats-grid { margin-bottom: 8px; }
 .lf-kicker {
   margin: 22px 0 10px;
