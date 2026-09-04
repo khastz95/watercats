@@ -25,11 +25,12 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=62">
+  <link rel="stylesheet" href="/css/app.css?v=63">
 </head>
 <body>
   <header class="header" id="header"></header>
-  <main class="wrap section">
+  <div class="pulse" id="pulse"></div>
+  <main class="wrap section season-page">
     <div class="section-head">
       <div>
         <p class="kicker" data-i18n="stats.kicker"></p>
@@ -40,7 +41,7 @@
     <div id="board"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=62"></script>
+  <script src="/js/site.js?v=63"></script>
   <script>
     function render() {
       const board = document.getElementById("board");
@@ -48,40 +49,58 @@
         WTC.api("/api/players"),
         WTC.api("/api/clips").catch(() => ({ clips: [] }))
       ]).then(([{ players }, { clips }]) => {
-        let lastSync = null;
-        // Maior rating primeiro; quem não tem número vai para o fim.
-        const ordered = players
-          .map((p) => ({ p, s: WTC.stats(p) }))
-          .sort((a, b) => (b.s.rating ?? -Infinity) - (a.s.rating ?? -Infinity));
-
-        const rows = ordered.map(({ p, s }) => {
-          if (p.leetify && p.leetify.syncedAt && (!lastSync || p.leetify.syncedAt > lastSync)) {
-            lastSync = p.leetify.syncedAt;
-          }
-          return `<tr>
-            <th scope="row">${WTC.whoCell(p)}</th>
-            <td>${WTC.dash(s.rating, 2)}</td>
-            <td>${WTC.dash(s.premier)}</td>
-            <td>${WTC.pct(s.winrate)}</td>
-            <td>${WTC.dash(s.matches)}</td>
-            <td>${WTC.dash(s.aim, 1)}</td>
-            <td>${WTC.dash(s.positioning, 1)}</td>
-            <td>${WTC.dash(s.utility, 1)}</td>
-            <td>${s.hsAccuracy == null ? "—" : WTC.dash(s.hsAccuracy, 1) + "%"}</td>
-            <td>${s.reactionMs == null ? "—" : WTC.dash(s.reactionMs)}</td>
-          </tr>`;
-        }).join("");
+        const pulse = document.getElementById("pulse");
+        if (pulse) pulse.innerHTML = WTC.pulseLine(players);
 
         if (!players.length) {
           board.innerHTML = WTC.emptyBox("empty.stats");
+          WTC.motion();
           return;
         }
+
+        const { ordered, lead, hot, sheets } = WTC.seasonBoard(players);
+        let lastSync = null;
+        const rows = ordered.map(({ p, s, ink }, i) => {
+          if (p.leetify && p.leetify.syncedAt && (!lastSync || p.leetify.syncedAt > lastSync)) {
+            lastSync = p.leetify.syncedAt;
+          }
+          return `<tr class="is-${i + 1}" style="--player:${WTC.escapeAttr(ink)}">
+            <th scope="row">
+              <div class="board-who">
+                <span class="board-rank">${String(i + 1).padStart(2, "0")}</span>
+                ${WTC.whoCell(p)}
+                ${WTC.formBadges(p)}
+              </div>
+            </th>
+            ${WTC.boardCell(WTC.dash(s.rating, 2), WTC.isBest(s.rating, lead.rating))}
+            ${WTC.boardCell(WTC.dash(s.premier), WTC.isBest(s.premier, lead.premier))}
+            ${WTC.boardCell(s.winrate == null ? "—" : WTC.pct(s.winrate), WTC.isBest(s.winrate, lead.winrate))}
+            ${WTC.boardCell(WTC.dash(s.matches), WTC.isBest(s.matches, lead.matches))}
+            ${WTC.boardCell(WTC.dash(s.aim, 1), WTC.isBest(s.aim, lead.aim))}
+            ${WTC.boardCell(WTC.dash(s.positioning, 1), WTC.isBest(s.positioning, lead.positioning))}
+            ${WTC.boardCell(WTC.dash(s.utility, 1), WTC.isBest(s.utility, lead.utility))}
+            ${WTC.boardCell(s.hsAccuracy == null ? "—" : WTC.dash(s.hsAccuracy, 1) + "%", WTC.isBest(s.hsAccuracy, lead.hsAccuracy))}
+            ${WTC.boardCell(s.reactionMs == null ? "—" : WTC.dash(s.reactionMs), WTC.isBest(s.reactionMs, lead.reactionMs))}
+          </tr>`;
+        }).join("");
+
         const note = lastSync
           ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lastSync).toLocaleDateString()}.</p>`
           : `<p class="source">${WTC.t("lf.empty")}</p>`;
         board.innerHTML = `
           <div class="grid stats-grid home-stats house-stats">${WTC.houseCards(players, clips)}</div>
-          <div class="table-wrap"><table>
+          <section class="season-hot">
+            <div class="section-head">
+              <div>
+                <p class="kicker">${WTC.t("home.now")}</p>
+                <h2>${WTC.t("home.hot")}</h2>
+                <p>${WTC.t("home.hot.sub")}</p>
+              </div>
+            </div>
+            <div class="hot-grid">${hot}</div>
+          </section>
+          <div class="season-board">${sheets}</div>
+          <div class="table-wrap season-table"><table>
             <thead><tr>
               <th>${WTC.t("th.player")}</th><th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.premier")}</th>
               <th>${WTC.t("lf.winrate")}</th><th>${WTC.t("lf.matches")}</th><th>${WTC.t("lf.aim")}</th>

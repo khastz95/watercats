@@ -1044,10 +1044,87 @@ function houseCards(players, clips) {
   ].join("");
 }
 
+function isBest(value, lead) {
+  if (value == null || lead == null) return false;
+  const a = Number(value);
+  const b = Number(lead);
+  return Number.isFinite(a) && Number.isFinite(b) && a === b;
+}
+
+function seasonLeaders(rows) {
+  const vals = (key) => rows.map((row) => row.s[key]).filter((v) => v != null && Number.isFinite(Number(v))).map(Number);
+  const max = (key) => {
+    const list = vals(key);
+    return list.length ? Math.max(...list) : null;
+  };
+  const min = (key) => {
+    const list = vals(key);
+    return list.length ? Math.min(...list) : null;
+  };
+  return {
+    rating: max("rating"),
+    premier: max("premier"),
+    winrate: max("winrate"),
+    matches: max("matches"),
+    aim: max("aim"),
+    positioning: max("positioning"),
+    utility: max("utility"),
+    hsAccuracy: max("hsAccuracy"),
+    reactionMs: min("reactionMs")
+  };
+}
+
+function seasonNum(key, text, on) {
+  return `<div class="season-num${on ? " is-best" : ""}"><dt>${t(key)}</dt><dd>${text}</dd></div>`;
+}
+
+function seasonSheet(p, s, rank, lead) {
+  const sub = [p.role, place(p)].filter(Boolean).join(" · ");
+  const ink = cardInk(p);
+  return `<a class="card season-sheet is-${rank}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(ink)}">
+    <span class="season-rank">${String(rank).padStart(2, "0")}</span>
+    <div class="season-face">${playerPhoto(p, "season-photo")}</div>
+    <div class="season-main">
+      <h3>${escapeHtml(p.name)}</h3>
+      ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
+      ${formBadges(p)}
+      ${skillBars(p)}
+    </div>
+    <dl class="season-nums">
+      ${seasonNum("lf.rating", dash(s.rating, 2), isBest(s.rating, lead.rating))}
+      ${seasonNum("lf.premier", dash(s.premier), isBest(s.premier, lead.premier))}
+      ${seasonNum("lf.winrate", s.winrate == null ? "—" : pct(s.winrate), isBest(s.winrate, lead.winrate))}
+      ${seasonNum("lf.matches", dash(s.matches), isBest(s.matches, lead.matches))}
+      ${seasonNum("lf.aim", dash(s.aim, 1), isBest(s.aim, lead.aim))}
+      ${seasonNum("lf.positioning", dash(s.positioning, 1), isBest(s.positioning, lead.positioning))}
+      ${seasonNum("lf.utility", dash(s.utility, 1), isBest(s.utility, lead.utility))}
+      ${seasonNum("lf.hs", s.hsAccuracy == null ? "—" : dash(s.hsAccuracy, 1) + "%", isBest(s.hsAccuracy, lead.hsAccuracy))}
+      ${seasonNum("lf.reaction", s.reactionMs == null ? "—" : dash(s.reactionMs), isBest(s.reactionMs, lead.reactionMs))}
+    </dl>
+  </a>`;
+}
+
+function seasonBoard(players) {
+  const ordered = (players || [])
+    .map((p) => ({ p, s: stats(p) }))
+    .sort((a, b) => (b.s.rating ?? -Infinity) - (a.s.rating ?? -Infinity));
+  const lead = seasonLeaders(ordered);
+  return {
+    ordered: ordered.map((row) => ({ ...row, ink: cardInk(row.p) })),
+    lead,
+    hot: ordered.slice(0, 3).map((row, i) => spotCard(row.p, i + 1)).join(""),
+    sheets: ordered.map((row, i) => seasonSheet(row.p, row.s, i + 1, lead)).join("")
+  };
+}
+
+function boardCell(text, on) {
+  return `<td class="${on ? "is-best" : ""}">${text}</td>`;
+}
+
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .clip-reel, .story-grid, .place-box";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
@@ -1177,7 +1254,7 @@ window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
   playerCard, lockedCard, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
-  spotCard, pulseLine, factStrip, houseCards, motion, pickHomeClips,
+  spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
   TOKEN_KEY
 };
