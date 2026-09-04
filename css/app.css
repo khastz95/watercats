@@ -1029,7 +1029,7 @@ body.nav-open .header { z-index: 210; }
   content: "";
   width: 5px;
   height: 5px;
-  background: color-mix(in srgb, var(--blue) 70%, transparent);
+  background: color-mix(in srgb, var(--player, var(--blue)) 70%, transparent);
   transform: rotate(45deg);
   flex: none;
 }
@@ -1039,8 +1039,9 @@ body.nav-open .header { z-index: 210; }
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 45%, var(--line));
   background: var(--photo);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--player, var(--blue)) 28%, transparent);
 }
 .facts {
   display: grid;
@@ -2383,6 +2384,26 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   border: 0;
   font-size: clamp(42px, 6vw, 72px);
 }
+.player-card.is-locked .player-card-photo::before { display: none; }
+.player-card.is-locked .sheet-gems i {
+  background: var(--muted);
+  box-shadow: none;
+  opacity: 0.35;
+}
+.player-card.is-locked .locked-lab {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--muted);
+}
 
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -2437,7 +2458,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     -webkit-overflow-scrolling: touch;
   }
   .deal::before,
-  .deal::after { display: none; }
+  .deal::after,
+  .party-glow { display: none; }
   .deal-card,
   .deal.is-compact .deal-card {
     width: 200px;
@@ -2478,7 +2500,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .login-mark img,
   .reveal,
   .reveal.is-in { animation: none; opacity: 1; transform: none; }
-  .is-in .skill i b { transition: none; }
+  .is-in .skill i b,
+  .is-in .sheet-camp i b { transition: none; }
+  .deal-gem,
+  .sheet-gems i,
+  .party-inks i { animation: none; }
   body::before,
   .water-caustics,
   .water-field svg,
@@ -3022,4 +3048,225 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 @media (max-width: 640px) {
   .lf-match-top { grid-template-columns: auto minmax(0, 1fr); }
   .lf-match-top strong { grid-column: 2; }
+}
+
+.party-inks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+.party-inks i {
+  width: 10px;
+  height: 10px;
+  background: var(--player, var(--blue));
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--player, var(--blue)) 65%, transparent);
+  animation: gemPulse 2.6s ease-in-out infinite;
+}
+.party-inks i:nth-child(2) { animation-delay: 0.2s; }
+.party-inks i:nth-child(3) { animation-delay: 0.4s; }
+.party-inks i:nth-child(4) { animation-delay: 0.6s; }
+.party-inks i:nth-child(5) { animation-delay: 0.8s; }
+.party-glow {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 6%;
+  height: 46%;
+  display: flex;
+  justify-content: space-evenly;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(34px);
+}
+.party-glow i {
+  width: 22%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--player) 70%, transparent), transparent 72%);
+  opacity: 0.85;
+}
+.deal-gem { animation: gemPulse 2.4s ease-in-out infinite; }
+@keyframes gemPulse {
+  0%, 100% { opacity: 1; transform: rotate(45deg) scale(1); }
+  50% { opacity: 0.55; transform: rotate(45deg) scale(1.2); }
+}
+
+.players-deck { margin-top: 28px; }
+.players-deck-kicker {
+  margin: 0 0 14px;
+  color: color-mix(in srgb, var(--blue) 70%, var(--muted));
+}
+.players { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.player-card {
+  --cut-c: color-mix(in srgb, var(--player, var(--blue)) 70%, var(--line));
+  --title-glow: 0 0 18px color-mix(in srgb, var(--player, var(--blue)) 42%, transparent);
+  padding: 0 14px 14px;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--player, var(--blue)) 22%, transparent), transparent 46%),
+    var(--surface);
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 38%, var(--line));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 16%, transparent),
+    0 0 24px color-mix(in srgb, var(--player, var(--blue)) 10%, transparent);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.player-card::after {
+  background:
+    linear-gradient(var(--player, var(--blue)), var(--player, var(--blue))) 0 0 / var(--gem) var(--gem) no-repeat,
+    linear-gradient(var(--player, var(--blue)), var(--player, var(--blue))) 100% 0 / var(--gem) var(--gem) no-repeat,
+    linear-gradient(var(--player, var(--blue)), var(--player, var(--blue))) 0 100% / var(--gem) var(--gem) no-repeat,
+    linear-gradient(var(--player, var(--blue)), var(--player, var(--blue))) 100% 100% / var(--gem) var(--gem) no-repeat;
+}
+.player-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--player, var(--blue));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 28%, transparent),
+    0 0 36px color-mix(in srgb, var(--player, var(--blue)) 28%, transparent),
+    0 18px 32px rgba(0, 8, 22, 0.4);
+}
+.sheet-no {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--player, var(--blue)) 30%, #fff);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+.sheet-gems {
+  position: absolute;
+  inset: 10px;
+  z-index: 5;
+  pointer-events: none;
+}
+.sheet-gems i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--player, var(--blue));
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--player, var(--blue)) 55%, transparent);
+}
+.sheet-gems i:nth-child(1) { top: 0; left: 0; }
+.sheet-gems i:nth-child(2) { top: 0; right: 0; }
+.sheet-gems i:nth-child(3) { bottom: 0; left: 0; }
+.sheet-gems i:nth-child(4) { bottom: 0; right: 0; }
+.player-card-photo {
+  margin: 0 -14px 14px;
+}
+.player-card-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, color-mix(in srgb, var(--player, var(--blue)) 42%, #fff) 50%, transparent 68%);
+  transform: translateX(-130%);
+  opacity: 0.28;
+}
+.player-card:hover .player-card-photo::before {
+  transform: translateX(130%);
+  transition: transform 0.7s ease;
+}
+.player-card-photo::after {
+  background: linear-gradient(transparent, color-mix(in srgb, var(--player, var(--blue)) 18%, var(--surface)));
+}
+.sheet-class {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 3px 8px;
+  font-family: var(--display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: color-mix(in srgb, var(--player, var(--blue)) 72%, #000);
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--player, var(--blue)) 40%, transparent);
+}
+.player-card h3 {
+  color: color-mix(in srgb, var(--player, var(--blue)) 35%, #fff);
+}
+.player-card .chip-active {
+  color: var(--player, var(--blue));
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 55%, var(--line));
+}
+.player-card .mini-stats {
+  border-top-color: color-mix(in srgb, var(--player, var(--blue)) 22%, var(--line));
+}
+.player-card .mini-stats dd {
+  color: color-mix(in srgb, var(--player, var(--blue)) 28%, #fff);
+}
+.player-card .skill i {
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 28%, var(--line));
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--player, var(--blue)) 12%, transparent) 0 9%, transparent 9% 11%),
+    color-mix(in srgb, var(--player, var(--blue)) 8%, transparent);
+}
+.player-card .skill i b { background: var(--player, var(--blue)); }
+.sheet-camp {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+}
+.sheet-camp span {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sheet-camp b { color: var(--text); font-size: 12px; }
+.sheet-camp > i {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 30%, var(--line));
+  background: color-mix(in srgb, var(--player, var(--blue)) 10%, transparent);
+}
+.sheet-camp > i b {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--player, var(--blue));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--player, var(--blue)) 50%, transparent);
+  transition: width 1s ease;
+}
+.is-in .sheet-camp > i b,
+.reveal.is-in .sheet-camp > i b { width: var(--w); }
+.sheet-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--player, var(--blue)) 24%, var(--line));
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.is-players .section-head::before {
+  background: linear-gradient(90deg, var(--blue), #3cb08a 28%, #e0c45c 48%, #e09050 68%, #7b68d4 88%, transparent);
+}
+.is-players .pulse {
+  border-color: color-mix(in srgb, var(--blue) 28%, var(--line));
+}
+
+@media (max-width: 640px) {
+  .players { grid-template-columns: 1fr; }
+  .player-card:hover { transform: none; }
 }
