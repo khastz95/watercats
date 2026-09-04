@@ -171,6 +171,32 @@ const I18N = {
     "th.wl": "V/D",
     "th.kills": "Kills",
     "th.clutches": "Clutches",
+    "th.source": "Fonte",
+    "th.spray": "Spray",
+    "source.matchmaking": "Premier",
+    "source.faceit": "FACEIT",
+    "source.wingman": "Wingman",
+    "source.renown": "Renown",
+    "source.challengers": "Challengers",
+    "lf.accuracy": "Acerto",
+    "lf.adr": "ADR",
+    "lf.mvp": "MVP",
+    "lf.assists": "Assistências",
+    "lf.survived": "Sobreviveu",
+    "lf.nades": "Granadas",
+    "lf.multi": "Multikills",
+    "lf.damage": "Dano",
+    "lf.hsKills": "HS",
+    "lf.privacy": "Visibilidade",
+    "lf.privacy.public": "Público",
+    "lf.privacy.private": "Privado",
+    "lf.leetifyName": "Na Leetify",
+    "lf.bannedLobby": "Teve punido",
+    "lf.sheet": "Leetify",
+    "lf.history": "Histórico",
+    "lf.rounds": "Rounds",
+    "lf.trades": "Trocas",
+    "th.deaths": "Mortes",
     "login.title": "Acesso",
     "login.body": "Acesso ao painel do clube.",
     "login.password": "Senha",
@@ -350,6 +376,32 @@ const I18N = {
     "th.wl": "W/L",
     "th.kills": "Kills",
     "th.clutches": "Clutches",
+    "th.source": "Source",
+    "th.spray": "Spray",
+    "source.matchmaking": "Premier",
+    "source.faceit": "FACEIT",
+    "source.wingman": "Wingman",
+    "source.renown": "Renown",
+    "source.challengers": "Challengers",
+    "lf.accuracy": "Accuracy",
+    "lf.adr": "ADR",
+    "lf.mvp": "MVP",
+    "lf.assists": "Assists",
+    "lf.survived": "Survived",
+    "lf.nades": "Nades",
+    "lf.multi": "Multikills",
+    "lf.damage": "Damage",
+    "lf.hsKills": "HS",
+    "lf.privacy": "Visibility",
+    "lf.privacy.public": "Public",
+    "lf.privacy.private": "Private",
+    "lf.leetifyName": "On Leetify",
+    "lf.bannedLobby": "Banned player in lobby",
+    "lf.sheet": "Leetify",
+    "lf.history": "History",
+    "lf.rounds": "Rounds",
+    "lf.trades": "Trades",
+    "th.deaths": "Deaths",
     "login.title": "Access",
     "login.body": "Access to the club panel.",
     "login.password": "Password",
@@ -609,37 +661,45 @@ function statusLabel(status) {
 // As 21 métricas da Leetify, agrupadas como na ficha. Mesma ordem e
 // mesmas unidades de lib/leetify.js.
 const METRICS = [
-  { key: "accuracyEnemySpotted", group: "aim", digits: 1, unit: "%" },
-  { key: "accuracyHead", group: "aim", digits: 1, unit: "%" },
-  { key: "sprayAccuracy", group: "aim", digits: 1, unit: "%" },
-  { key: "counterStrafing", group: "aim", digits: 1, unit: "%" },
-  { key: "preaim", group: "aim", digits: 2, unit: "°" },
-  { key: "reactionMs", group: "aim", digits: 0, unit: " ms" },
-  { key: "flashThrown", group: "utility", digits: 1 },
-  { key: "flashFoePerFlash", group: "utility", digits: 2 },
-  { key: "flashFoeDuration", group: "utility", digits: 2, unit: "s" },
-  { key: "flashFriendPerFlash", group: "utility", digits: 2 },
-  { key: "flashToKill", group: "utility", digits: 1, unit: "%" },
-  { key: "heFoesDamage", group: "utility", digits: 1 },
-  { key: "heFriendsDamage", group: "utility", digits: 1 },
-  { key: "utilityOnDeath", group: "utility", digits: 0 },
-  { key: "tradeOpportunities", group: "trade", digits: 2 },
-  { key: "tradeKillsSuccess", group: "trade", digits: 1, unit: "%" },
-  { key: "tradedDeathsSuccess", group: "trade", digits: 1, unit: "%" },
-  { key: "ctOpeningDuel", group: "trade", digits: 1, unit: "%" },
-  { key: "tOpeningDuel", group: "trade", digits: 1, unit: "%" },
-  { key: "ctOpeningAggression", group: "trade", digits: 1, unit: "%" },
-  { key: "tOpeningAggression", group: "trade", digits: 1, unit: "%" }
+  { key: "accuracyEnemySpotted", group: "aim", digits: 1, unit: "%", max: 100 },
+  { key: "accuracyHead", group: "aim", digits: 1, unit: "%", max: 100 },
+  { key: "sprayAccuracy", group: "aim", digits: 1, unit: "%", max: 100 },
+  { key: "counterStrafing", group: "aim", digits: 1, unit: "%", max: 100 },
+  { key: "preaim", group: "aim", digits: 2, unit: "°", max: 16, invert: true },
+  { key: "reactionMs", group: "aim", digits: 0, unit: " ms", max: 800, invert: true },
+  { key: "flashThrown", group: "utility", digits: 1, max: 16 },
+  { key: "flashFoePerFlash", group: "utility", digits: 2, max: 1.6 },
+  { key: "flashFoeDuration", group: "utility", digits: 2, unit: "s", max: 5 },
+  { key: "flashFriendPerFlash", group: "utility", digits: 2, max: 1.2, invert: true },
+  { key: "flashToKill", group: "utility", digits: 1, unit: "%", max: 100 },
+  { key: "heFoesDamage", group: "utility", digits: 1, max: 20 },
+  { key: "heFriendsDamage", group: "utility", digits: 1, max: 8, invert: true },
+  { key: "utilityOnDeath", group: "utility", digits: 0, max: 400, invert: true },
+  { key: "tradeOpportunities", group: "trade", digits: 2, max: 0.8 },
+  { key: "tradeKillsSuccess", group: "trade", digits: 1, unit: "%", max: 100 },
+  { key: "tradedDeathsSuccess", group: "trade", digits: 1, unit: "%", max: 100 },
+  { key: "ctOpeningDuel", group: "trade", digits: 1, unit: "%", max: 100 },
+  { key: "tOpeningDuel", group: "trade", digits: 1, unit: "%", max: 100 },
+  { key: "ctOpeningAggression", group: "trade", digits: 1, unit: "%", max: 100 },
+  { key: "tOpeningAggression", group: "trade", digits: 1, unit: "%", max: 100 }
 ];
 
+function avgRecent(list, key) {
+  const nums = (list || []).map((m) => Number(m[key])).filter(Number.isFinite);
+  if (!nums.length) return null;
+  return nums.reduce((sum, n) => sum + n, 0) / nums.length;
+}
+
 // Números da Leetify quando existirem; senão, o que o painel preencheu.
-// A Leetify não devolve K/D nem ADR, então esses só vêm do painel.
+// K/D e ADR vêm das partidas detalhadas; se ainda não tiverem sido
+// sincronizadas, caem no que o painel guardou.
 function stats(p) {
   const own = p.stats || {};
   const lf = p.leetify || {};
   const ranks = lf.ranks || {};
   const rating = lf.rating || {};
   const metrics = lf.metrics || {};
+  const recent = lf.matchesRecent || [];
   return {
     rating: ranks.leetify ?? own.rating,
     premier: ranks.premier ?? null,
@@ -651,8 +711,8 @@ function stats(p) {
     utility: rating.utility ?? null,
     hsAccuracy: metrics.accuracyHead ?? own.hsPercent,
     reactionMs: metrics.reactionMs ?? null,
-    kd: own.kd,
-    adr: own.adr
+    kd: avgRecent(recent, "kd") ?? own.kd,
+    adr: avgRecent(recent, "adr") ?? own.adr
   };
 }
 
@@ -795,23 +855,177 @@ function countBox(text, label, raw, digits = 0, suffix = "") {
   return `<div class="card stat"><b${attr}>${text}</b><span>${label}</span></div>`;
 }
 
-function skillBars(p) {
+function barPct(value, max = 100, invert = false, bipolar = false) {
+  const n = Number(value);
+  if (!Number.isFinite(n) || !max) return 0;
+  if (bipolar) return Math.max(0, Math.min(100, ((n + max) / (2 * max)) * 100));
+  const p = invert ? 100 - (n / max) * 100 : (n / max) * 100;
+  return Math.max(0, Math.min(100, p));
+}
+
+function skillRow(key, value, digits, max, invert, bipolar) {
+  if (value == null || !Number.isFinite(Number(value))) return "";
+  const n = Number(value);
+  return `<div class="skill">
+    <span>${t(key)}</span>
+    <i><b style="--w:${barPct(n, max, invert, bipolar)}%"></b></i>
+    <em>${dash(n, digits)}</em>
+  </div>`;
+}
+
+function skillBars(p, options = {}) {
   const s = stats(p);
-  const rows = [
-    ["lf.aim", s.aim],
-    ["lf.positioning", s.positioning],
-    ["lf.utility", s.utility]
-  ].filter(([, v]) => v != null && Number.isFinite(Number(v)));
-  if (!rows.length) return "";
-  return `<div class="skill-bars">${rows.map(([key, v]) => {
-    const n = Number(v);
-    const w = Math.max(0, Math.min(100, n));
-    return `<div class="skill">
-      <span>${t(key)}</span>
-      <i><b style="--w:${w}%"></b></i>
-      <em>${dash(n, 1)}</em>
-    </div>`;
-  }).join("")}</div>`;
+  const r = (p.leetify && p.leetify.rating) || {};
+  const rows = options.full
+    ? [
+      skillRow("lf.aim", s.aim, 1, 100),
+      skillRow("lf.positioning", s.positioning, 1, 100),
+      skillRow("lf.utility", s.utility, 1, 100),
+      skillRow("sk.clutch", r.clutch, 3, 0.3),
+      skillRow("sk.opening", r.opening, 3, 0.2),
+      skillRow("sk.ct", r.ctLeetify, 3, 0.25, false, true),
+      skillRow("sk.t", r.tLeetify, 3, 0.25, false, true)
+    ]
+    : [
+      skillRow("lf.aim", s.aim, 1, 100),
+      skillRow("lf.positioning", s.positioning, 1, 100),
+      skillRow("lf.utility", s.utility, 1, 100)
+    ];
+  const html = rows.filter(Boolean).join("");
+  return html ? `<div class="skill-bars${options.full ? " is-full" : ""}">${html}</div>` : "";
+}
+
+function sourceLabel(source) {
+  const key = "source." + String(source || "").toLowerCase();
+  const label = t(key);
+  return label === key ? (source || "—") : label;
+}
+
+function meterRow(label, text, width) {
+  return `<div class="metric has-meter">
+    <span>${label}</span>
+    <i class="meter"><b style="--w:${Math.max(0, Math.min(100, width || 0))}%"></b></i>
+    <b>${text}</b>
+  </div>`;
+}
+
+function leetifyDossier(p, roster = []) {
+  const lf = p && p.leetify;
+  if (!lf) return "";
+  const s = stats(p);
+  const ranks = lf.ranks || {};
+  const metrics = lf.metrics || {};
+  const maps = ranks.competitive || [];
+  const mates = (lf.teammates || []).filter((m) => m.matches);
+  const bySteam = Object.fromEntries((roster || []).filter((r) => r.steamId).map((r) => [r.steamId, r]));
+  const list = lf.matchesRecent || [];
+
+  const rankTiles = [
+    ["lf.rating", ranks.leetify, 2],
+    ["lf.premier", ranks.premier, 0],
+    ["rank.wingman", ranks.wingman, 0],
+    ["rank.renown", ranks.renown, 0],
+    ["rank.faceit", ranks.faceit, 0],
+    ["rank.faceitElo", ranks.faceitElo, 0]
+  ].filter(([, v]) => v != null).map(([key, v, digits]) =>
+    `<div class="lf-tile"><span>${t(key)}</span><b>${metric(v, digits)}</b></div>`
+  ).join("");
+
+  const mapTiles = maps.map((m) =>
+    `<div class="lf-tile"><span>${escapeHtml(mapName(m.map))}</span><b>${metric(m.rank)}</b></div>`
+  ).join("");
+
+  const groups = ["aim", "utility", "trade"].map((group) => {
+    const rows = METRICS.filter((m) => m.group === group).map((m) =>
+      meterRow(t("m." + m.key), metric(metrics[m.key], m.digits, m.unit || ""), barPct(metrics[m.key], m.max, m.invert))
+    ).join("");
+    return `<div class="card metric-card lf-card"><h3>${t("group." + group)}</h3>${rows}</div>`;
+  }).join("");
+
+  const mateRows = mates.map((m) => {
+    const club = bySteam[m.steam64Id];
+    const label = club
+      ? `<a href="/jogador/${encodeURIComponent(club.id)}">${escapeHtml(club.name)}</a>`
+      : `<a href="https://leetify.com/app/profile/${escapeAttr(m.steam64Id)}" target="_blank" rel="noreferrer">…${escapeHtml(String(m.steam64Id).slice(-6))}</a>`;
+    return `<div class="metric"><span>${label}</span><b>${m.matches} <i>${t("lf.matesUnit")}</i></b></div>`;
+  }).join("");
+
+  const bans = (lf.bans || []).map((b) =>
+    `<div class="metric"><span>${escapeHtml([b.platform, b.nick].filter(Boolean).join(" · "))}</span><b>${b.since ? new Date(b.since).toLocaleDateString() : "—"}</b></div>`
+  ).join("");
+
+  const matchCards = list.map((m) => {
+    const extras = [
+      m.kills != null && `<span><i>${t("th.kills")}</i><b>${dash(m.kills)}${m.deaths != null ? "/" + dash(m.deaths) : ""}</b></span>`,
+      m.kd != null && `<span><i>${t("th.kd")}</i><b>${dash(m.kd, 2)}</b></span>`,
+      m.assists != null && `<span><i>${t("lf.assists")}</i><b>${dash(m.assists)}</b></span>`,
+      m.adr != null && `<span><i>${t("lf.adr")}</i><b>${dash(m.adr, 1)}</b></span>`,
+      m.damage != null && `<span><i>${t("lf.damage")}</i><b>${dash(m.damage)}</b></span>`,
+      m.mvp != null && `<span><i>${t("lf.mvp")}</i><b>${dash(m.mvp)}</b></span>`,
+      m.hsKills != null && `<span><i>${t("lf.hsKills")}</i><b>${dash(m.hsKills)}</b></span>`,
+      m.accuracy != null && `<span><i>${t("lf.accuracy")}</i><b>${dash(m.accuracy, 1)}%</b></span>`,
+      m.accuracySpotted != null && `<span><i>${t("m.accuracyEnemySpotted")}</i><b>${dash(m.accuracySpotted, 1)}%</b></span>`,
+      m.accuracyHead != null && `<span><i>${t("lf.hs")}</i><b>${dash(m.accuracyHead, 1)}%</b></span>`,
+      m.sprayAccuracy != null && `<span><i>${t("th.spray")}</i><b>${dash(m.sprayAccuracy, 1)}%</b></span>`,
+      m.preaim != null && `<span><i>${t("m.preaim")}</i><b>${dash(m.preaim, 2)}°</b></span>`,
+      m.reactionMs != null && `<span><i>${t("lf.reaction")}</i><b>${dash(m.reactionMs)}</b></span>`,
+      m.survived != null && `<span><i>${t("lf.survived")}</i><b>${dash(m.survived, 0)}%</b></span>`,
+      m.rounds != null && `<span><i>${t("lf.rounds")}</i><b>${dash(m.won)}/${dash(m.rounds)}</b></span>`,
+      m.ctRating != null && `<span><i>${t("sk.ct")}</i><b>${dash(m.ctRating, 2)}</b></span>`,
+      m.tRating != null && `<span><i>${t("sk.t")}</i><b>${dash(m.tRating, 2)}</b></span>`,
+      (m.tradeOk != null || m.tradedOk != null) && `<span><i>${t("lf.trades")}</i><b>${[m.tradeOk, m.tradedOk].map((n) => n == null ? "—" : dash(n, 0) + "%").join(" / ")}</b></span>`,
+      (m.flashes != null || m.he != null || m.smoke != null) && `<span><i>${t("lf.nades")}</i><b>${[m.flashes, m.he, m.molly, m.smoke].map((n) => n == null ? "—" : n).join("/")}</b></span>`,
+      (m.multi2 || m.multi3 || m.multi4 || m.multi5) && `<span><i>${t("lf.multi")}</i><b>${[m.multi2, m.multi3, m.multi4, m.multi5].map((n) => n || 0).join("-")}</b></span>`
+    ].filter(Boolean).join("");
+    return `<article class="card lf-match is-${escapeAttr(m.outcome || "")}">
+      <div class="lf-match-top">
+        <span class="form"><span class="form-${escapeAttr(m.outcome)}">${t("outcome." + m.outcome) || "?"}</span></span>
+        <div>
+          <b>${escapeHtml(mapName(m.map) || "—")}</b>
+          <em>${Array.isArray(m.score) ? m.score.join(" - ") : "—"} · ${escapeHtml(sourceLabel(m.source))}${m.rank != null ? " · " + dash(m.rank) : ""}</em>
+        </div>
+        <strong>${metric(m.rating, 2)}</strong>
+      </div>
+      ${extras ? `<div class="lf-match-grid">${extras}</div>` : ""}
+      <p class="lf-match-foot">${m.finishedAt ? new Date(m.finishedAt).toLocaleString() : ""}${m.banned ? " · " + t("lf.bannedLobby") : ""}</p>
+    </article>`;
+  }).join("");
+
+  return `
+    <section class="section lf-sheet">
+      <div class="section-head"><div><p class="kicker">${t("lf.sheet")}</p><h2>${t("profile.numbers")}</h2></div></div>
+      <div class="grid stats-grid">
+        ${countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2)}
+        ${countBox(dash(s.premier), t("lf.premier"), s.premier)}
+        ${countBox(s.winrate == null ? "—" : pct(s.winrate), t("lf.winrate"), s.winrate == null ? null : s.winrate * 100, 1, "%")}
+        ${countBox(dash(s.matches), t("lf.matches"), s.matches)}
+        ${countBox(dash(s.aim, 1), t("lf.aim"), s.aim, 1)}
+        ${countBox(dash(s.positioning, 1), t("lf.positioning"), s.positioning, 1)}
+        ${countBox(dash(s.utility, 1), t("lf.utility"), s.utility, 1)}
+        ${countBox(s.kd == null ? "—" : dash(s.kd, 2), t("th.kd"), s.kd, 2)}
+      </div>
+      ${lf.syncedAt ? `<p class="source">${t("lf.sub")} ${t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>` : ""}
+      <p class="kicker lf-kicker">${t("lf.skills")}</p>
+      ${skillBars(p, { full: true })}
+      ${rankTiles ? `<p class="kicker lf-kicker">${t("lf.ranks")}</p><div class="lf-tiles">${rankTiles}</div>` : ""}
+      ${mapTiles ? `<p class="kicker lf-kicker">${t("lf.maps")}</p><div class="lf-tiles is-maps">${mapTiles}</div>` : ""}
+    </section>
+    <section class="section">
+      <div class="grid metric-grid">${groups}</div>
+    </section>
+    ${mates.length ? `<section class="section">
+      <div class="section-head"><div><h2>${t("lf.mates")}</h2></div></div>
+      <div class="card metric-card lf-card">${mateRows}</div>
+    </section>` : ""}
+    ${bans ? `<section class="section">
+      <div class="section-head"><div><h2>${t("lf.bans")}</h2></div></div>
+      <div class="card metric-card lf-card">${bans}</div>
+    </section>` : ""}
+    ${list.length ? `<section class="section">
+      <div class="section-head"><div><h2>${t("lf.recent")}</h2></div></div>
+      ${matchRibbon(lf)}
+      <div class="lf-matches">${matchCards}</div>
+    </section>` : ""}`;
 }
 
 function photoFrame(p) {
@@ -1340,6 +1554,6 @@ window.WTC = {
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
-  identity, displayName, profileLinks, cardInk,
+  identity, displayName, profileLinks, cardInk, leetifyDossier,
   TOKEN_KEY
 };
