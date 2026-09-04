@@ -24,6 +24,7 @@ const I18N = {
     "home.roster.sub": "Os cinco de hoje. Abra a ficha de cada um para ver perfil, números e jogadas.",
     "home.strip": "Quem já passou por aqui deixou o nome. Quem está agora segue com ele.",
     "star.sub": "Os cinco de agora.",
+    "players.locked": "Fechado",
     "star.hint": "Passe o mouse para um resumo, ou abra a ficha.",
     "home.clips": "Jogadas",
     "home.clips.sub": "Rounds que alguém gravou. A seleção muda a cada visita; o arquivo completo está na página de jogadas.",
@@ -200,6 +201,7 @@ const I18N = {
     "home.roster.sub": "The five today. Open a profile for stats, clips, and the rest of the page.",
     "home.strip": "Whoever passed through left the name. Whoever's here now still carries it.",
     "star.sub": "The five right now.",
+    "players.locked": "Locked",
     "star.hint": "Hover for a snapshot, or open the profile.",
     "home.clips": "Clips",
     "home.clips.sub": "Rounds someone recorded. The selection changes every visit; the full archive is on the clips page.",
@@ -356,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=51";
-const WORD = (t) => `/img/wordmark-${t}.png?v=51`;
+const MARK = "/img/badge.png?v=52";
+const WORD = (t) => `/img/wordmark-${t}.png?v=52`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -858,6 +860,18 @@ function runCounts(scope) {
   });
 }
 
+function lockedCard() {
+  return `<div class="card player-card is-locked" aria-hidden="true">
+    <div class="player-card-photo"><span class="locked-face">?</span></div>
+  </div>`;
+}
+
+function lockedStarNode(x, y, i) {
+  return `<span class="star-node is-locked" style="left:${x}%;top:${y}%;--i:${i}" aria-hidden="true">
+    <span class="star-orb"><span class="locked-face">?</span></span>
+  </span>`;
+}
+
 function playerCard(p) {
   const s = stats(p);
   const sub = p.realName || p.role || place(p);
@@ -935,7 +949,7 @@ function starRoster(players, options = {}) {
       <span class="star-chip">${escapeHtml(p.name)}</span>
       ${starPop(p)}
     </a>`;
-  }).join("");
+  }).join("") + (compact ? "" : lockedStarNode(32, 50, 5) + lockedStarNode(68, 50, 6));
   const mark = MARK;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
@@ -1187,7 +1201,7 @@ document.addEventListener("click", (e) => {
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
-  playerCard, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
+  playerCard, lockedCard, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
