@@ -1,6 +1,5 @@
-// Preenche o elenco com os dados públicos dos perfis da Steam.
-// Só grava o que é verificável: nick, nome real, cidade, país, Steam e Twitch.
-// Função, bio e estatísticas ficam vazias — quem preenche é o painel ou a Leetify.
+// Preenche o elenco com identidade, região e SteamID64.
+// Os links públicos (Steam, Leetify, CSRep, FACEIT, GC) nascem desse ID.
 
 const { loadEnv, sql } = require("./db");
 
@@ -8,59 +7,68 @@ loadEnv();
 
 const ROSTER = [
   {
-    id: "s4mz",
-    name: "s4mz",
-    steam_id: "76561198304687498",
-    steam_url: "https://steamcommunity.com/id/MORFETlCO",
-    city: "Curitiba",
-    country: "Brasil",
-    color: "#20B8FF",
-    sort_order: 1
+    id: "khastz",
+    name: "khastz",
+    real_name: "Saulo Padilha",
+    role: "Entry Fragger",
+    steam_id: "76561198069381773",
+    steam_url: "https://steamcommunity.com/id/khastz95",
+    twitch_url: "https://twitch.tv/khastz95",
+    city: "Guarapuava",
+    country: "PR",
+    color: "#7B68D4",
+    sort_order: 3
   },
   {
     id: "fury",
     name: "fury",
+    real_name: "Junior Lisboa",
+    role: "IGL",
     steam_id: "76561198330330644",
     steam_url: "https://steamcommunity.com/id/furyntc",
-    country: "Brasil",
-    color: "#008CFF",
+    city: "Guarapuava",
+    country: "PR",
+    color: "#E0C45C",
+    sort_order: 1
+  },
+  {
+    id: "s4mz",
+    name: "s4mz",
+    real_name: "Samuel Lisboa",
+    role: "AWP",
+    steam_id: "76561198304687498",
+    steam_url: "https://steamcommunity.com/id/MORFETlCO",
+    city: "Curitiba",
+    country: "PR",
+    color: "#3D8EEC",
     sort_order: 2
   },
   {
     id: "bill",
     name: "bill",
     real_name: "Yago Ventura",
+    role: "Entry Fragger",
     steam_id: "76561198340052875",
     steam_url: "https://steamcommunity.com/profiles/76561198340052875",
-    country: "Brasil",
-    color: "#006BFF",
-    sort_order: 3
-  },
-  {
-    id: "khastz",
-    name: "khastz",
-    real_name: "Saulo G. Padilha",
-    steam_id: "76561198069381773",
-    steam_url: "https://steamcommunity.com/id/khastz95",
-    twitch_url: "https://twitch.tv/khastz95",
-    country: "Brasil",
-    color: "#7AD7FF",
-    sort_order: 4
+    city: "Seropédica",
+    country: "RJ",
+    color: "#3CB08A",
+    sort_order: 5
   },
   {
     id: "cadu",
     name: "cadu",
     real_name: "Victor Assunção",
+    role: "Lucker",
     steam_id: "76561199173505462",
     steam_url: "https://steamcommunity.com/profiles/76561199173505462",
     city: "Belém",
-    country: "Brasil",
-    color: "#FF1838",
-    sort_order: 5
+    country: "PA",
+    color: "#E09050",
+    sort_order: 4
   }
 ];
 
-// Ids antigos que foram renomeados (nome errado no seed inicial).
 const RETIRED = ["s4mlz"];
 
 (async () => {
@@ -73,6 +81,7 @@ const RETIRED = ["s4mlz"];
             id: p.id,
             name: p.name,
             real_name: p.real_name || "",
+            role: p.role || "",
             city: p.city || "",
             country: p.country || "",
             steam_id: p.steam_id,
@@ -87,6 +96,7 @@ const RETIRED = ["s4mlz"];
         on conflict (id) do update set
           name = excluded.name,
           real_name = excluded.real_name,
+          role = excluded.role,
           city = excluded.city,
           country = excluded.country,
           steam_id = excluded.steam_id,
@@ -107,7 +117,7 @@ const RETIRED = ["s4mlz"];
     }
 
     const rows = await db`
-      select id, name, real_name, city, country, steam_id, twitch_url
+      select id, name, real_name, role, city, country, steam_id
       from public.players
       order by sort_order
     `;

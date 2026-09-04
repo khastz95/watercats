@@ -25,13 +25,13 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=63">
+  <link rel="stylesheet" href="/css/app.css?v=64">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=63"></script>
+  <script src="/js/site.js?v=64"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -172,14 +172,11 @@
       const p = player;
       const s = WTC.stats(p);
       const lf = p.leetify;
-      const links = [
-        p.faceitUrl && `<a class="btn btn-ghost" href="${p.faceitUrl}" target="_blank" rel="noreferrer">FACEIT</a>`,
-        p.twitchUrl && `<a class="btn btn-ghost" href="${p.twitchUrl}" target="_blank" rel="noreferrer">Twitch</a>`
-      ].filter(Boolean).join("");
+      const idn = WTC.identity(p);
       const info = [
-        infoRow("info.realName", p.realName),
-        infoRow("info.role", p.role),
-        infoRow("info.from", WTC.place(p)),
+        infoRow("info.realName", idn.realName || p.realName),
+        infoRow("info.role", idn.role || p.role),
+        infoRow("info.from", idn.place || WTC.place(p)),
         infoRow("info.since", p.startedPlaying),
         infoRow("info.joined", p.joinedAt),
         infoRow("lf.since", lf && lf.firstMatch ? new Date(lf.firstMatch).toLocaleDateString() : "")
@@ -189,10 +186,11 @@
         : `<p class="source">${WTC.t("lf.empty")}</p>`;
 
       WTC.tintMark(WTC.photoOf(p));
+      root.style.setProperty("--player", WTC.cardInk(p));
       const clips = p.clips || [];
       root.innerHTML = `
-        ${WTC.profileHero(p, { links })}
-        ${info ? `<dl class="info-strip">${info}</dl>` : ""}
+        ${WTC.profileHero(p)}
+        ${info ? `<dl class="info-strip dossier-info">${info}</dl>` : ""}
 
         ${roster.length ? `<section class="section star-section">
           <div class="section-head">
@@ -249,7 +247,7 @@
       .then(([{ player: p }, { players }]) => {
         player = p;
         roster = players || [];
-        document.title = p.name + " · Watercats!";
+        document.title = WTC.displayName(p) + " · Watercats!";
         draw();
       })
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
