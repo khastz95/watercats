@@ -318,7 +318,7 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=32";
+const MARK = "/img/badge.png?v=33";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -400,8 +400,31 @@ function setMenu(open) {
   }
 }
 
+function mountWater() {
+  if (document.querySelector(".water")) return;
+  const el = document.createElement("div");
+  el.className = "water";
+  el.setAttribute("aria-hidden", "true");
+  el.innerHTML = `
+    <div class="water-caustics"></div>
+    <div class="water-sheen"></div>
+    <div class="water-surface">
+      <svg class="wave-a" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0 52c80 28 160-28 240 0s160-28 240 0 160-28 240 0 160-28 240 0 160-28 240 0v68H0Z"/>
+      </svg>
+      <svg class="wave-b" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0 64c100 24 180-32 280-4s180-28 260 4 200-30 280 0 200-24 260 8 80-12 120 4v48H0Z"/>
+      </svg>
+      <svg class="wave-c" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0 78c120 18 200-22 320 0s220-24 320 2 200-20 280 6 160-10 280 4v30H0Z"/>
+      </svg>
+    </div>`;
+  document.body.appendChild(el);
+}
+
 function mountChrome() {
   applyTheme();
+  mountWater();
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const here = pageId();
@@ -424,7 +447,10 @@ function mountChrome() {
         <div class="wrap header-inner">
           <a class="brand" href="/">
             <img src="${icon}" alt="" data-icon>
-            <span class="brand-name">WATER<span>CATS</span></span>
+            <span class="brand-lockup">
+              <span class="brand-name">WATER<span>CATS</span></span>
+              <span class="brand-sub">OLD FRIENDS. <em>SAME GAMES.</em></span>
+            </span>
           </a>
           <nav class="nav" aria-label="Watercats">
             <div class="nav-links">${navItems(here)}</div>
@@ -1081,6 +1107,7 @@ function escapeAttr(s) {
 }
 
 applyTheme();
+if (document.body) mountWater();
 document.addEventListener("DOMContentLoaded", () => {
   mountChrome();
   motion();
