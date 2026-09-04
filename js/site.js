@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=52";
-const WORD = (t) => `/img/wordmark-${t}.png?v=52`;
+const MARK = "/img/badge.png?v=53";
+const WORD = (t) => `/img/wordmark-${t}.png?v=53`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -866,12 +866,6 @@ function lockedCard() {
   </div>`;
 }
 
-function lockedStarNode(x, y, i) {
-  return `<span class="star-node is-locked" style="left:${x}%;top:${y}%;--i:${i}" aria-hidden="true">
-    <span class="star-orb"><span class="locked-face">?</span></span>
-  </span>`;
-}
-
 function playerCard(p) {
   const s = stats(p);
   const sub = p.realName || p.role || place(p);
@@ -949,7 +943,7 @@ function starRoster(players, options = {}) {
       <span class="star-chip">${escapeHtml(p.name)}</span>
       ${starPop(p)}
     </a>`;
-  }).join("") + (compact ? "" : lockedStarNode(32, 50, 5) + lockedStarNode(68, 50, 6));
+  }).join("");
   const mark = MARK;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
