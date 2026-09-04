@@ -25,7 +25,7 @@ const I18N = {
     "home.strip": "Quem já passou por aqui deixou o nome. Quem está agora segue com ele.",
     "star.sub": "Os cinco de agora.",
     "players.locked": "Fechado",
-    "star.hint": "Passe o mouse para um resumo, ou abra a ficha.",
+    "star.hint": "Puxe uma carta da mesa, ou abra a ficha.",
     "home.clips": "Jogadas",
     "home.clips.sub": "Rounds que alguém gravou. A seleção muda a cada visita; o arquivo completo está na página de jogadas.",
     "home.stats": "A temporada",
@@ -202,7 +202,7 @@ const I18N = {
     "home.strip": "Whoever passed through left the name. Whoever's here now still carries it.",
     "star.sub": "The five right now.",
     "players.locked": "Locked",
-    "star.hint": "Hover for a snapshot, or open the profile.",
+    "star.hint": "Pull a card from the table, or open the profile.",
     "home.clips": "Clips",
     "home.clips.sub": "Rounds someone recorded. The selection changes every visit; the full archive is on the clips page.",
     "home.stats": "The season",
@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=54";
-const WORD = (t) => `/img/wordmark-${t}.png?v=54`;
+const MARK = "/img/badge.png?v=55";
+const WORD = (t) => `/img/wordmark-${t}.png?v=55`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -880,9 +880,8 @@ function playerCard(p) {
   </a>`;
 }
 
-// Elenco em estrela de 5 pontas.
-// Topo: khastz. Direita: bill. Esquerda: fury. Baixo: cadu e s4mz.
-const STAR_SLOTS = ["khastz", "bill", "cadu", "s4mz", "fury"];
+// Mão na mesa, esquerda → direita. khastz no centro.
+const STAR_SLOTS = ["fury", "s4mz", "khastz", "cadu", "bill"];
 
 function starOrder(players) {
   const byId = Object.fromEntries((players || []).filter((p) => p && p.id).map((p) => [p.id, p]));
@@ -892,56 +891,36 @@ function starOrder(players) {
   return placed.concat(extra).slice(0, 5);
 }
 
-function starPop(p) {
+function dealCard(p, options = {}) {
   const s = stats(p);
+  const on = p.id === options.currentId;
   const sub = [p.role, place(p)].filter(Boolean).join(" · ");
-  return `<div class="star-pop">
-    <div class="star-pop-head">
-      <span class="star-pop-name">${escapeHtml(p.name)}</span>
-      <span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>
-    </div>
-    ${sub ? `<span class="star-pop-sub">${escapeHtml(sub)}</span>` : ""}
-    <div class="star-pop-stats">
-      <span><b>${dash(s.rating, 2)}</b>${t("lf.rating")}</span>
-      <span><b>${dash(s.premier)}</b>${t("lf.premier")}</span>
-      <span><b>${dash(s.aim, 1)}</b>${t("lf.aim")}</span>
-    </div>
-    ${formBadges(p)}
-  </div>`;
+  const color = p.color || "#006BFF";
+  return `<a class="deal-card${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(color)}" aria-current="${on ? "page" : "false"}">
+    <span class="deal-art">
+      ${playerPhoto(p, "deal-photo")}
+      <span class="deal-stamp">WTC</span>
+    </span>
+    <span class="deal-body">
+      <span class="deal-name">${escapeHtml(p.name)}</span>
+      ${sub ? `<span class="deal-class">${escapeHtml(sub)}</span>` : ""}
+      <span class="deal-stats">
+        <span><b>${dash(s.rating, 2)}</b>${t("lf.rating")}</span>
+        <span><b>${dash(s.premier)}</b>${t("lf.premier")}</span>
+        <span><b>${dash(s.aim, 1)}</b>${t("lf.aim")}</span>
+      </span>
+    </span>
+  </a>`;
 }
 
 function starRoster(players, options = {}) {
   const roster = starOrder(players);
   if (!roster.length) return "";
-  const currentId = options.currentId || "";
   const compact = Boolean(options.compact);
-  const cx = 50;
-  const cy = 50;
-  const r = 33;
-  const pent = [0, 1, 2, 3, 4].map((i) => {
-    const a = -Math.PI / 2 + i * (2 * Math.PI / 5);
-    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
-  });
-  const pts = (arr) => arr.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
-  const nodes = roster.map((p, i) => {
-    const [x, y] = pent[i] || pent[0];
-    const on = p.id === currentId;
-    return `<a class="star-node star-slot-${i}${on ? " is-on" : ""}" href="/jogador/${encodeURIComponent(p.id)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--i:${i}" aria-current="${on ? "page" : "false"}">
-      <span class="star-orb">${playerPhoto(p, "star-photo")}</span>
-      <span class="star-chip">${escapeHtml(p.name)}</span>
-      ${starPop(p)}
-    </a>`;
-  }).join("");
-  const mark = MARK;
+  const cards = roster.map((p) => dealCard(p, options)).join("");
   return `<div class="star-stage${compact ? " is-compact" : ""}">
-    <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
-      <div class="star-back" aria-hidden="true">
-        <img class="star-logo" src="${mark}" alt="" data-icon>
-      </div>
-      <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true">
-        <polygon class="star-ring" points="${pts(pent)}" />
-      </svg>
-      ${nodes}
+    <div class="deal${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
+      ${cards}
     </div>
     ${compact ? "" : `<p class="star-hint">${escapeHtml(t("star.hint"))}</p>`}
   </div>`;

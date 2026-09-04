@@ -236,6 +236,7 @@ body.nav-open { overflow: hidden; }
 
 img { max-width: 100%; display: block; }
 .star-photo,
+.deal-photo,
 .frame-photo,
 .who-photo,
 .pulse-photo,
@@ -447,7 +448,6 @@ body.nav-open .header { z-index: 210; }
   .hero { grid-template-columns: 1fr; padding-top: 36px; gap: 28px; }
   .hero-word img { width: min(420px, 100%); }
   .hero-logo img { width: min(380px, 82%); }
-  .star-pop { display: none; }
   .nav-sheet {
     display: block;
     position: fixed;
@@ -1636,52 +1636,159 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   position: relative;
   isolation: isolate;
   margin: 4px 0 8px;
-  overflow: hidden;
+  overflow: visible;
   max-width: 100%;
 }
-.star-roster {
+.deal {
   position: relative;
   z-index: 1;
-  width: min(720px, 100%);
-  aspect-ratio: 1;
-  margin: 8px auto 12px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 390px;
+  margin: 12px auto 8px;
+  padding: 36px 8px 20px;
+  max-width: 100%;
 }
-.star-roster.is-compact { width: min(480px, 100%); margin-bottom: 20px; }
-.star-section { padding: 24px 0 0; }
-.star-back {
+.deal::before {
+  content: "";
   position: absolute;
-  inset: 32%;
-  display: grid;
-  place-items: center;
+  left: 10%;
+  right: 10%;
+  bottom: 6%;
+  height: 38%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 16, 40, 0.5), transparent 72%);
   pointer-events: none;
   z-index: 0;
 }
-.star-logo {
-  width: 36%;
-  opacity: 0.5;
+[data-theme="light"] .deal::before {
+  background: radial-gradient(ellipse at center, rgba(0, 40, 90, 0.1), transparent 72%);
 }
-.star-svg {
+.deal-card {
+  position: relative;
+  z-index: var(--z, 1);
+  display: block;
+  flex: none;
+  width: 176px;
+  margin-left: -72px;
+  padding: 8px 8px 12px;
+  color: inherit;
+  text-align: left;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 18%, var(--surface)), var(--surface) 28%);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 22%, transparent),
+    0 16px 28px rgba(0, 8, 24, 0.42);
+  transform: rotate(var(--rot, 0deg)) translateY(var(--lift, 0px));
+  transform-origin: 50% 100%;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, z-index 0s;
+}
+.deal-card:first-child { margin-left: 0; }
+.deal-card:nth-child(1) { --rot: -26deg; --lift: 32px; --z: 1; }
+.deal-card:nth-child(2) { --rot: -13deg; --lift: 12px; --z: 2; }
+.deal-card:nth-child(3) { --rot: 0deg; --lift: 0px; --z: 5; }
+.deal-card:nth-child(4) { --rot: 13deg; --lift: 12px; --z: 4; }
+.deal-card:nth-child(5) { --rot: 26deg; --lift: 32px; --z: 3; }
+.deal-card:hover,
+.deal-card:focus-visible,
+.deal-card.is-on {
+  z-index: 12;
+  transform: rotate(0deg) translateY(-34px) scale(1.05);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 40%, transparent),
+    0 28px 36px rgba(0, 8, 24, 0.5);
+  outline: none;
+}
+.deal-art {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  border-radius: 5px;
+  background: var(--photo);
+}
+.deal-photo,
+.deal-art .photo,
+.deal-art > div {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow: visible;
-  pointer-events: none;
+  object-fit: cover;
+  border-radius: 0;
 }
-.star-ring {
-  fill: none;
-  stroke: color-mix(in srgb, var(--line) 80%, var(--blue));
-  stroke-width: 0.28;
-}
-.star-node {
+.deal-stamp {
   position: absolute;
-  width: 16.5%;
-  transform: translate(-50%, -50%);
+  top: 8px;
+  right: 8px;
   z-index: 1;
-  text-align: center;
-  color: inherit;
+  padding: 3px 6px;
+  border: 1px solid color-mix(in srgb, #fff 28%, transparent);
+  border-radius: 3px;
+  background: rgba(6, 12, 22, 0.55);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 1;
 }
-.star-node.is-on { z-index: 3; }
+.deal-body { display: block; padding: 10px 4px 0; }
+.deal-name {
+  display: block;
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deal-class {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.deal-stats span {
+  display: grid;
+  gap: 2px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.deal-stats b {
+  font-family: var(--display);
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+.deal.is-compact {
+  min-height: 300px;
+  padding-top: 28px;
+}
+.deal.is-compact .deal-card { width: 128px; margin-left: -52px; padding-bottom: 10px; }
+.deal.is-compact .deal-card:first-child { margin-left: 0; }
+.deal.is-compact .deal-name { font-size: 14px; }
+.deal.is-compact .deal-stats,
+.deal.is-compact .deal-class { display: none; }
 .locked-face {
   position: relative;
   display: grid;
@@ -1719,126 +1826,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   border: 0;
   font-size: clamp(42px, 6vw, 72px);
 }
-.star-node:hover,
-.star-node:focus-visible { z-index: 12; }
-.star-orb {
-  display: block;
-  width: 100%;
-}
-.star-chip {
-  display: block;
-  margin-top: 8px;
-  max-width: 100%;
-  font-family: var(--display);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.star-photo,
-.star-orb .star-photo,
-.star-orb > div {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--photo);
-}
-.star-node:hover .star-photo,
-.star-node:hover .star-orb > div,
-.star-node.is-on .star-photo,
-.star-node.is-on .star-orb > div {
-  border-color: var(--blue);
-}
-.star-node.is-on .star-chip { color: var(--blue); }
-
-.star-pop {
-  position: absolute;
-  width: 228px;
-  padding: 12px 14px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: 0 16px 40px rgba(0, 12, 32, 0.38);
-  text-align: left;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.16s ease, visibility 0.16s ease;
-}
-.star-slot-0 .star-pop {
-  left: 50%;
-  top: calc(100% + 10px);
-  transform: translateX(-50%);
-}
-.star-slot-1 .star-pop,
-.star-slot-2 .star-pop {
-  left: auto;
-  right: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
-}
-.star-slot-3 .star-pop,
-.star-slot-4 .star-pop {
-  left: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
-}
-@media (hover: hover) and (pointer: fine) {
-  .star-node:hover .star-pop,
-  .star-node:focus-visible .star-pop {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-.star-pop-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.star-pop-name {
-  font-family: var(--display);
-  font-size: 16px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.star-pop-sub {
-  display: block;
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 12px;
-}
-.star-pop-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}
-.star-pop-stats span {
-  display: grid;
-  gap: 2px;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.star-pop-stats b {
-  font-family: var(--display);
-  font-size: 16px;
-  color: var(--text);
-  letter-spacing: 0.04em;
-  text-transform: none;
-}
-.star-pop .form { margin-top: 10px; }
 
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -1868,6 +1855,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hot-grid, .facts, .story-grid, .place-box { grid-template-columns: 1fr; }
   .clip.is-featured { grid-template-columns: 1fr; }
   .profile-hero { padding: 24px 18px 20px; }
+  .deal { min-height: 340px; padding-top: 28px; }
+  .deal-card { width: 148px; margin-left: -58px; }
+  .deal.is-compact .deal-card { width: 112px; margin-left: -44px; }
 }
 @media (max-width: 640px) {
   .hero, .profile, .profile-hero-grid, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr; }
@@ -1878,20 +1868,47 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .brand img { height: 22px; width: auto; max-width: min(168px, 52vw); }
   .brand-sub { letter-spacing: 0.1em; }
   :root { --header: 68px; }
-  .star-node { width: 20%; }
-  .star-chip { font-size: 10px; }
-  .star-pop { display: none; }
+  .deal,
+  .deal.is-compact {
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 0;
+    overflow-x: auto;
+    padding: 8px 4px 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .deal::before { display: none; }
+  .deal-card,
+  .deal.is-compact .deal-card {
+    width: 168px;
+    margin-left: 10px;
+    transform: none;
+    scroll-snap-align: center;
+  }
+  .deal-card:first-child,
+  .deal.is-compact .deal-card:first-child { margin-left: 0; }
+  .deal-card:hover,
+  .deal-card:focus-visible,
+  .deal-card.is-on {
+    transform: translateY(-8px);
+  }
+  .deal.is-compact .deal-stats { display: grid; }
+  .deal.is-compact .deal-class { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .menu-toggle span,
   .nav-backdrop,
   .nav-mobile,
-  .star-orb,
-  .star-photo,
-  .star-pop,
+  .deal-card,
   .btn,
   .card { transition: none; }
-  .star-logo,
+  .deal-card,
+  .deal-card:hover,
+  .deal-card:focus-visible,
+  .deal-card.is-on {
+    transform: none;
+  }
   .hero-logo img,
   .frame-photo,
   .profile-back img,
