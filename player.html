@@ -25,19 +25,20 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=65">
+  <link rel="stylesheet" href="/css/app.css?v=66">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=65"></script>
+  <script src="/js/site.js?v=66"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
     let player = null;
     let roster = [];
     let shownClips = 12;
+    let shownMatches = 6;
 
     const esc = (v) => WTC.escapeHtml(v);
 
@@ -90,7 +91,7 @@
           ${WTC.starRoster(roster, { currentId: p.id, compact: true })}
         </section>` : ""}
 
-        ${lf ? WTC.leetifyDossier(p, roster) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
+        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
 
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
@@ -113,9 +114,14 @@
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
     document.addEventListener("wtc:lang", draw);
     root.addEventListener("click", (e) => {
-      if (!e.target.closest("[data-clip-more]")) return;
-      shownClips += 12;
+      const moreMatches = e.target.closest("[data-match-more]");
+      const moreClips = e.target.closest("[data-clip-more]");
+      if (!moreMatches && !moreClips) return;
+      const y = window.scrollY;
+      if (moreMatches) shownMatches += 6;
+      if (moreClips) shownClips += 12;
       draw();
+      window.scrollTo(0, y);
     });
   </script>
 </body>
