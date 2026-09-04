@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogadas · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=29" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=30" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=29">
+  <link rel="stylesheet" href="/css/app.css?v=30">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -25,7 +25,7 @@
     <div id="list" class="grid clips"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=29"></script>
+  <script src="/js/site.js?v=30"></script>
   <script>
     function render() {
       Promise.all([WTC.api("/api/clips"), WTC.api("/api/players")])
@@ -40,19 +40,29 @@
               const name = players.find((p) => p.id === id)?.name || id;
               return `<button type="button" class="chip" data-f="${WTC.escapeAttr(id)}">${WTC.escapeHtml(name)}</button>`;
             }).join("");
-          function show(id) {
-            const rows = id ? clips.filter((c) => c.playerId === id) : clips;
-            list.innerHTML = rows.length
-              ? rows.map((c, i) => WTC.clipCard(c, { featured: i === 0 })).join("")
-              : WTC.emptyBox("empty.clips");
+          let filter = "";
+          let shown = 12;
+          function rows() {
+            return filter ? clips.filter((c) => c.playerId === filter) : clips;
+          }
+          function paint() {
+            list.innerHTML = WTC.clipPager(rows(), shown);
             WTC.motion();
           }
-          show("");
+          paint();
           filters.onclick = (e) => {
             const btn = e.target.closest("[data-f]");
             if (!btn) return;
             filters.querySelectorAll(".chip").forEach((x) => x.classList.toggle("is-on", x === btn));
-            show(btn.dataset.f);
+            filter = btn.dataset.f;
+            shown = 12;
+            paint();
+          };
+          list.onclick = (e) => {
+            const more = e.target.closest("[data-clip-more]");
+            if (!more) return;
+            shown += 12;
+            paint();
           };
         })
         .catch(() => { document.getElementById("list").innerHTML = WTC.errorBox(); });

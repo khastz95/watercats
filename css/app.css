@@ -152,6 +152,8 @@ button { cursor: pointer; border: 0; background: none; }
   top: 0;
   z-index: 40;
 }
+.header.is-open,
+body.nav-open .header { z-index: 210; }
 .header-bar {
   background: color-mix(in srgb, var(--header-bg) 88%, transparent);
   backdrop-filter: blur(16px);
@@ -162,7 +164,8 @@ button { cursor: pointer; border: 0; background: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: 16px;
+  min-width: 0;
 }
 .brand {
   display: flex;
@@ -242,41 +245,38 @@ button { cursor: pointer; border: 0; background: none; }
 .menu-toggle {
   display: none;
   position: relative;
-  z-index: 3;
-  width: 44px;
-  height: 44px;
-  margin-right: -8px;
-  align-items: center;
+  z-index: 220;
+  width: 46px;
+  height: 46px;
+  margin-left: auto;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 6px;
   flex: none;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: color-mix(in srgb, var(--blue) 6%, transparent);
+  background: color-mix(in srgb, var(--blue) 8%, transparent);
+  color: var(--text);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.menu-toggle span {
-  position: absolute;
-  left: 12px;
-  right: 12px;
+.menu-toggle i {
+  display: block;
+  width: 18px;
   height: 2px;
-  background: var(--text);
+  background: currentColor;
   border-radius: 1px;
-  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+  transform-origin: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.menu-toggle span:nth-child(1) { top: 15px; }
-.menu-toggle span:nth-child(2) { top: 21px; }
-.menu-toggle span:nth-child(3) { top: 27px; }
-.header.is-open .menu-toggle span:nth-child(1) {
-  top: 21px;
-  transform: rotate(45deg);
-}
-.header.is-open .menu-toggle span:nth-child(2) { opacity: 0; }
-.header.is-open .menu-toggle span:nth-child(3) {
-  top: 21px;
-  transform: rotate(-45deg);
-}
+.header.is-open .menu-toggle i:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.header.is-open .menu-toggle i:nth-child(2) { opacity: 0; }
+.header.is-open .menu-toggle i:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 .header.is-open .menu-toggle {
   border-color: var(--blue);
-  background: color-mix(in srgb, var(--blue) 14%, transparent);
+  background: color-mix(in srgb, var(--blue) 16%, transparent);
+  color: var(--blue);
 }
 
 .nav-sheet {
@@ -284,8 +284,8 @@ button { cursor: pointer; border: 0; background: none; }
 }
 
 @media (max-width: 1100px) {
-  .nav, .nav-links { gap: 16px; }
-  .nav-tools { gap: 12px; padding-left: 14px; }
+  .nav { display: none; }
+  .menu-toggle { display: flex; }
 }
 
 .hero {
@@ -1069,6 +1069,40 @@ td a:hover { color: var(--blue); }
 }
 .clip.is-featured .meta { font-size: 14px; }
 
+.clip-reel {
+  overflow: hidden;
+  margin: 0 calc(var(--gutter) * -0.15);
+  padding: 6px 0 10px;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.reel-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: reel 48s linear infinite;
+}
+.clip-reel:hover .reel-track,
+.clip-reel.is-paused .reel-track { animation-play-state: paused; }
+.clip-reel .clip {
+  width: min(300px, 78vw);
+  flex: none;
+  margin: 0;
+}
+.clip-reel .clip.is-featured {
+  grid-column: auto;
+  display: block;
+}
+@keyframes reel {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.clip-more {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 4px;
+}
+
 .login-stage {
   position: relative;
   width: min(420px, 100%);
@@ -1575,19 +1609,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hot-grid, .facts { grid-template-columns: 1fr; }
   .clip.is-featured { grid-template-columns: 1fr; }
   .profile-hero { padding: 24px 18px 20px; }
-  .nav { display: none; }
-  .menu-toggle { display: inline-flex; }
   .nav-sheet {
     display: block;
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 35;
+    inset: 0;
+    z-index: 200;
     pointer-events: none;
     visibility: hidden;
   }
+  .nav-sheet.is-open,
   body.nav-open .nav-sheet {
     pointer-events: auto;
     visibility: visible;
@@ -1711,6 +1741,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .frame-photo,
   .profile-back img,
   .pulse-track,
+  .reel-track,
   .clip-play-icon,
   .page-mark img,
   .login-mark img,

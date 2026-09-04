@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogador · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=29" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=30" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=29">
+  <link rel="stylesheet" href="/css/app.css?v=30">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=29"></script>
+  <script src="/js/site.js?v=30"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
     let player = null;
     let roster = [];
+    let shownClips = 12;
 
     const esc = (v) => WTC.escapeHtml(v);
 
@@ -220,7 +221,7 @@
 
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
-          <div class="grid clips">${clips.length ? clips.map((c, i) => WTC.clipCard(c, { featured: i === 0 })).join("") : WTC.emptyBox("empty.clips")}</div>
+          <div class="grid clips">${WTC.clipPager(clips, shownClips)}</div>
         </section>`;
       if (window.WTC.motion) WTC.motion();
     }
@@ -238,6 +239,11 @@
       })
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
     document.addEventListener("wtc:lang", draw);
+    root.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-clip-more]")) return;
+      shownClips += 12;
+      draw();
+    });
   </script>
 </body>
 </html>
