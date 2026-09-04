@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=39";
-const WORD = (t) => `/img/wordmark-${t}.png?v=39`;
+const MARK = "/img/badge.png?v=40";
+const WORD = (t) => `/img/wordmark-${t}.png?v=40`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -533,8 +533,11 @@ function mountChrome() {
     sheet.innerHTML = `
       <button class="nav-backdrop" type="button" data-menu-close tabindex="-1" aria-hidden="true"></button>
       <nav class="nav-mobile" aria-label="${t("nav.menu")}">
-        <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
-        ${navItems(here)}
+        <div class="nav-mobile-head">
+          <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
+          <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
+        </div>
+        <div class="nav-mobile-links">${navItems(here)}</div>
         <div class="nav-mobile-tools">${tools}</div>
       </nav>`;
   }
