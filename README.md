@@ -8,23 +8,19 @@
 <h1 align="center">WATERCATS</h1>
 
 <p align="center">
-  Jogadores antigos. O mesmo jogo.<br>
-  Site do clube — elenco, estatísticas e jogadas pela <a href="https://allstar.gg">allstar.gg</a>.
+  OLD FRIENDS. SAME GAMES.<br>
+  Uma tag que atravessou geração. Elenco, números e jogadas.
 </p>
 
 <p align="center">
   <a href="https://watercats.vercel.app"><strong>watercats.vercel.app</strong></a>
-  ·
-  <a href="https://discord.gg/et6N2Y3pJj">Discord</a>
-  ·
-  <a href="https://steamcommunity.com/groups/watercatsgg">Steam</a>
 </p>
 
 ---
 
 ## O que é
 
-Site estático com API na Vercel e dados no Supabase. O público vê o elenco, as estatísticas e os clipes. Quem tem a senha entra em `/login` e edita tudo pelo painel.
+Site estático com API na Vercel e dados no Supabase. O público vê a origem da tag, o elenco, os números da temporada e as jogadas. Quem tem a senha entra em `/login` e cuida do arquivo pelo painel.
 
 Não inventa biografia nem número: o que não foi cadastrado aparece vazio.
 
@@ -42,11 +38,12 @@ Não inventa biografia nem número: o que não foi cadastrado aparece vazio.
 
 | Rota | Arquivo | Função |
 | --- | --- | --- |
-| `/` | `index.html` | Início: logo, elenco, números e jogadas em destaque |
-| `/players` | `players.html` | Lista do elenco |
+| `/` | `index.html` | Início: a tag, o elenco, os números e as jogadas |
+| `/players` | `players.html` | Quem carrega a tag |
 | `/jogador/:slug` | `player.html` | Perfil (rewrite no `vercel.json`) |
-| `/stats` | `stats.html` | Tabela de estatísticas |
-| `/clips` | `clips.html` | Jogadas da allstar.gg |
+| `/stats` | `stats.html` | Números da temporada |
+| `/clips` | `clips.html` | Arquivo de jogadas |
+| `/sobre` | `sobre.html` | De onde veio o nome |
 | `/login` | `login.html` | Entrada do painel |
 | `/admin` | `admin.html` | Edição de jogadores, estatísticas e clipes |
 
