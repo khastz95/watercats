@@ -1846,6 +1846,71 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   color: inherit;
 }
 .star-node.is-on { z-index: 3; }
+.star-node.is-locked {
+  width: 12%;
+  pointer-events: none;
+  z-index: 0;
+}
+.star-node.is-locked .star-orb {
+  animation: lockedPulse 3.6s ease-in-out infinite;
+}
+.locked-face {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--line) 55%, #000);
+  background:
+    radial-gradient(circle at 50% 40%, #161e2a 0%, #0a1018 58%, #05080e 100%);
+  color: color-mix(in srgb, var(--muted) 85%, #000);
+  font-family: var(--display);
+  font-size: clamp(16px, 2.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.7), 0 0 0 3px var(--bg);
+}
+.locked-face::after {
+  content: "";
+  position: absolute;
+  inset: -50% -30%;
+  background: linear-gradient(115deg, transparent 42%, rgba(0, 107, 255, 0.16) 50%, transparent 58%);
+  animation: lockedSweep 5.2s ease-in-out infinite;
+}
+.player-card.is-locked {
+  pointer-events: none;
+  padding: 0;
+  background: #070b12;
+  border-color: color-mix(in srgb, var(--line) 40%, #000);
+  box-shadow: none;
+}
+.player-card.is-locked:hover {
+  transform: none;
+  border-color: color-mix(in srgb, var(--line) 40%, #000);
+  box-shadow: none;
+}
+.player-card.is-locked .player-card-photo {
+  margin: 0;
+}
+.player-card.is-locked .player-card-photo::after { display: none; }
+.player-card.is-locked .locked-face {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  font-size: clamp(42px, 6vw, 72px);
+  animation: lockedPulse 3.6s ease-in-out infinite;
+}
+
+@keyframes lockedPulse {
+  0%, 100% { filter: brightness(0.78); }
+  50% { filter: brightness(1.08); }
+}
+@keyframes lockedSweep {
+  0% { transform: translateX(-35%); }
+  100% { transform: translateX(35%); }
+}
 .star-node:hover,
 .star-node:focus-visible { z-index: 12; }
 .star-orb {
@@ -2080,6 +2145,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .login-mark img,
   .reveal,
   .reveal.is-in { animation: none; opacity: 1; transform: none; stroke-dashoffset: 0; }
+  .locked-face,
+  .locked-face::after,
+  .star-node.is-locked .star-orb { animation: none; }
   .is-in .skill i b { transition: none; }
   body::before,
   .water-caustics,
