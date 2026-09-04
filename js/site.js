@@ -76,11 +76,11 @@ const I18N = {
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
     "footer.tag": "OLD FRIENDS. SAME GAMES.",
-    "footer.blurb": "Um time antigo. A mesma tag, a mesma aliança.",
-    "footer.explore": "Páginas",
-    "footer.community": "Onde a gente fala",
+    "footer.blurb": "Um time antigo de amigos. A tag ficou, a aliança também. CS2, as mesmas pessoas na fila.",
+    "footer.explore": "Navegar",
+    "footer.community": "Comunidade",
     "footer.house": "Painel",
-    "footer.copy": "Watercats. Desde sempre.",
+    "footer.copy": "© 2026 Watercats",
     "status.active": "Na tag",
     "status.inactive": "Fora",
     "status.alumni": "Passou por aqui",
@@ -253,11 +253,11 @@ const I18N = {
     "retry": "Try again",
     "skip": "Skip to content",
     "footer.tag": "OLD FRIENDS. SAME GAMES.",
-    "footer.blurb": "An old team. Same tag, same alliance.",
-    "footer.explore": "Pages",
-    "footer.community": "Where we talk",
+    "footer.blurb": "An old team of friends. The tag stayed, so did the alliance. CS2, the same people in queue.",
+    "footer.explore": "Navigate",
+    "footer.community": "Community",
     "footer.house": "Panel",
-    "footer.copy": "Watercats. From the start.",
+    "footer.copy": "© 2026 Watercats",
     "status.active": "On the tag",
     "status.inactive": "Away",
     "status.alumni": "Passed through",
@@ -358,8 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=38";
-const WORD = (t) => `/img/wordmark-${t}.png?v=38`;
+const MARK = "/img/badge.png?v=39";
+const WORD = (t) => `/img/wordmark-${t}.png?v=39`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -492,7 +492,6 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const logo = MARK;
-  const icon = MARK;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
@@ -543,35 +542,35 @@ function mountChrome() {
     footer.innerHTML = `
       <div class="wrap footer-grid">
         <div class="footer-brand">
-          <img src="${logo}" alt="Watercats" data-logo>
-          <p class="footer-tag" data-i18n="footer.tag"></p>
+          <a class="footer-mark" href="/">
+            <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
+          </a>
+          <p class="footer-tag">OLD FRIENDS. <em>SAME GAMES.</em></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
         </div>
-        <div class="footer-col">
+        <nav class="footer-col" aria-label="${t("footer.explore")}">
           <h3 data-i18n="footer.explore"></h3>
           <a href="/" data-i18n="nav.home"></a>
           <a href="/players" data-i18n="nav.players"></a>
           <a href="/stats" data-i18n="nav.stats"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
           <a href="/sobre" data-i18n="nav.about"></a>
-        </div>
-        <div class="footer-col">
+        </nav>
+        <nav class="footer-col" aria-label="${t("footer.community")}">
           <h3 data-i18n="footer.community"></h3>
-          <div class="socials">
-            <a href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer">Discord</a>
-            <a href="https://steamcommunity.com/groups/watercatsgg" target="_blank" rel="noreferrer">Steam</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h3 data-i18n="footer.house"></h3>
-          <a href="/login" data-i18n="nav.login"></a>
-          <a href="/admin" data-i18n="nav.admin"></a>
-        </div>
+          <a href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer">Discord</a>
+          <a href="https://steamcommunity.com/groups/watercatsgg" target="_blank" rel="noreferrer">Steam</a>
+          <a href="/sobre" data-i18n="cta.about"></a>
+        </nav>
       </div>
       <div class="footer-bar">
         <div class="wrap">
-          <p>Watercats · 2026</p>
           <p data-i18n="footer.copy"></p>
+          <p class="footer-legal">
+            <a href="/login" data-i18n="nav.login"></a>
+            <span aria-hidden="true">·</span>
+            <a href="/admin" data-i18n="nav.admin"></a>
+          </p>
         </div>
       </div>`;
   }
