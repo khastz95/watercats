@@ -1012,9 +1012,7 @@ function leetifyDossier(p, roster = [], options = {}) {
       <p class="kicker lf-kicker">${t("lf.skills")}</p>
       ${skillBars(p, { full: true })}
       ${rankTiles ? `<p class="kicker lf-kicker">${t("lf.ranks")}</p><div class="lf-tiles">${rankTiles}</div>` : ""}
-      ${mapTiles ? `<p class="kicker lf-kicker">${t("lf.maps")}</p><div class="lf-tiles is-maps">${mapTiles}</div>` : ""}
-    </section>
-    <section class="section">
+      ${mapTiles ? `<p class="kicker lf-kicker">${t("lf.maps")}</p><div class="lf-tiles">${mapTiles}</div>` : ""}
       <div class="grid metric-grid">${groups}</div>
     </section>
     ${mates.length ? `<section class="section">

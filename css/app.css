@@ -1258,8 +1258,8 @@ body.nav-open .header { z-index: 210; }
 .form-block { margin-top: 22px; }
 .form-block .form { margin-top: 8px; }
 
-/* Blocos de métricas da Leetify: rótulo à esquerda, número à direita. */
-.metric-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); align-items: start; }
+/* Blocos de métricas da Leetify: três colunas iguais, valor na mesma trilha. */
+.metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
 .metric-card { padding: 16px 18px; }
 .metric-card h3 {
   font-family: var(--display);
@@ -1288,6 +1288,8 @@ body.nav-open .header { z-index: 210; }
   font-family: var(--display);
   font-size: 16px;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 .metric > b i { font-family: var(--font); font-size: 11px; font-style: normal; color: var(--muted); }
 
@@ -2438,7 +2440,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 
 @media (max-width: 900px) {
   .profile, .profile-hero-grid, .form-grid, .footer-grid, .stats-grid { grid-template-columns: 1fr 1fr; }
-  .info-strip > div { flex-basis: calc((100% - 14px) / 2); }
+  .info-strip > div,
+  .lf-tile { flex-basis: calc((100% - 14px) / 2); }
+  .metric-grid { grid-template-columns: 1fr; }
   .footer-brand { grid-column: 1 / -1; }
   .home-stats { grid-template-columns: repeat(3, 1fr); }
   .hot-grid, .facts, .story-grid, .place-box { grid-template-columns: 1fr; }
@@ -2906,22 +2910,30 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   margin-top: 8px;
 }
 .skill-bars.is-full .skill {
-  grid-template-columns: 110px minmax(0, 1fr) 44px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr) 3.4em;
+}
+.skill-bars.is-full .skill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-bars.is-full .skill em {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 .lf-tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-}
-.lf-tiles.is-maps {
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 .lf-tile {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-height: 72px;
-  padding: 12px 14px;
+  justify-content: space-between;
+  flex: 1 1 calc((100% - 42px) / 4);
+  min-width: 0;
+  min-height: 76px;
+  padding: 14px 16px;
   border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 28%, var(--line));
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 12%, transparent), var(--surface));
@@ -2939,6 +2951,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   font-family: var(--display);
   font-size: 22px;
   letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
   color: var(--player, var(--blue));
   text-shadow: var(--title-glow);
 }
@@ -2947,13 +2960,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     linear-gradient(180deg, color-mix(in srgb, var(--player, var(--blue)) 10%, transparent), var(--surface));
 }
 .lf-card h3 { color: var(--player, var(--blue)); }
+.lf-sheet .metric-grid { margin-top: 28px; }
 .metric.has-meter {
   display: grid;
-  grid-template-columns: minmax(108px, 1.2fr) minmax(40px, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 72px 4.8em;
   align-items: center;
   gap: 10px;
 }
-.metric.has-meter > span { min-width: 0; }
+.metric.has-meter > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .meter {
   display: block;
   height: 6px;
