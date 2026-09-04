@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogador · Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/badge.png?v=43" type="image/png">
+  <link rel="icon" href="/img/badge.png?v=44" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=43">
+  <link rel="stylesheet" href="/css/app.css?v=44">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=43"></script>
+  <script src="/js/site.js?v=44"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -110,11 +110,11 @@
       const bySteam = Object.fromEntries(roster.filter((r) => r.steamId).map((r) => [r.steamId, r]));
       const rows = mates.map((m) => {
         const mate = bySteam[m.steam64Id];
-        const label = mate
-          ? `<a href="/jogador/${encodeURIComponent(mate.id)}">${esc(mate.name)}</a>`
-          : `<a href="https://steamcommunity.com/profiles/${esc(m.steam64Id)}" target="_blank" rel="noreferrer">${esc(m.steam64Id)}</a>`;
+        if (!mate) return "";
+        const label = `<a href="/jogador/${encodeURIComponent(mate.id)}">${esc(mate.name)}</a>`;
         return `<div class="metric"><span>${label}</span><b>${m.matches} <i>${WTC.t("lf.matesUnit")}</i></b></div>`;
-      }).join("");
+      }).filter(Boolean).join("");
+      if (!rows) return "";
       return `<div class="card metric-card">
         <h3>${WTC.t("lf.mates")}</h3>
         ${rows}
@@ -156,7 +156,6 @@
       const s = WTC.stats(p);
       const lf = p.leetify;
       const links = [
-        p.steamUrl && `<a class="btn btn-ghost" href="${p.steamUrl}" target="_blank" rel="noreferrer">Steam</a>`,
         p.faceitUrl && `<a class="btn btn-ghost" href="${p.faceitUrl}" target="_blank" rel="noreferrer">FACEIT</a>`,
         p.twitchUrl && `<a class="btn btn-ghost" href="${p.twitchUrl}" target="_blank" rel="noreferrer">Twitch</a>`
       ].filter(Boolean).join("");
@@ -166,8 +165,7 @@
         infoRow("info.from", WTC.place(p)),
         infoRow("info.since", p.startedPlaying),
         infoRow("info.joined", p.joinedAt),
-        infoRow("lf.since", lf && lf.firstMatch ? new Date(lf.firstMatch).toLocaleDateString() : ""),
-        infoRow("info.steamId", p.steamId)
+        infoRow("lf.since", lf && lf.firstMatch ? new Date(lf.firstMatch).toLocaleDateString() : "")
       ].filter(Boolean).join("");
       const synced = lf && lf.syncedAt
         ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>`
