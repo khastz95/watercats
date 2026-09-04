@@ -449,6 +449,7 @@ body.nav-open .header { z-index: 210; }
   .menu-toggle { display: flex; }
   .hero { grid-template-columns: 1fr; padding-top: 36px; gap: 28px; }
   .hero-word img { width: min(420px, 100%); }
+  .hero-logo img { width: min(380px, 82%); }
   .star-pop { display: none; }
   .nav-sheet {
     display: block;
@@ -609,7 +610,7 @@ body.nav-open .header { z-index: 210; }
 .hero-logo img {
   position: relative;
   z-index: 1;
-  width: min(268px, 70%);
+  width: min(440px, 92%);
   margin: 0 auto;
   animation: logoFloat 8s ease-in-out infinite;
   filter: drop-shadow(0 8px 18px rgba(0, 16, 36, 0.38));
