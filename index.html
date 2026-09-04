@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/icon-dark.png?v=29" type="image/png">
+  <link rel="icon" href="/img/icon-dark.png?v=30" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=29">
+  <link rel="stylesheet" href="/css/app.css?v=30">
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
@@ -18,7 +18,7 @@
       <div class="hero-logo">
         <span class="hero-orbit" aria-hidden="true"></span>
         <span class="hero-orbit is-slow" aria-hidden="true"></span>
-        <img src="/img/logo-dark.png?v=29" alt="Logo Watercats" data-logo>
+        <img src="/img/logo-dark.png?v=30" alt="Logo Watercats" data-logo>
       </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
@@ -78,11 +78,11 @@
         </div>
         <a href="/clips" data-i18n="cta.clips"></a>
       </div>
-      <div id="clips" class="grid clips"></div>
+      <div id="clips"></div>
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=29"></script>
+  <script src="/js/site.js?v=30"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");
@@ -104,7 +104,7 @@
         if (facts) facts.innerHTML = WTC.factStrip(players, allClips);
 
         const featured = allClips.filter((c) => c.featured);
-        const showClips = (featured.length ? featured : allClips).slice(0, 6);
+        const showClips = (featured.length ? featured : allClips).slice(0, 12);
         const hotPlayers = players
           .map((p) => ({ p, s: WTC.stats(p) }))
           .sort((a, b) => (b.s.rating ?? -Infinity) - (a.s.rating ?? -Infinity))
@@ -118,7 +118,7 @@
 
         stats.innerHTML = WTC.houseCards(players, allClips);
         clips.innerHTML = showClips.length
-          ? showClips.map((c, i) => WTC.clipCard(c, { featured: i === 0 })).join("")
+          ? WTC.clipReel(showClips)
           : WTC.emptyBox("empty.clips");
         WTC.motion();
       } catch {

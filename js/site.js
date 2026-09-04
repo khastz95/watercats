@@ -11,20 +11,20 @@ const I18N = {
     "nav.close": "Fechar",
     "hero.kicker": "Watercats · CS2",
     "hero.tagline": "OLD FRIENDS. SAME GAMES.",
-    "hero.lede": "A amizade veio antes do servidor. Aqui mora o time, o momento de cada um e as jogadas que a gente ainda manda no grupo.",
-    "cta.players": "Ver o time",
-    "cta.clips": "Ver as jogadas",
+    "hero.lede": "Cinco. O mesmo servidor. O restante não pede apresentação.",
+    "cta.players": "Elenco",
+    "cta.clips": "Arquivo",
     "cta.discord": "Discord",
-    "cta.about": "Quem somos",
-    "home.kicker": "Cinco pontas",
-    "home.roster": "Quem joga",
-    "home.strip": "Cinco na tag. Fichas, números e jogadas no mesmo lugar.",
-    "star.sub": "O time inteiro numa estrela.",
-    "star.hint": "Passe o mouse pra ver o resumo. Clica se quiser a ficha.",
-    "home.clips": "As que ficam",
-    "home.stats": "O placar",
-    "home.hot": "Em fase",
-    "home.hot.sub": "Quem tá com o rating mais alto agora.",
+    "cta.about": "Sobre",
+    "home.kicker": "Elenco",
+    "home.roster": "Formação",
+    "home.strip": "Registro oficial.",
+    "star.sub": "Formação atual.",
+    "star.hint": "Passe o cursor. Abra a ficha.",
+    "home.clips": "Arquivo",
+    "home.stats": "Indicadores",
+    "home.hot": "Forma",
+    "home.hot.sub": "Os três índices mais altos do momento.",
     "home.now": "Agora",
     "stat.players": "Jogadores",
     "stat.rating": "Melhor rating",
@@ -32,51 +32,52 @@ const I18N = {
     "stat.clips": "Jogadas",
     "stat.winrate": "Vitórias",
     "stat.premier": "Premier",
-    "players.kicker": "O time",
-    "players.sub": "Cinco nomes, uma estrela. Entra na ficha de quem você veio ver.",
+    "players.kicker": "Elenco",
+    "players.sub": "A formação. Cada ficha, no próprio tempo.",
     "stats.kicker": "Temporada",
-    "stats.sub": "O que cada um tá fazendo na fila. Se o número não apareceu, ainda não deu.",
-    "clips.kicker": "Destaques",
+    "stats.sub": "O que a temporada registrou. Sem ruído.",
+    "clips.kicker": "Arquivo",
     "clips.title": "Jogadas",
-    "clips.sub": "O que a gente não apaga. Filtra por jogador se veio atrás de alguém.",
-    "about.kicker": "A casa",
-    "about.title": "Quem somos",
-    "about.p1": "Watercats é o que sobra quando a amizade dura mais que o jogo da vez. A gente se conhece de antes, joga junto até agora e não tem pressa de virar outra coisa.",
-    "about.p2": "Cinco na tag: khastz, bill, fury, cadu e s4mz. Ficha de cada um, os números da temporada e as jogadas que ainda rodam no grupo.",
-    "about.p3": "CS2 é o servidor de agora. O resto é o de sempre: entrar, jogar e rir do clutch que não veio.",
-    "about.crew": "O time",
-    "clips.all": "Todo mundo",
-    "clips.play": "Ver jogada",
-    "empty.players": "O time ainda tá sendo montado aqui.",
-    "empty.clips": "A pasta de jogadas tá vazia. Por enquanto.",
-    "empty.stats": "Os números aparecem quando a galera senta pra jogar.",
-    "error.load": "Deu ruim pra carregar. Tenta de novo.",
+    "clips.sub": "O registro. Filtre se precisar.",
+    "clips.more": "Carregar mais",
+    "about.kicker": "Registro",
+    "about.title": "Sobre",
+    "about.p1": "Watercats existe em silêncio. Quem precisa saber, já sabe.",
+    "about.p2": "Cinco nomes. Um servidor. O restante fica fora de ata.",
+    "about.p3": "CS2. O mesmo jogo. Sem comunicado.",
+    "about.crew": "Formação",
+    "clips.all": "Todos",
+    "clips.play": "Reproduzir",
+    "empty.players": "Formação em atualização.",
+    "empty.clips": "Arquivo vazio.",
+    "empty.stats": "Sem registro nesta temporada.",
+    "error.load": "Falha ao carregar.",
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
     "footer.tag": "OLD FRIENDS. SAME GAMES.",
-    "footer.blurb": "O time, os números e as jogadas dos Watercats.",
-    "footer.explore": "Pelas páginas",
-    "footer.community": "Onde a gente fala",
-    "footer.house": "Painel",
-    "footer.copy": "Feito em casa. Pelos Watercats.",
-    "status.active": "Na rotação",
-    "status.inactive": "Sumido",
-    "status.alumni": "Já foi da casa",
-    "profile.emptyBio": "Bio em branco. O cara existe. O texto, ainda não.",
-    "profile.plays": "Jogadas",
+    "footer.blurb": "Elenco. Indicadores. Arquivo.",
+    "footer.explore": "Navegação",
+    "footer.community": "Canal",
+    "footer.house": "Acesso",
+    "footer.copy": "Watercats.",
+    "status.active": "Ativo",
+    "status.inactive": "Ausente",
+    "status.alumni": "Arquivo",
+    "profile.emptyBio": "Sem nota.",
+    "profile.plays": "Arquivo",
     "profile.info": "Ficha",
-    "profile.numbers": "Como tá jogando",
-    "profile.crew": "O resto do time",
-    "profile.crewSub": "Clica em outro pra trocar de ficha.",
+    "profile.numbers": "Indicadores",
+    "profile.crew": "Formação",
+    "profile.crewSub": "Próxima ficha.",
     "info.realName": "Nome",
     "info.role": "Função",
     "info.from": "De",
     "info.since": "Joga desde",
     "info.joined": "Entrou em",
     "info.steamId": "Steam",
-    "lf.sub": "Números das partidas recentes.",
+    "lf.sub": "Partidas recentes.",
     "lf.synced": "Atualizado em",
-    "lf.empty": "Ainda sem números nessa temporada.",
+    "lf.empty": "Sem registro nesta temporada.",
     "lf.sync": "Atualizar números",
     "lf.rating": "Rating",
     "lf.premier": "Premier",
@@ -93,7 +94,7 @@ const I18N = {
     "lf.skills": "Como joga",
     "lf.maps": "Por mapa",
     "lf.recent": "Últimas partidas",
-    "lf.mates": "Costuma jogar com",
+    "lf.mates": "Filas recentes",
     "lf.matesUnit": "partidas juntos",
     "lf.bans": "Punições",
     "group.aim": "Mira",
@@ -145,8 +146,8 @@ const I18N = {
     "th.wl": "V/D",
     "th.kills": "Kills",
     "th.clutches": "Clutches",
-    "login.title": "Porta dos fundos",
-    "login.body": "Se você não cuida do site, essa porta não é pra você.",
+    "login.title": "Acesso",
+    "login.body": "Área restrita.",
     "login.password": "Senha",
     "login.submit": "Entrar",
     "login.bad": "Senha errada.",
@@ -166,20 +167,20 @@ const I18N = {
     "nav.close": "Close",
     "hero.kicker": "Watercats · CS2",
     "hero.tagline": "OLD FRIENDS. SAME GAMES.",
-    "hero.lede": "The friendship was here before the server. This is the roster, how each of us is playing, and the clips we still send in the chat.",
-    "cta.players": "See the roster",
-    "cta.clips": "Watch the clips",
+    "hero.lede": "Five. Same server. The rest needs no introduction.",
+    "cta.players": "Roster",
+    "cta.clips": "Archive",
     "cta.discord": "Discord",
-    "cta.about": "Who we are",
-    "home.kicker": "Five points",
-    "home.roster": "Who plays",
-    "home.strip": "Five on the tag. Profiles, numbers and clips in one place.",
-    "star.sub": "The whole roster on a star.",
-    "star.hint": "Hover for a snapshot. Click for the full page.",
-    "home.clips": "The ones that stay",
-    "home.stats": "The board",
-    "home.hot": "In form",
-    "home.hot.sub": "Highest ratings right now.",
+    "cta.about": "About",
+    "home.kicker": "Roster",
+    "home.roster": "Lineup",
+    "home.strip": "Official record.",
+    "star.sub": "Current lineup.",
+    "star.hint": "Hover. Open the file.",
+    "home.clips": "Archive",
+    "home.stats": "Figures",
+    "home.hot": "Form",
+    "home.hot.sub": "The three highest marks right now.",
     "home.now": "Now",
     "stat.players": "Players",
     "stat.rating": "Best rating",
@@ -187,42 +188,43 @@ const I18N = {
     "stat.clips": "Clips",
     "stat.winrate": "Wins",
     "stat.premier": "Premier",
-    "players.kicker": "The roster",
-    "players.sub": "Five names, one star. Open the page of whoever you came for.",
+    "players.kicker": "Roster",
+    "players.sub": "The lineup. Each file, in its own time.",
     "stats.kicker": "Season",
-    "stats.sub": "What each of us is doing in queue. Empty means it isn't in yet.",
-    "clips.kicker": "Highlights",
+    "stats.sub": "What the season recorded. No noise.",
+    "clips.kicker": "Archive",
     "clips.title": "Clips",
-    "clips.sub": "The ones we don't delete. Filter by player if you came looking for someone.",
-    "about.kicker": "The house",
-    "about.title": "Who we are",
-    "about.p1": "Watercats is what remains when friendship outlasts the game of the month. We knew each other first. We still play. We're not in a rush to become something else.",
-    "about.p2": "Five on the tag: khastz, bill, fury, cadu and s4mz. A page for each, the season's numbers, and the clips that still loop in the chat.",
-    "about.p3": "CS2 is the server now. The rest is the same as always: queue up, play, and laugh at the clutch that didn't come.",
-    "about.crew": "The roster",
-    "clips.all": "Everyone",
-    "clips.play": "Watch clip",
-    "empty.players": "The crew isn't up here yet.",
-    "empty.clips": "The clip folder is empty. For now.",
-    "empty.stats": "Numbers show up once people actually play.",
-    "error.load": "Couldn't load this. Try again.",
+    "clips.sub": "The record. Filter if needed.",
+    "clips.more": "Load more",
+    "about.kicker": "Record",
+    "about.title": "About",
+    "about.p1": "Watercats keeps a low profile. Those who need to know already do.",
+    "about.p2": "Five names. One server. The rest stays off the record.",
+    "about.p3": "CS2. Same game. No statement.",
+    "about.crew": "Lineup",
+    "clips.all": "All",
+    "clips.play": "Play",
+    "empty.players": "Lineup updating.",
+    "empty.clips": "Archive empty.",
+    "empty.stats": "No record this season.",
+    "error.load": "Failed to load.",
     "retry": "Try again",
     "skip": "Skip to content",
     "footer.tag": "OLD FRIENDS. SAME GAMES.",
-    "footer.blurb": "The roster, the numbers and the clips from Watercats.",
-    "footer.explore": "Around the site",
-    "footer.community": "Where we talk",
-    "footer.house": "Panel",
-    "footer.copy": "Made at home. By Watercats.",
-    "status.active": "In rotation",
-    "status.inactive": "MIA",
-    "status.alumni": "Used to be here",
-    "profile.emptyBio": "Blank bio. The player exists. The paragraph doesn't.",
-    "profile.plays": "Clips",
-    "profile.info": "Profile",
-    "profile.numbers": "How they play",
-    "profile.crew": "The rest of the roster",
-    "profile.crewSub": "Click someone else to switch pages.",
+    "footer.blurb": "Roster. Figures. Archive.",
+    "footer.explore": "Navigate",
+    "footer.community": "Channel",
+    "footer.house": "Access",
+    "footer.copy": "Watercats.",
+    "status.active": "Active",
+    "status.inactive": "Away",
+    "status.alumni": "Archive",
+    "profile.emptyBio": "No note.",
+    "profile.plays": "Archive",
+    "profile.info": "File",
+    "profile.numbers": "Figures",
+    "profile.crew": "Lineup",
+    "profile.crewSub": "Next file.",
     "info.realName": "Name",
     "info.role": "Role",
     "info.from": "From",
@@ -300,8 +302,8 @@ const I18N = {
     "th.wl": "W/L",
     "th.kills": "Kills",
     "th.clutches": "Clutches",
-    "login.title": "Back door",
-    "login.body": "If you don't run the site, this door isn't for you.",
+    "login.title": "Access",
+    "login.body": "Restricted.",
     "login.password": "Password",
     "login.submit": "Sign in",
     "login.bad": "Wrong password.",
@@ -326,8 +328,8 @@ function theme() {
 function applyTheme() {
   const t = theme();
   document.documentElement.setAttribute("data-theme", t);
-  const logo = `/img/logo-${t}.png?v=29`;
-  const icon = `/img/icon-${t}.png?v=29`;
+  const logo = `/img/logo-${t}.png?v=30`;
+  const icon = `/img/icon-${t}.png?v=30`;
   document.querySelectorAll("[data-logo]").forEach((el) => {
     if (el.classList.contains("is-player")) return;
     el.src = logo;
@@ -388,7 +390,10 @@ function setMenu(open) {
   if (!header) return;
   header.classList.toggle("is-open", open);
   document.body.classList.toggle("nav-open", open);
-  if (sheet) sheet.setAttribute("aria-hidden", open ? "false" : "true");
+  if (sheet) {
+    sheet.classList.toggle("is-open", open);
+    sheet.setAttribute("aria-hidden", open ? "false" : "true");
+  }
   if (toggle) {
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
@@ -401,8 +406,8 @@ function mountChrome() {
   const footer = document.getElementById("footer");
   const here = pageId();
   const th = theme();
-  const logo = `/img/logo-${th}.png?v=29`;
-  const icon = `/img/icon-${th}.png?v=29`;
+  const logo = `/img/logo-${th}.png?v=30`;
+  const icon = `/img/icon-${th}.png?v=30`;
   const tools = `
     <button class="lang" type="button" data-lang></button>
     <button class="theme" type="button" data-theme-btn></button>
@@ -427,7 +432,7 @@ function mountChrome() {
             <div class="nav-tools">${tools}</div>
           </nav>
           <button class="menu-toggle" type="button" data-menu aria-controls="nav-sheet" aria-expanded="false" aria-label="${t("nav.menu")}">
-            <span></span><span></span><span></span>
+            <i></i><i></i><i></i>
           </button>
         </div>
       </div>`;
@@ -508,7 +513,7 @@ function mountChrome() {
       if (e.key === "Escape") setMenu(false);
     });
     window.addEventListener("resize", () => {
-      if (window.matchMedia("(min-width: 901px)").matches) setMenu(false);
+      if (window.matchMedia("(min-width: 1101px)").matches) setMenu(false);
     });
   }
   applyI18n();
@@ -664,7 +669,7 @@ function skillBars(p) {
 }
 
 function photoFrame(p) {
-  const icon = `/img/icon-${theme()}.png?v=29`;
+  const icon = `/img/icon-${theme()}.png?v=30`;
   return `<div class="photo-frame">
     <span class="frame-orbit"></span>
     <span class="frame-orbit is-slow"></span>
@@ -846,7 +851,7 @@ function starRoster(players, options = {}) {
       ${starPop(p)}
     </a>`;
   }).join("");
-  const mark = `/img/icon-${theme()}.png?v=29`;
+  const mark = `/img/icon-${theme()}.png?v=30`;
   return `<div class="star-stage${compact ? " is-compact" : ""}">
     <div class="star-glow" aria-hidden="true"></div>
     <div class="star-roster${compact ? " is-compact" : ""}" role="group" aria-label="${escapeAttr(t("star.sub"))}">
@@ -930,7 +935,7 @@ function houseCards(players, clips) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .clip-reel";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
@@ -960,6 +965,26 @@ function fmtDuration(n) {
   const m = Math.floor(s / 60);
   const r = s % 60;
   return m ? `${m}:${String(r).padStart(2, "0")}` : `${s}s`;
+}
+
+function clipReel(clips) {
+  const rows = (clips || []).slice(0, 12);
+  if (!rows.length) return "";
+  const cards = rows.map((c) => clipCard(c)).join("");
+  return `<div class="clip-reel" data-reel>
+    <div class="reel-track">${cards}${cards}</div>
+  </div>`;
+}
+
+function clipPager(clips, shown) {
+  const rows = clips || [];
+  const size = Math.max(shown, 0);
+  const slice = rows.slice(0, size);
+  const more = size < rows.length
+    ? `<div class="clip-more"><button type="button" class="btn" data-clip-more>${t("clips.more")}</button></div>`
+    : "";
+  if (!slice.length) return emptyBox("empty.clips");
+  return slice.map((c, i) => clipCard(c, { featured: i === 0 })).join("") + more;
 }
 
 function clipCard(c, options = {}) {
@@ -1025,6 +1050,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-play-clip]");
   if (!btn) return;
+  const reel = btn.closest("[data-reel]");
+  if (reel) reel.classList.add("is-paused");
   const frame = document.createElement("iframe");
   frame.src = btn.dataset.playClip;
   frame.title = btn.dataset.playTitle || "";
@@ -1035,7 +1062,7 @@ document.addEventListener("click", (e) => {
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
-  playerCard, starRoster, clipCard, emptyBox, errorBox, statusLabel,
+  playerCard, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, motion,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
