@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Watercats</title>
   <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("wtc_theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-  <link rel="icon" href="/img/badge.png?v=35" type="image/png">
+  <link rel="icon" href="/img/badge.png?v=36" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=35">
+  <link rel="stylesheet" href="/css/app.css?v=36">
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
@@ -18,17 +18,24 @@
       <div class="hero-logo">
         <span class="hero-orbit" aria-hidden="true"></span>
         <span class="hero-orbit is-slow" aria-hidden="true"></span>
-        <img src="/img/badge.png?v=35" alt="Logo Watercats" data-logo>
+        <img src="/img/badge.png?v=36" alt="Logo Watercats" data-logo>
       </div>
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker"></p>
         <h1>WATER<span>CATS</span></h1>
         <p class="tagline">OLD FRIENDS. <span>SAME GAMES.</span></p>
         <p class="lede" data-i18n="hero.lede"></p>
+        <p class="lede" data-i18n="hero.body"></p>
+        <div class="hero-notes">
+          <span data-i18n="hero.note.cs"></span>
+          <span data-i18n="hero.note.friends"></span>
+          <span data-i18n="hero.note.tag"></span>
+        </div>
         <div class="actions">
           <a class="btn" href="/players" data-i18n="cta.players"></a>
           <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
           <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
+          <a class="btn btn-ghost" href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer" data-i18n="cta.discord"></a>
         </div>
       </div>
     </section>
@@ -42,11 +49,38 @@
     <section class="wrap section">
       <div class="section-head">
         <div>
+          <p class="kicker" data-i18n="home.story.kicker"></p>
+          <h2 data-i18n="home.story.title"></h2>
+          <p data-i18n="home.story.lead"></p>
+        </div>
+        <a href="/sobre" data-i18n="cta.about"></a>
+      </div>
+      <div class="story-grid">
+        <article class="story-card">
+          <h3 data-i18n="home.story.1.t"></h3>
+          <p data-i18n="home.story.1"></p>
+        </article>
+        <article class="story-card">
+          <h3 data-i18n="home.story.2.t"></h3>
+          <p data-i18n="home.story.2"></p>
+        </article>
+        <article class="story-card">
+          <h3 data-i18n="home.story.3.t"></h3>
+          <p data-i18n="home.story.3"></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div>
           <p class="kicker" data-i18n="home.kicker"></p>
           <h2 data-i18n="home.roster"></h2>
+          <p data-i18n="home.roster.sub"></p>
         </div>
         <a href="/players" data-i18n="cta.players"></a>
       </div>
+      <p class="house-strip" data-i18n="home.strip"></p>
       <div id="roster"></div>
     </section>
 
@@ -65,6 +99,7 @@
       <div class="section-head">
         <div>
           <h2 data-i18n="home.stats"></h2>
+          <p data-i18n="home.stats.sub"></p>
         </div>
         <a href="/stats" data-i18n="nav.stats"></a>
       </div>
@@ -75,14 +110,32 @@
       <div class="section-head">
         <div>
           <h2 data-i18n="home.clips"></h2>
+          <p data-i18n="home.clips.sub"></p>
         </div>
         <a href="/clips" data-i18n="cta.clips"></a>
       </div>
       <div id="clips"></div>
     </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="home.place.kicker"></p>
+          <h2 data-i18n="home.place.title"></h2>
+        </div>
+      </div>
+      <div class="place-box">
+        <p data-i18n="home.place.body"></p>
+        <div class="actions">
+          <a class="btn" href="https://discord.gg/et6N2Y3pJj" target="_blank" rel="noreferrer" data-i18n="cta.discord"></a>
+          <a class="btn btn-ghost" href="https://steamcommunity.com/groups/watercatsgg" target="_blank" rel="noreferrer" data-i18n="home.place.steam"></a>
+          <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=35"></script>
+  <script src="/js/site.js?v=36"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");
