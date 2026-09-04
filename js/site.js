@@ -318,7 +318,7 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=33";
+const MARK = "/img/badge.png?v=34";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -409,14 +409,14 @@ function mountWater() {
     <div class="water-caustics"></div>
     <div class="water-sheen"></div>
     <div class="water-surface">
-      <svg class="wave-a" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0 52c80 28 160-28 240 0s160-28 240 0 160-28 240 0 160-28 240 0 160-28 240 0v68H0Z"/>
+      <svg class="wave-a" viewBox="0 0 2400 220" preserveAspectRatio="none">
+        <path d="M0 118 C80 18 160 218 240 118 S400 18 480 118 S640 218 720 118 S880 18 960 118 S1120 218 1200 118 C1280 18 1360 218 1440 118 S1600 18 1680 118 S1840 218 1920 118 S2080 18 2160 118 S2320 218 2400 118 V220 H0 Z"/>
       </svg>
-      <svg class="wave-b" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0 64c100 24 180-32 280-4s180-28 260 4 200-30 280 0 200-24 260 8 80-12 120 4v48H0Z"/>
+      <svg class="wave-b" viewBox="0 0 2400 220" preserveAspectRatio="none">
+        <path d="M0 132 C100 32 200 208 300 132 S500 32 600 132 S800 208 900 132 S1100 32 1200 132 C1300 32 1400 208 1500 132 S1700 32 1800 132 S2000 208 2100 132 S2300 32 2400 132 V220 H0 Z"/>
       </svg>
-      <svg class="wave-c" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0 78c120 18 200-22 320 0s220-24 320 2 200-20 280 6 160-10 280 4v30H0Z"/>
+      <svg class="wave-c" viewBox="0 0 2400 220" preserveAspectRatio="none">
+        <path d="M0 152 C65 82 135 202 200 152 S335 82 400 152 S535 202 600 152 S735 82 800 152 S935 202 1000 152 S1135 82 1200 152 C1265 82 1335 202 1400 152 S1535 82 1600 152 S1735 202 1800 152 S1935 82 2000 152 S2135 202 2200 152 S2335 82 2400 152 V220 H0 Z"/>
       </svg>
     </div>`;
   document.body.appendChild(el);

@@ -122,47 +122,45 @@ body::before {
   filter: blur(8px);
   mix-blend-mode: screen;
   opacity: 0.72;
-  animation: waterCaustic 16s ease-in-out infinite alternate;
+  animation: waterCaustic 54s ease-in-out infinite alternate;
 }
 .water-sheen {
   inset: 0;
-  background: repeating-linear-gradient(
-    118deg,
-    transparent 0 48px,
-    rgba(190, 240, 255, 0.08) 58px,
-    transparent 82px
-  );
-  background-size: 240% 240%;
+  background:
+    radial-gradient(ellipse 80% 40% at 20% 30%, rgba(190, 240, 255, 0.1), transparent 62%),
+    radial-gradient(ellipse 70% 36% at 78% 62%, rgba(120, 210, 255, 0.08), transparent 64%);
   mix-blend-mode: screen;
-  opacity: 0.55;
-  animation: waterSheen 22s linear infinite;
+  opacity: 0.5;
+  animation: waterSheen 72s ease-in-out infinite alternate;
 }
 .water-surface {
   left: 0;
   right: 0;
   bottom: 0;
-  height: clamp(84px, 18vw, 170px);
+  height: clamp(130px, 26vw, 240px);
 }
 .water-surface svg {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -6%;
   width: 200%;
-  height: 100%;
+  height: 118%;
   fill: var(--wave-a);
-  animation: waterWave 12s linear infinite;
+  transform-origin: 50% 100%;
+  animation: waterWave 48s linear infinite;
 }
 .water-surface .wave-b {
   fill: var(--wave-b);
-  animation-duration: 18s;
+  animation-duration: 72s;
   animation-direction: reverse;
-  opacity: 0.85;
+  opacity: 0.88;
+  height: 108%;
 }
 .water-surface .wave-c {
   fill: var(--wave-c);
-  animation-duration: 26s;
-  height: 62%;
-  opacity: 0.9;
+  animation-duration: 96s;
+  height: 78%;
+  opacity: 0.95;
 }
 [data-theme="light"] .water-caustics {
   mix-blend-mode: multiply;
@@ -175,14 +173,17 @@ body::before {
 
 @keyframes waterCaustic {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(-3.2%, 2.2%, 0) scale(1.08); }
-  100% { transform: translate3d(2.6%, -1.8%, 0) scale(1.04); }
+  50%  { transform: translate3d(-2.2%, 1.4%, 0) scale(1.04); }
+  100% { transform: translate3d(1.8%, -1.1%, 0) scale(1.02); }
 }
 @keyframes waterSheen {
-  to { background-position: 240% 80%; }
+  0%   { transform: translate3d(0, 0, 0); opacity: 0.42; }
+  100% { transform: translate3d(-3%, 2%, 0); opacity: 0.58; }
 }
 @keyframes waterWave {
-  to { transform: translateX(-50%); }
+  0%   { transform: translate3d(0, 6px, 0) scaleY(1); }
+  50%  { transform: translate3d(-25%, -8px, 0) scaleY(1.12); }
+  100% { transform: translate3d(-50%, 6px, 0) scaleY(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
