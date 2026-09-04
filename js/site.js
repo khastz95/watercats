@@ -105,6 +105,8 @@ const I18N = {
     "lf.synced": "Atualizado em",
     "lf.empty": "Ainda sem números nesta temporada.",
     "lf.sync": "Atualizar números",
+    "lf.syncing": "Atualizando…",
+    "lf.syncWait": "Já atualizado agora há pouco.",
     "lf.rating": "Rating",
     "lf.premier": "Premier",
     "lf.winrate": "Vitórias",
@@ -311,6 +313,8 @@ const I18N = {
     "lf.synced": "Updated",
     "lf.empty": "No numbers for this season yet.",
     "lf.sync": "Refresh numbers",
+    "lf.syncing": "Updating…",
+    "lf.syncWait": "Just updated a moment ago.",
     "lf.rating": "Rating",
     "lf.premier": "Premier",
     "lf.winrate": "Win rate",
@@ -903,6 +907,11 @@ function sourceLabel(source) {
   return label === key ? (source || "—") : label;
 }
 
+function leetifySyncBtn(id) {
+  if (!id) return "";
+  return `<button type="button" class="btn btn-ghost lf-sync" data-leetify-sync="${escapeAttr(id)}">${t("lf.sync")}</button>`;
+}
+
 function meterRow(label, text, width) {
   return `<div class="metric has-meter">
     <span>${label}</span>
@@ -997,7 +1006,7 @@ function leetifyDossier(p, roster = [], options = {}) {
 
   return `
     <section class="section lf-sheet">
-      <div class="section-head"><div><p class="kicker">${t("lf.sheet")}</p><h2>${t("profile.numbers")}</h2></div></div>
+      <div class="section-head"><div><p class="kicker">${t("lf.sheet")}</p><h2>${t("profile.numbers")}</h2></div>${leetifySyncBtn(p.id)}</div>
       <div class="grid stats-grid">
         ${countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2)}
         ${countBox(dash(s.premier), t("lf.premier"), s.premier)}
@@ -1588,6 +1597,6 @@ window.WTC = {
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
-  identity, displayName, profileLinks, cardInk, leetifyDossier,
+  identity, displayName, profileLinks, cardInk, leetifyDossier, leetifySyncBtn,
   TOKEN_KEY
 };

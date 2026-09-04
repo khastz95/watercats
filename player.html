@@ -25,13 +25,13 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=53">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=69">
+  <link rel="stylesheet" href="/css/app.css?v=70">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=69"></script>
+  <script src="/js/site.js?v=70"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -79,7 +79,7 @@
       root.innerHTML = `
         ${WTC.profileHero(p, { info })}
 
-        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div></div>${synced}</section>`}
+        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div>${WTC.leetifySyncBtn(p.id)}</div>${synced}</section>`}
 
         <section class="section">
           <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
@@ -112,7 +112,36 @@
       })
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
     document.addEventListener("wtc:lang", draw);
-    root.addEventListener("click", (e) => {
+    root.addEventListener("click", async (e) => {
+      const sync = e.target.closest("[data-leetify-sync]");
+      if (sync) {
+        if (sync.disabled) return;
+        const id = sync.getAttribute("data-leetify-sync");
+        const y = window.scrollY;
+        sync.disabled = true;
+        sync.textContent = WTC.t("lf.syncing");
+        try {
+          const data = await WTC.api("/api/leetify", { method: "POST", body: { id } });
+          const row = (data.results || [])[0] || {};
+          if (row.ok === false) throw new Error(row.error || "Erro");
+          if (data.skipped || row.skipped) {
+            sync.textContent = WTC.t("lf.syncWait");
+            setTimeout(() => {
+              sync.disabled = false;
+              sync.textContent = WTC.t("lf.sync");
+            }, 1800);
+            return;
+          }
+          const fresh = await WTC.api("/api/players?id=" + encodeURIComponent(id));
+          player = fresh.player;
+          draw();
+          window.scrollTo(0, y);
+        } catch (err) {
+          sync.disabled = false;
+          sync.textContent = err.message || WTC.t("lf.sync");
+        }
+        return;
+      }
       const moreMatches = e.target.closest("[data-match-more]");
       const moreClips = e.target.closest("[data-clip-more]");
       if (!moreMatches && !moreClips) return;
