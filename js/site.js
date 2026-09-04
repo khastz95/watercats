@@ -358,7 +358,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const THEME_KEY = "wtc_theme";
-const MARK = "/img/badge.png?v=36";
+const MARK = "/img/badge.png?v=37";
+const WORD = (t) => `/img/wordmark-${t}.png?v=37`;
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -369,7 +370,10 @@ function theme() {
 }
 
 function applyTheme() {
-  document.documentElement.setAttribute("data-theme", theme());
+  const t = theme();
+  document.documentElement.setAttribute("data-theme", t);
+  const word = WORD(t);
+  document.querySelectorAll("[data-wordmark]").forEach((el) => { el.src = word; });
   document.querySelectorAll("[data-logo]").forEach((el) => {
     if (el.classList.contains("is-player")) return;
     el.src = MARK;
@@ -505,9 +509,8 @@ function mountChrome() {
       <div class="header-bar">
         <div class="wrap header-inner">
           <a class="brand" href="/">
-            <img src="${icon}" alt="" data-icon>
             <span class="brand-lockup">
-              <span class="brand-name">WATER<span>CATS</span></span>
+              <img src="${WORD(theme())}" alt="Watercats" data-wordmark>
               <span class="brand-sub">OLD FRIENDS. <em>SAME GAMES.</em></span>
             </span>
           </a>
