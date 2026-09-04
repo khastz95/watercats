@@ -909,7 +909,7 @@ function meterRow(label, text, width) {
   </div>`;
 }
 
-function leetifyDossier(p, roster = []) {
+function leetifyDossier(p, roster = [], options = {}) {
   const lf = p && p.leetify;
   if (!lf) return "";
   const s = stats(p);
@@ -919,6 +919,8 @@ function leetifyDossier(p, roster = []) {
   const mates = (lf.teammates || []).filter((m) => m.matches);
   const bySteam = Object.fromEntries((roster || []).filter((r) => r.steamId).map((r) => [r.steamId, r]));
   const list = lf.matchesRecent || [];
+  const shown = Math.max(0, Number(options.shown) || 6);
+  const visible = list.slice(0, shown);
 
   const rankTiles = [
     ["lf.rating", ranks.leetify, 2],
@@ -954,7 +956,7 @@ function leetifyDossier(p, roster = []) {
     `<div class="metric"><span>${escapeHtml([b.platform, b.nick].filter(Boolean).join(" · "))}</span><b>${b.since ? new Date(b.since).toLocaleDateString() : "—"}</b></div>`
   ).join("");
 
-  const matchCards = list.map((m) => {
+  const matchCards = visible.map((m) => {
     const extras = [
       m.kills != null && `<span><i>${t("th.kills")}</i><b>${dash(m.kills)}${m.deaths != null ? "/" + dash(m.deaths) : ""}</b></span>`,
       m.kd != null && `<span><i>${t("th.kd")}</i><b>${dash(m.kd, 2)}</b></span>`,
@@ -1021,10 +1023,11 @@ function leetifyDossier(p, roster = []) {
       <div class="section-head"><div><h2>${t("lf.bans")}</h2></div></div>
       <div class="card metric-card lf-card">${bans}</div>
     </section>` : ""}
-    ${list.length ? `<section class="section">
+    ${list.length ? `<section class="section" id="lf-history">
       <div class="section-head"><div><h2>${t("lf.recent")}</h2></div></div>
       ${matchRibbon(lf)}
       <div class="lf-matches">${matchCards}</div>
+      ${shown < list.length ? `<div class="lf-more"><button type="button" class="btn" data-match-more>${t("clips.more")}</button></div>` : ""}
     </section>` : ""}`;
 }
 
