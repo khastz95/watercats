@@ -3336,18 +3336,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .footer-brand { min-width: 0; }
 .footer-mark {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   max-width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .footer-medal {
   position: relative;
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
+  flex: none;
 }
 .footer-medal .seal-aura {
   inset: 10%;
@@ -3358,8 +3359,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .footer-seal {
   position: relative;
   z-index: 2;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   padding: 0;
   border: 0;
@@ -3370,8 +3371,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 .footer-mark img:not(.footer-seal) {
   display: block;
-  width: min(220px, 100%);
-  height: auto;
+  height: 26px;
+  width: auto;
+  max-width: min(200px, 52vw);
   object-fit: contain;
   object-position: left center;
 }
