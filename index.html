@@ -25,12 +25,12 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=87">
+  <link rel="stylesheet" href="/css/app.css?v=88">
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Pular para o conteúdo</a>
   <header class="header" id="header"></header>
-  <main id="main">
+  <main id="main" class="home-page">
     <section class="wrap hero">
       <div class="hero-logo">
         <div class="seal">
@@ -48,68 +48,72 @@
         </h1>
         <p class="tagline"><span>ALLIANCE</span></p>
         <p class="lede" data-i18n="hero.lede"></p>
-        <p class="lede" data-i18n="hero.body"></p>
-        <div class="hero-notes">
-          <span data-i18n="hero.note.cs"></span>
-          <span data-i18n="hero.note.friends"></span>
-          <span data-i18n="hero.note.tag"></span>
-        </div>
+        <ul class="about-chips hero-chips" aria-label="Watercats">
+          <li data-i18n="hero.note.cs"></li>
+          <li data-i18n="hero.note.friends"></li>
+          <li data-i18n="hero.note.tag"></li>
+        </ul>
         <div class="actions">
           <a class="btn" href="/players" data-i18n="cta.players"></a>
           <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
-          <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
+          <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
         </div>
       </div>
     </section>
 
-    <div class="pulse" id="pulse"></div>
+    <div class="pulse home-pulse" id="pulse"></div>
 
-    <section class="wrap">
-      <div class="facts" id="facts"></div>
+    <section class="wrap home-facts-block">
+      <div class="facts home-facts" id="facts"></div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
+    <section class="wrap section home-block">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="home.story.kicker"></p>
+          <p class="kicker"><span class="about-step">01</span> <span data-i18n="home.story.kicker"></span></p>
           <h2 data-i18n="home.story.title"></h2>
           <p data-i18n="home.story.lead"></p>
         </div>
-        <a href="/sobre" data-i18n="cta.about"></a>
+        <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
       </div>
       <div class="story-grid">
         <article class="story-card">
+          <span class="story-no">01</span>
           <h3 data-i18n="home.story.1.t"></h3>
           <p data-i18n="home.story.1"></p>
         </article>
         <article class="story-card">
+          <span class="story-no">02</span>
           <h3 data-i18n="home.story.2.t"></h3>
           <p data-i18n="home.story.2"></p>
         </article>
         <article class="story-card">
+          <span class="story-no">03</span>
           <h3 data-i18n="home.story.3.t"></h3>
           <p data-i18n="home.story.3"></p>
         </article>
       </div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
+    <section class="wrap section home-block">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="home.kicker"></p>
+          <p class="kicker"><span class="about-step">02</span> <span data-i18n="home.kicker"></span></p>
           <h2 data-i18n="home.roster"></h2>
           <p data-i18n="home.roster.sub"></p>
         </div>
-        <a href="/players" data-i18n="cta.players"></a>
+        <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
       </div>
       <p class="house-strip" data-i18n="home.strip"></p>
-      <div id="roster"></div>
+      <div class="players-table-shell home-table-shell">
+        <div id="roster"></div>
+      </div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
+    <section class="wrap section home-block">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="home.now"></p>
+          <p class="kicker"><span class="about-step">03</span> <span data-i18n="home.now"></span></p>
           <h2 data-i18n="home.hot"></h2>
           <p data-i18n="home.hot.sub"></p>
         </div>
@@ -117,47 +121,45 @@
       <div id="hot" class="hot-grid"></div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
+    <section class="wrap section home-block">
+      <div class="section-head about-section-head">
         <div>
-          <h2 data-i18n="home.stats"></h2>
+          <p class="kicker"><span class="about-step">04</span> <span data-i18n="home.stats"></span></p>
+          <h2 data-i18n="home.statsTitle"></h2>
           <p data-i18n="home.stats.sub"></p>
         </div>
-        <a href="/stats" data-i18n="nav.stats"></a>
+        <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
       </div>
       <div id="stats" class="grid stats-grid home-stats"></div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
+    <section class="wrap section home-block">
+      <div class="section-head about-section-head">
         <div>
-          <h2 data-i18n="home.clips"></h2>
+          <p class="kicker"><span class="about-step">05</span> <span data-i18n="home.clips"></span></p>
+          <h2 data-i18n="home.clipsTitle"></h2>
           <p data-i18n="home.clips.sub"></p>
         </div>
-        <a href="/clips" data-i18n="cta.clips"></a>
+        <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
       </div>
-      <div id="clips"></div>
+      <div class="home-clips-shell" id="clips"></div>
     </section>
 
-    <section class="wrap section">
-      <div class="section-head">
-        <div>
-          <p class="kicker" data-i18n="home.place.kicker"></p>
-          <h2 data-i18n="home.place.title"></h2>
-        </div>
-      </div>
-      <div class="place-box">
-        <p data-i18n="home.place.body"></p>
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="home.close.kicker"></p>
+        <h2 data-i18n="home.close.title"></h2>
+        <p data-i18n="home.close.lede"></p>
         <div class="actions">
-          <a class="btn" href="/players" data-i18n="cta.players"></a>
-          <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+          <a class="btn" href="/join" data-i18n="nav.join"></a>
           <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
+          <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
         </div>
       </div>
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=87"></script>
+  <script src="/js/site.js?v=88"></script>
   <script>
     async function boot() {
       const roster = document.getElementById("roster");

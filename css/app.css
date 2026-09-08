@@ -5007,4 +5007,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 
 @media (max-width: 900px) {
   .players-hero-grid { grid-template-columns: 1fr; }
-  .players-hero-side 
+  .players-hero-side {
+    justify-items: start;
+    order: -1;
+  }
+}
+@media (max-width: 640px) {
+  .players { grid-template-columns: 1fr; }
+  .player-card:hover { transform: none; }
+  .players-table-shell { padding: 8px 4px; }
+}
+
