@@ -419,7 +419,7 @@ const I18N = {
 
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
-const MARK = "/img/badge.png?v=62";
+const MARK = "/img/badge.png?v=71";
 const WORD = "/img/wordmark-dark.png?v=62";
 
 function lang() {
