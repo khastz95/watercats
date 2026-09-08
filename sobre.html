@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>O clube · Watercats! - Alliance</title>
-  <meta name="description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o que mais jogamos é CS2.">
+  <meta name="description" content="Watercats é um clube de amigos. Do CS 1.6 ao CS2, o mesmo nome no call.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/icon.png?v=71" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
@@ -14,45 +14,164 @@
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/sobre">
   <meta property="og:title" content="O clube · Watercats!">
-  <meta property="og:description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o que mais jogamos é CS2.">
+  <meta property="og:description" content="Watercats é um clube de amigos. Do CS 1.6 ao CS2, o mesmo nome no call.">
   <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="O clube · Watercats!">
-  <meta name="twitter:description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o que mais jogamos é CS2.">
+  <meta name="twitter:description" content="Watercats é um clube de amigos. Do CS 1.6 ao CS2, o mesmo nome no call.">
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=77">
+  <link rel="stylesheet" href="/css/app.css?v=78">
 </head>
 <body>
   <header class="header" id="header"></header>
-  <main class="wrap">
-    <section class="about-hero">
-      <p class="kicker" data-i18n="about.kicker"></p>
-      <h1 data-i18n="about.title"></h1>
-      <p class="tagline"><span>ALLIANCE</span></p>
-      <div class="about-copy">
-        <p data-i18n="about.p1"></p>
-        <p data-i18n="about.p2"></p>
-        <p data-i18n="about.p3"></p>
-        <p data-i18n="about.p4"></p>
-        <p data-i18n="about.p5"></p>
-        <p data-i18n="about.p6"></p>
-      </div>
-      <div class="actions">
-        <a class="btn" href="/players" data-i18n="cta.players"></a>
-        <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
-        <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
+  <main class="about-page">
+    <section class="wrap about-hero">
+      <div class="about-hero-grid">
+        <div class="about-hero-seal">
+          <div class="seal">
+            <span class="seal-aura" aria-hidden="true"></span>
+            <span class="seal-ring is-wide" aria-hidden="true"></span>
+            <span class="seal-ring" aria-hidden="true"></span>
+            <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <img src="/img/badge.png?v=71" alt="Logo Watercats" data-logo>
+          </div>
+          <div class="about-inks" aria-hidden="true">
+            <img src="/img/marks/fury.png?v=1" alt="">
+            <img src="/img/marks/s4mz.png?v=1" alt="">
+            <img src="/img/marks/khastz.png?v=1" alt="">
+            <img src="/img/marks/cadu.png?v=1" alt="">
+            <img src="/img/marks/bill.png?v=1" alt="">
+          </div>
+        </div>
+        <div class="about-hero-copy">
+          <p class="kicker" data-i18n="about.kicker"></p>
+          <h1 data-i18n="about.title"></h1>
+          <p class="tagline"><span>ALLIANCE</span></p>
+          <p class="about-lede" data-i18n="about.lede"></p>
+          <p class="about-body" data-i18n="about.body"></p>
+          <p class="about-alliance" data-i18n="about.alliance"></p>
+          <div class="actions">
+            <a class="btn" href="/players" data-i18n="cta.players"></a>
+            <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+            <a class="btn btn-ghost" href="#eras" data-i18n="about.era.kicker"></a>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="section">
+
+    <section class="wrap section about-era" id="eras">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="about.era.kicker"></p>
+          <h2 data-i18n="about.era.title"></h2>
+          <p data-i18n="about.era.sub"></p>
+        </div>
+      </div>
+      <p class="about-era-hint" data-i18n="about.era.hint"></p>
+      <div class="era-track" role="tablist" aria-label="Eras do Counter-Strike">
+        <button type="button" class="era-pip is-on" role="tab" aria-selected="true" data-era="1.6">
+          <em data-i18n="about.era.1.6.y"></em>
+          <b data-i18n="about.era.1.6.t"></b>
+        </button>
+        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="source">
+          <em data-i18n="about.era.source.y"></em>
+          <b data-i18n="about.era.source.t"></b>
+        </button>
+        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="go">
+          <em data-i18n="about.era.go.y"></em>
+          <b data-i18n="about.era.go.t"></b>
+        </button>
+        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="cs2">
+          <em data-i18n="about.era.cs2.y"></em>
+          <b data-i18n="about.era.cs2.t"></b>
+        </button>
+        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="more">
+          <em data-i18n="about.era.more.y"></em>
+          <b data-i18n="about.era.more.t"></b>
+        </button>
+      </div>
+      <div class="era-stage" data-era-stage>
+        <div class="era-visual" aria-hidden="true">
+          <span class="era-year" data-era-year></span>
+          <img class="era-mark" src="/img/badge.png?v=71" alt="" data-logo>
+        </div>
+        <div class="era-copy">
+          <p class="kicker" data-era-kicker></p>
+          <h3 data-era-title></h3>
+          <p data-era-body></p>
+          <p class="era-reply" data-era-reply hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section about-cities-block">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="about.cities.kicker"></p>
+          <h2 data-i18n="about.cities.title"></h2>
+          <p data-i18n="about.cities.sub"></p>
+        </div>
+      </div>
+      <div id="cities"></div>
+    </section>
+
+    <section class="wrap section about-wall-block">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="about.wall.kicker"></p>
+          <h2 data-i18n="about.wall.title"></h2>
+          <p data-i18n="about.wall.sub"></p>
+        </div>
+        <a href="/players" data-i18n="cta.players"></a>
+      </div>
+      <div id="wall"></div>
+    </section>
+
+    <section class="wrap section about-night">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="about.night.kicker"></p>
+          <h2 data-i18n="about.night.title"></h2>
+          <p data-i18n="about.night.sub"></p>
+        </div>
+      </div>
+      <div class="night-chips" data-night>
+        <button type="button" class="night-chip is-on" data-night-chip="cs" data-i18n="about.night.cs"></button>
+        <button type="button" class="night-chip" data-night-chip="fps" data-i18n="about.night.fps"></button>
+        <button type="button" class="night-chip" data-night-chip="race" data-i18n="about.night.race"></button>
+        <button type="button" class="night-chip" data-night-chip="arcade" data-i18n="about.night.arcade"></button>
+        <button type="button" class="night-chip" data-night-chip="rpg" data-i18n="about.night.rpg"></button>
+        <button type="button" class="night-chip" data-night-chip="foot" data-i18n="about.night.foot"></button>
+      </div>
+      <p class="about-night-note" data-i18n="about.night.note"></p>
+    </section>
+
+    <section class="wrap section about-site">
+      <div class="about-site-card">
+        <div>
+          <p class="kicker" data-i18n="about.site.kicker"></p>
+          <h2 data-i18n="about.site.title"></h2>
+          <p data-i18n="about.site.body"></p>
+        </div>
+        <div class="actions">
+          <a class="btn" href="/players" data-i18n="cta.players"></a>
+          <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
+          <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section">
       <div class="section-head">
         <div>
           <p class="kicker" data-i18n="about.crew"></p>
           <h2 data-i18n="about.crew"></h2>
+          <p data-i18n="about.crew.sub"></p>
         </div>
         <a href="/players" data-i18n="cta.players"></a>
       </div>
@@ -60,20 +179,80 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=77"></script>
+  <script src="/js/site.js?v=78"></script>
   <script>
+    const ERAS = ["1.6", "source", "go", "cs2", "more"];
+    const ERA_KEY = "wtc-about-era";
+    let activeEra = localStorage.getItem(ERA_KEY) || "cs2";
+    if (!ERAS.includes(activeEra)) activeEra = "cs2";
+
+    function paintEra(id, replied) {
+      activeEra = id;
+      localStorage.setItem(ERA_KEY, id);
+      document.querySelectorAll(".era-pip").forEach((btn) => {
+        const on = btn.dataset.era === id;
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      const stage = document.querySelector("[data-era-stage]");
+      if (!stage) return;
+      stage.dataset.active = id;
+      stage.classList.remove("is-swap");
+      void stage.offsetWidth;
+      stage.classList.add("is-swap");
+      document.querySelector("[data-era-year]").textContent = WTC.t("about.era." + id + ".y");
+      document.querySelector("[data-era-kicker]").textContent = WTC.t("about.era." + id + ".y");
+      document.querySelector("[data-era-title]").textContent = WTC.t("about.era." + id + ".t");
+      document.querySelector("[data-era-body]").textContent = WTC.t("about.era." + id);
+      const reply = document.querySelector("[data-era-reply]");
+      if (replied) {
+        reply.hidden = false;
+        reply.textContent = WTC.t("about.era.reply." + id);
+      }
+    }
+
+    function bindAbout() {
+      document.querySelector(".era-track")?.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-era]");
+        if (!btn) return;
+        paintEra(btn.dataset.era, true);
+      });
+      document.querySelector("[data-night]")?.addEventListener("click", (e) => {
+        const chip = e.target.closest("[data-night-chip]");
+        if (!chip) return;
+        chip.classList.toggle("is-on");
+        const box = chip.closest("[data-night]");
+        const on = [...box.querySelectorAll(".night-chip.is-on")].map((el) => el.dataset.nightChip);
+        box.dataset.mix = on.join(",") || "none";
+      });
+    }
+
     function render() {
+      paintEra(activeEra, false);
       WTC.api("/api/players")
         .then(({ players }) => {
+          document.getElementById("cities").innerHTML = players.length
+            ? WTC.aboutCities(players)
+            : "";
+          document.getElementById("wall").innerHTML = players.length
+            ? WTC.aboutWall(players)
+            : WTC.emptyBox("empty.players");
           document.getElementById("roster").innerHTML = players.length
             ? WTC.starRoster(players)
             : WTC.emptyBox("empty.players");
           WTC.motion();
         })
-        .catch(() => { document.getElementById("roster").innerHTML = WTC.errorBox(); });
+        .catch(() => {
+          document.getElementById("roster").innerHTML = WTC.errorBox();
+        });
     }
+
+    bindAbout();
     render();
-    document.addEventListener("wtc:lang", render);
+    document.addEventListener("wtc:lang", () => {
+      paintEra(activeEra, false);
+      render();
+    });
   </script>
 </body>
 </html>

@@ -66,13 +66,54 @@ const I18N = {
     "clips.more": "Carregar mais",
     "about.kicker": "Watercats",
     "about.title": "O clube",
-    "about.p1": "Watercats é um clube de amigos. O nome surgiu há anos, quando um grupo resolveu jogar junto e precisava de uma tag em comum.",
-    "about.p2": "Desde então o clube atravessou gerações. Gente nova chegou, outra saiu, e o nome ficou. Cada época teve o seu jeito; o que se repetiu foi se encontrar para jogar.",
-    "about.p3": "Hoje o CS2 é o que mais a gente joga. Antes foram outros jogos, e ainda são — FPS, corrida, arcade, RPG, futebol, quando a noite pede. O círculo mudou um pouco; a casa continua a mesma.",
-    "about.p4": "No dia a dia é isso. A gente se conhece, combina a noite e joga. Vitória e derrota ficam no mesmo call.",
-    "about.p5": "A frase do clube é ALLIANCE. Amigos de longa data, ainda nos mesmos jogos.",
-    "about.p6": "Este site reúne os membros de agora, as jogadas que valeu a pena guardar e um recorte da temporada.",
-    "about.crew": "Membros de agora",
+    "about.lede": "Não é org. Não é mix. É o nome que ficou quando a gente precisava de uma tag e, anos depois, ainda abre o mesmo call.",
+    "about.body": "Tem gente em Guarapuava, Curitiba, Belém e Seropédica. O CS mudou de versão. O elenco também. O hábito não: marcar horário, entrar e jogar a noite.",
+    "about.alliance": "A frase é ALLIANCE. Curta, em caixa alta, e vale pra quem tá na mesa agora e pra quem já passou.",
+    "about.crew": "Mesa de agora",
+    "about.crew.sub": "Cinco fichas. Abre uma se quiser o perfil completo.",
+    "about.era.kicker": "Linha do tempo",
+    "about.era.title": "Do 1.6 ao CS2",
+    "about.era.sub": "Clica numa era. Cada uma deixou um jeito diferente de jogar — o nome Watercats atravessou todas.",
+    "about.era.hint": "Escolhe a era em que você entrou no Counter-Strike",
+    "about.era.1.6.y": "1999+",
+    "about.era.1.6.t": "CS 1.6",
+    "about.era.1.6": "Dust2 no LAN, microfone estourado, server pirata e a primeira tag no nick. Foi aí que muita gente daqui aprendeu a chamar o amigo pro próximo round.",
+    "about.era.source.y": "2004+",
+    "about.era.source.t": "CS:Source",
+    "about.era.source": "O motor mudou, a mira ficou estranha por um tempo, e o call continuou. Source foi a ponte: quem veio do 1.6 ainda reconhecia o mapa; quem chegou depois já nasceu nesse ritmo.",
+    "about.era.go.y": "2012+",
+    "about.era.go.t": "CS:GO",
+    "about.era.go": "Matchmaking, FACEIT, clipes, Premier antigo. O clube virou várias gerações no mesmo nome: gente nova entrou, outra saiu, e a Watercats ficou no Steam e no Discord.",
+    "about.era.cs2.y": "2023+",
+    "about.era.cs2.t": "CS2",
+    "about.era.cs2": "É o que mais a gente joga agora. Premier, fila com os mesmos cinco, e este site pra guardar ficha, número e jogada. O motor é novo; a mesa é a de sempre.",
+    "about.era.more.y": "Sempre",
+    "about.era.more.t": "Outras mesas",
+    "about.era.more": "Quando o CS cansa: corrida, arcade, RPG, futebol. A noite não precisa ser só Dust. Só precisa ter gente no call.",
+    "about.era.reply.1.6": "Você veio do LAN. Respeito.",
+    "about.era.reply.source": "Source no sangue. A ponte entre duas eras.",
+    "about.era.reply.go": "Geração GO. Clipou, tiltou, voltou.",
+    "about.era.reply.cs2": "Chegou no motor novo. Bem-vindo à mesa.",
+    "about.era.reply.more": "Também. Nem toda noite é Counter-Strike.",
+    "about.cities.kicker": "Mapa",
+    "about.cities.title": "De onde a gente joga",
+    "about.cities.sub": "Quatro cidades, um call. Passa o mouse pra ver quem é de onde.",
+    "about.wall.kicker": "Elenco",
+    "about.wall.title": "Quem está na mesa",
+    "about.wall.sub": "Clica no retrato e vai direto pra ficha.",
+    "about.night.kicker": "A noite",
+    "about.night.title": "Como rola",
+    "about.night.sub": "Marca o que combina com a sua noite. A gente também muda de jogo.",
+    "about.night.cs": "CS2",
+    "about.night.fps": "Outro FPS",
+    "about.night.race": "Corrida",
+    "about.night.arcade": "Arcade",
+    "about.night.rpg": "RPG",
+    "about.night.foot": "Futebol",
+    "about.night.note": "Hoje o peso maior é CS2. O resto entra quando a turma pede.",
+    "about.site.kicker": "Este site",
+    "about.site.title": "Pra que serve",
+    "about.site.body": "Membros, números da temporada e as jogadas que valeu gravar. Nada de pitch de organização — só o clube no ar.",
     "clips.all": "Todo mundo",
     "clips.play": "Ver jogada",
     "empty.players": "Nenhum membro cadastrado ainda.",
@@ -274,13 +315,54 @@ const I18N = {
     "clips.more": "Load more",
     "about.kicker": "Watercats",
     "about.title": "The club",
-    "about.p1": "Watercats is a club of friends. The name showed up years ago, when a group wanted to play together and needed a shared tag.",
-    "about.p2": "Since then the club has gone through generations. New people arrived, others left, and the name stayed. Each era had its own style; what kept repeating was meeting up to play.",
-    "about.p3": "CS2 is what we play most now. There were other games before, and there still are — FPS, racing, arcade, RPG, football, when the night calls for it. The circle shifted a little; the house is the same.",
-    "about.p4": "Day to day, that's it. We know each other, we set a night, we play. Wins and losses stay in the same call.",
-    "about.p5": "The club line is ALLIANCE. Long-time friends, still in the same games.",
-    "about.p6": "This site gathers the current members, the clips worth keeping, and a snapshot of the season.",
-    "about.crew": "Members now",
+    "about.lede": "Not an org. Not a mix. It's the name that stuck when we needed a tag — and years later, we still join the same call.",
+    "about.body": "People in Guarapuava, Curitiba, Belém, and Seropédica. CS changed versions. The roster did too. The habit didn't: pick a time, join, play the night.",
+    "about.alliance": "The line is ALLIANCE. Short, all caps, and it covers who's at the table now and who already passed through.",
+    "about.crew": "Current table",
+    "about.crew.sub": "Five sheets. Open one for the full profile.",
+    "about.era.kicker": "Timeline",
+    "about.era.title": "From 1.6 to CS2",
+    "about.era.sub": "Pick an era. Each one left a different way to play — the Watercats name rode through all of them.",
+    "about.era.hint": "Pick the era you entered Counter-Strike",
+    "about.era.1.6.y": "1999+",
+    "about.era.1.6.t": "CS 1.6",
+    "about.era.1.6": "Dust2 on LAN, blown-out mics, pirate servers, and the first tag in the nick. That's where a lot of us learned to call a friend into the next round.",
+    "about.era.source.y": "2004+",
+    "about.era.source.t": "CS:Source",
+    "about.era.source": "The engine changed, aim felt weird for a bit, and the call stayed. Source was the bridge: 1.6 players still knew the map; newcomers grew up in that pace.",
+    "about.era.go.y": "2012+",
+    "about.era.go.t": "CS:GO",
+    "about.era.go": "Matchmaking, FACEIT, clips, old Premier. The club turned into several generations under one name: new people in, others out, Watercats still on Steam and Discord.",
+    "about.era.cs2.y": "2023+",
+    "about.era.cs2.t": "CS2",
+    "about.era.cs2": "What we play most now. Premier, queue with the same five, and this site to keep profiles, numbers, and clips. New engine; same table.",
+    "about.era.more.y": "Always",
+    "about.era.more.t": "Other tables",
+    "about.era.more": "When CS wears thin: racing, arcade, RPG, football. The night doesn't have to be Dust. It just needs people on the call.",
+    "about.era.reply.1.6": "You came from LAN. Respect.",
+    "about.era.reply.source": "Source in the blood. The bridge between two eras.",
+    "about.era.reply.go": "GO generation. Clipped, tilted, came back.",
+    "about.era.reply.cs2": "You arrived on the new engine. Welcome to the table.",
+    "about.era.reply.more": "Same. Not every night is Counter-Strike.",
+    "about.cities.kicker": "Map",
+    "about.cities.title": "Where we play from",
+    "about.cities.sub": "Four cities, one call. Hover to see who's from where.",
+    "about.wall.kicker": "Roster",
+    "about.wall.title": "Who's at the table",
+    "about.wall.sub": "Click a portrait to open the profile.",
+    "about.night.kicker": "The night",
+    "about.night.title": "How it goes",
+    "about.night.sub": "Mark what fits your night. We switch games too.",
+    "about.night.cs": "CS2",
+    "about.night.fps": "Other FPS",
+    "about.night.race": "Racing",
+    "about.night.arcade": "Arcade",
+    "about.night.rpg": "RPG",
+    "about.night.foot": "Football",
+    "about.night.note": "CS2 carries most nights. The rest shows up when the group asks.",
+    "about.site.kicker": "This site",
+    "about.site.title": "What it's for",
+    "about.site.body": "Members, season numbers, and the clips worth keeping. No org pitch — just the club online.",
     "clips.all": "Everyone",
     "clips.play": "Watch clip",
     "empty.players": "No members listed yet.",
@@ -769,7 +851,7 @@ const IDENTITY = {
   fury: { given: "Junior", tag: "fury", family: "Lisboa", city: "Guarapuava", region: "PR", role: "IGL", mark: "'" },
   s4mz: { given: "Samuel", tag: "s4mz", family: "Lisboa", city: "Curitiba", region: "PR", role: "AWP", mark: "'" },
   bill: { given: "Yago", tag: "BILLZERA", family: "Ventura", city: "Seropédica", region: "RJ", role: "Entry Fragger", mark: "'" },
-  cadu: { given: "Victor", tag: "Cadu", family: "Assunção", city: "Belém", region: "PA", role: "Lucker", mark: '"' }
+  cadu: { given: "Victor", tag: "Cadu", family: "Assunção", city: "Belém", region: "PA", role: "Lucker", mark: "'" }
 };
 
 function identity(p) {
@@ -1496,6 +1578,41 @@ function seasonBoard(players) {
   };
 }
 
+function aboutWall(players) {
+  const roster = starOrder(players);
+  if (!roster.length) return "";
+  return `<div class="about-wall" role="list">${roster.map((p, i) => {
+    const idn = identity(p);
+    return `<a class="about-tile" role="listitem" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}; --d:${(i % 5) * 0.08}s">
+      ${playerPhoto(p, "about-tile-photo")}
+      ${playerMark(p, "is-art")}
+      <span class="about-tile-meta">
+        <b>${escapeHtml(idn.tag || p.name)}</b>
+        <em>${escapeHtml(idn.role || place(p) || "")}</em>
+      </span>
+    </a>`;
+  }).join("")}</div>`;
+}
+
+function aboutCities(players) {
+  const roster = starOrder(players);
+  const bags = {};
+  roster.forEach((p) => {
+    const idn = identity(p);
+    const city = idn.place || idn.city || "—";
+    (bags[city] ||= []).push(p);
+  });
+  return `<div class="about-cities">${Object.entries(bags).map(([city, list]) =>
+    `<article class="about-city" style="--player:${escapeAttr(cardInk(list[0]))}">
+      <h3>${escapeHtml(city)}</h3>
+      <div class="about-city-faces">${list.map((p) =>
+        `<a href="/jogador/${encodeURIComponent(p.id)}" title="${escapeAttr(p.name)}" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "about-city-photo")}</a>`
+      ).join("")}</div>
+      <p>${list.map((p) => escapeHtml(identity(p).tag || p.name)).join(" · ")}</p>
+    </article>`
+  ).join("")}</div>`;
+}
+
 function boardCell(text, on) {
   return `<td class="${on ? "is-best" : ""}">${text}</td>`;
 }
@@ -1503,7 +1620,7 @@ function boardCell(text, on) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall, .about-cities, .about-night, .about-site, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
@@ -1640,6 +1757,6 @@ window.WTC = {
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark, playerMark, markOf,
-  identity, displayName, profileLinks, cardInk, leetifyDossier, leetifySyncBtn,
+  identity, displayName, profileLinks, cardInk, leetifyDossier, leetifySyncBtn, aboutWall, aboutCities,
   TOKEN_KEY
 };
