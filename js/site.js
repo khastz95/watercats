@@ -9,14 +9,13 @@ const I18N = {
     "nav.admin": "Painel",
     "nav.menu": "Menu",
     "nav.close": "Fechar",
-    "hero.kicker": "Watercats",
+    "hero.kicker": "Watercats · CS2",
     "hero.tagline": "ALLIANCE",
     "hero.lede": "Watercats é um clube de amigos. O nome existe há gerações: começou com um grupo que jogava junto e foi passando adiante, sem perder o jeito de se encontrar no servidor.",
-    "hero.body": "A casa agora é o CS2. Quando dá, a mesa muda. A rotina é a de sempre — combinar um horário, entrar junto e passar a noite em jogo. Por aqui ficam os membros, as jogadas que gravamos e um recorte da temporada.",
+    "hero.body": "Hoje o que mais jogamos é CS2. Quando dá, a turma pega outro jogo. A rotina é a de sempre — combinar um horário, entrar junto e passar a noite em jogo. Por aqui ficam os membros, as jogadas que gravamos e um recorte da temporada.",
     "hero.note.cs": "CS2",
     "hero.note.friends": "Clube de amigos",
     "hero.note.tag": "Várias gerações",
-    "hero.note.else": "Outras mesas",
     "cta.players": "Membros",
     "cta.clips": "Jogadas",
     "cta.about": "O clube",
@@ -45,8 +44,8 @@ const I18N = {
     "home.story.1": "O clube nasceu de gente que já se conhecia e queria um nome em comum.",
     "home.story.2.t": "Gente nova, mesmo nome",
     "home.story.2": "Com o tempo o grupo mudou. Chegou gente nova, outra saiu. O que permanece é o hábito de jogar com os seus.",
-    "home.story.3.t": "A casa, e o resto",
-    "home.story.3": "Hoje o Counter-Strike é a mesa principal. Quando dá, a turma senta em outra. Marcar horário e entrar: isso não mudou.",
+    "home.story.3.t": "CS2, e os outros",
+    "home.story.3": "Hoje o Counter-Strike é o que mais jogamos. Quando dá, a turma muda de jogo. Marcar horário e entrar: isso não mudou.",
     "home.place.kicker": "Neste site",
     "home.place.title": "O que você encontra aqui",
     "home.place.body": "Os membros atuais, as jogadas gravadas e os números da temporada. O contexto está na página do clube.",
@@ -59,8 +58,8 @@ const I18N = {
     "players.kicker": "Membros",
     "players.sub": "Quem faz parte do clube hoje. Abra uma ficha para ver o perfil, as estatísticas e as jogadas de cada um.",
     "players.deck": "Fichas",
-    "stats.kicker": "Campanha",
-    "stats.sub": "Um recorte da campanha de CS2: rating, Premier, vitórias e mira dos membros.",
+    "stats.kicker": "Temporada",
+    "stats.sub": "Um recorte da temporada: rating, Premier, vitórias e mira dos membros.",
     "clips.kicker": "Arquivo",
     "clips.title": "Jogadas",
     "clips.sub": "O que os membros gravaram. Dá para filtrar por jogador.",
@@ -69,18 +68,10 @@ const I18N = {
     "about.title": "O clube",
     "about.p1": "Watercats é um clube de amigos. O nome surgiu há anos, quando um grupo resolveu jogar junto e precisava de uma tag em comum.",
     "about.p2": "Desde então o clube atravessou gerações. Gente nova chegou, outra saiu, e o nome ficou. Cada época teve o seu jeito; o que se repetiu foi se encontrar para jogar.",
-    "about.p3": "A mesa principal agora é o CS2. Antes foram outros jogos, e ainda são: quando dá, a turma muda de mesa — FPS, corrida, arcade, RPG, futebol. O círculo mudou um pouco; a casa continua a mesma.",
+    "about.p3": "Hoje o CS2 é o que mais a gente joga. Antes foram outros jogos, e ainda são — FPS, corrida, arcade, RPG, futebol, quando a noite pede. O círculo mudou um pouco; a casa continua a mesma.",
     "about.p4": "No dia a dia é isso. A gente se conhece, combina a noite e joga. Vitória e derrota ficam no mesmo call.",
     "about.p5": "A frase do clube é ALLIANCE. Amigos de longa data, ainda nos mesmos jogos.",
-    "about.p6": "Este site reúne os membros de agora, as jogadas de CS2 que valeu guardar e um recorte da temporada. O resto da noite não precisa de ficha.",
-    "tables.kicker": "As mesas",
-    "tables.lead": "CS2 é a casa. O resto entra quando a noite pede.",
-    "tables.cs": "CS2",
-    "tables.fps": "FPS",
-    "tables.race": "Corrida",
-    "tables.arcade": "Arcade",
-    "tables.rpg": "RPG",
-    "tables.foot": "Futebol",
+    "about.p6": "Este site reúne os membros de agora, as jogadas que valeu a pena guardar e um recorte da temporada.",
     "about.crew": "Membros de agora",
     "clips.all": "Todo mundo",
     "clips.play": "Ver jogada",
@@ -91,7 +82,7 @@ const I18N = {
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
     "footer.tag": "ALLIANCE",
-    "footer.blurb": "Um clube de amigos. CS2 na mesa principal, o mesmo nome de sempre.",
+    "footer.blurb": "Um clube de amigos. Principalmente CS2, o mesmo nome de sempre.",
     "footer.explore": "Navegar",
     "footer.story": "A história",
     "footer.house": "Painel",
@@ -226,14 +217,13 @@ const I18N = {
     "nav.admin": "Admin",
     "nav.menu": "Menu",
     "nav.close": "Close",
-    "hero.kicker": "Watercats",
+    "hero.kicker": "Watercats · CS2",
     "hero.tagline": "ALLIANCE",
     "hero.lede": "Watercats is a club of friends. The name has been around for generations: it started with a group that queued together and was passed along, without losing the habit of meeting in-game.",
-    "hero.body": "The house now is CS2. When the night asks for another table, we switch. The routine is the same as ever — pick a time, join up, and spend the night in a match. This site holds the members, the clips we saved, and a snapshot of the season.",
+    "hero.body": "Today we play CS2 most of the time. When it works, the group picks something else. The routine is the same as ever — pick a time, join up, and spend the night in a match. This site holds the members, the clips we saved, and a snapshot of the season.",
     "hero.note.cs": "CS2",
     "hero.note.friends": "A friends' club",
     "hero.note.tag": "Several generations",
-    "hero.note.else": "Other tables",
     "cta.players": "Members",
     "cta.clips": "Clips",
     "cta.about": "The club",
@@ -262,8 +252,8 @@ const I18N = {
     "home.story.1": "The club started with people who already knew each other and wanted a shared name.",
     "home.story.2.t": "New people, same name",
     "home.story.2": "The group changed over time. New people arrived, others left. What remains is the habit of playing with your own.",
-    "home.story.3.t": "The house, and the rest",
-    "home.story.3": "Counter-Strike is the main table now. When it works, the group sits down to something else. Pick a time and join: that didn't change.",
+    "home.story.3.t": "CS2, and the rest",
+    "home.story.3": "Counter-Strike is what we play most. When it works, the group switches games. Pick a time and join: that didn't change.",
     "home.place.kicker": "On this site",
     "home.place.title": "What you'll find here",
     "home.place.body": "Current members, recorded clips, and season numbers. Context lives on the club page.",
@@ -276,8 +266,8 @@ const I18N = {
     "players.kicker": "Members",
     "players.sub": "Who's in the club today. Open a profile for stats, clips, and the rest of the page.",
     "players.deck": "Sheets",
-    "stats.kicker": "Campaign",
-    "stats.sub": "A snapshot of the CS2 campaign: rating, Premier, wins, and aim for the members.",
+    "stats.kicker": "Season",
+    "stats.sub": "A snapshot of the season: rating, Premier, wins, and aim for the members.",
     "clips.kicker": "Archive",
     "clips.title": "Clips",
     "clips.sub": "What the members recorded. You can filter by player.",
@@ -286,18 +276,10 @@ const I18N = {
     "about.title": "The club",
     "about.p1": "Watercats is a club of friends. The name showed up years ago, when a group wanted to play together and needed a shared tag.",
     "about.p2": "Since then the club has gone through generations. New people arrived, others left, and the name stayed. Each era had its own style; what kept repeating was meeting up to play.",
-    "about.p3": "The main table now is CS2. There were other games before, and there still are: when it works, the group switches tables — FPS, racing, arcade, RPG, football. The circle shifted a little; the house is the same.",
+    "about.p3": "CS2 is what we play most now. There were other games before, and there still are — FPS, racing, arcade, RPG, football, when the night calls for it. The circle shifted a little; the house is the same.",
     "about.p4": "Day to day, that's it. We know each other, we set a night, we play. Wins and losses stay in the same call.",
     "about.p5": "The club line is ALLIANCE. Long-time friends, still in the same games.",
-    "about.p6": "This site gathers the current members, the CS2 clips worth keeping, and a snapshot of the season. The rest of the night doesn't need a sheet.",
-    "tables.kicker": "The tables",
-    "tables.lead": "CS2 is the house. The rest comes in when the night asks.",
-    "tables.cs": "CS2",
-    "tables.fps": "FPS",
-    "tables.race": "Racing",
-    "tables.arcade": "Arcade",
-    "tables.rpg": "RPG",
-    "tables.foot": "Football",
+    "about.p6": "This site gathers the current members, the clips worth keeping, and a snapshot of the season.",
     "about.crew": "Members now",
     "clips.all": "Everyone",
     "clips.play": "Watch clip",
@@ -308,7 +290,7 @@ const I18N = {
     "retry": "Try again",
     "skip": "Skip to content",
     "footer.tag": "ALLIANCE",
-    "footer.blurb": "A club of friends. CS2 at the main table, the same name as ever.",
+    "footer.blurb": "A club of friends. Mostly CS2, the same name as ever.",
     "footer.explore": "Navigate",
     "footer.story": "The story",
     "footer.house": "Panel",
@@ -569,17 +551,9 @@ function mountChrome() {
     mark.innerHTML = `<img src="${logo}" alt="" data-logo>`;
     document.body.insertBefore(mark, document.body.firstChild);
   }
-  if (!document.querySelector(".rune-corners")) {
-    const runes = document.createElement("div");
-    runes.className = "rune-corners";
-    runes.setAttribute("aria-hidden", "true");
-    runes.innerHTML = "<i></i><i></i><i></i><i></i>";
-    document.body.appendChild(runes);
-  }
   if (header) {
     header.innerHTML = `
       <div class="header-bar">
-        <span class="chrome-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <div class="wrap header-inner">
           <a class="brand" href="/">
             <img class="brand-seal" src="${logo}" alt="" data-icon>
@@ -620,7 +594,6 @@ function mountChrome() {
     footer.innerHTML = `
       <div class="wrap footer-grid">
         <div class="footer-brand">
-          <span class="chrome-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
           <a class="footer-mark" href="/">
             <img class="footer-seal" src="${logo}" alt="" data-icon>
             <img src="${WORD}" alt="Watercats" data-wordmark>
