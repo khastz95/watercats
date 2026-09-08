@@ -2563,6 +2563,56 @@ input, select, textarea {
 textarea { min-height: 110px; resize: vertical; }
 input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .msg { margin-top: 10px; color: var(--red); min-height: 1.2em; font-size: 13px; }
+.msg.is-ok { color: #7ad7ff; }
+
+.join-page { padding: 40px 0 56px; max-width: 920px; }
+.join-hero { margin-bottom: 24px; }
+.join-hero h1 {
+  font-family: var(--display);
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  text-shadow: var(--title-glow);
+}
+.join-hero .tagline { margin: 14px 0 8px; }
+.join-lede {
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+.join-form { margin-top: 8px; }
+.join-hint {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.join-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 52ch;
+}
+.join-honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.join-form textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  background: var(--input);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+}
+.row-join .row-actions { flex-wrap: wrap; }
+.chip-pending { color: #e0c45c; border-color: color-mix(in srgb, #e0c45c 55%, var(--line)); }
+.chip-accepted { color: #3cb08a; border-color: color-mix(in srgb, #3cb08a 55%, var(--line)); }
+.chip-rejected { color: #ff1838; border-color: color-mix(in srgb, #ff1838 55%, var(--line)); }
 
 .admin { padding: 32px 0 64px; }
 .form-card { margin-bottom: 20px; padding: 4px 18px 18px; }

@@ -5,6 +5,7 @@ const I18N = {
     "nav.stats": "Números",
     "nav.clips": "Jogadas",
     "nav.about": "O clube",
+    "nav.join": "Fazer parte",
     "nav.login": "Entrar",
     "nav.admin": "Painel",
     "nav.menu": "Menu",
@@ -125,6 +126,33 @@ const I18N = {
     "about.wall.kicker": "Elenco",
     "about.wall.title": "Quem está na mesa",
     "about.wall.sub": "Clica no retrato e abre a ficha.",
+    "join.kicker": "Watercats",
+    "join.title": "Fazer parte",
+    "join.lede": "Não é tryout de org. É pedir pra entrar no call. Preenche com calma — a gente lê e responde pelo Discord ou Steam.",
+    "join.who": "Quem é você",
+    "join.name": "Nome",
+    "join.nick": "Nick",
+    "join.city": "Cidade",
+    "join.role": "Função / jeito de jogar",
+    "join.contact": "Como achar você",
+    "join.discord": "Discord",
+    "join.email": "E-mail (opcional)",
+    "join.steamId": "SteamID64",
+    "join.steamUrl": "Link da Steam",
+    "join.contactHint": "Precisa de pelo menos um: Discord, Steam ou e-mail.",
+    "join.game": "Jogo",
+    "join.era": "Entrou no CS em qual era?",
+    "join.era.empty": "Escolhe…",
+    "join.era.more": "Outros jogos",
+    "join.message": "Por que quer entrar?",
+    "join.messagePh": "Como conheceu o clube, com quem joga, o que busca no call…",
+    "join.submit": "Enviar pedido",
+    "join.sending": "Enviando…",
+    "join.ok": "Pedido enviado. A gente avalia e responde.",
+    "join.fail": "Não deu pra enviar agora. Tenta de novo em instantes.",
+    "join.needName": "Nome e nick são obrigatórios.",
+    "join.needContact": "Deixa Discord, Steam ou e-mail pra gente te achar.",
+    "join.note": "Pedido não garante vaga. O clube é pequeno de propósito.",
     "clips.all": "Todo mundo",
     "clips.play": "Ver jogada",
     "empty.players": "Nenhum membro cadastrado ainda.",
@@ -265,6 +293,7 @@ const I18N = {
     "nav.stats": "Numbers",
     "nav.clips": "Clips",
     "nav.about": "The club",
+    "nav.join": "Join",
     "nav.login": "Sign in",
     "nav.admin": "Admin",
     "nav.menu": "Menu",
@@ -385,6 +414,33 @@ const I18N = {
     "about.wall.kicker": "Roster",
     "about.wall.title": "Who's at the table",
     "about.wall.sub": "Click a portrait to open the profile.",
+    "join.kicker": "Watercats",
+    "join.title": "Join the club",
+    "join.lede": "This isn't an org tryout. It's asking to get on the call. Fill it in calmly — we'll read it and reply on Discord or Steam.",
+    "join.who": "Who you are",
+    "join.name": "Name",
+    "join.nick": "Nick",
+    "join.city": "City",
+    "join.role": "Role / playstyle",
+    "join.contact": "How to reach you",
+    "join.discord": "Discord",
+    "join.email": "Email (optional)",
+    "join.steamId": "SteamID64",
+    "join.steamUrl": "Steam link",
+    "join.contactHint": "Need at least one: Discord, Steam, or email.",
+    "join.game": "Game",
+    "join.era": "Which CS era did you start in?",
+    "join.era.empty": "Pick…",
+    "join.era.more": "Other games",
+    "join.message": "Why do you want in?",
+    "join.messagePh": "How you found the club, who you play with, what you're looking for on the call…",
+    "join.submit": "Send request",
+    "join.sending": "Sending…",
+    "join.ok": "Request sent. We'll review it and reply.",
+    "join.fail": "Couldn't send right now. Try again in a moment.",
+    "join.needName": "Name and nick are required.",
+    "join.needContact": "Leave Discord, Steam, or email so we can find you.",
+    "join.note": "A request doesn't guarantee a spot. The club stays small on purpose.",
     "clips.all": "Everyone",
     "clips.play": "Watch clip",
     "empty.players": "No members listed yet.",
@@ -564,6 +620,7 @@ function pageId() {
   if (path === "/" || path === "/index") return "home";
   if (path.startsWith("/players/") || path.startsWith("/jogador/")) return "player";
   if (path.startsWith("/sobre") || path.startsWith("/about")) return "about";
+  if (path.startsWith("/join") || path.startsWith("/fazer-parte")) return "join";
   if (path.startsWith("/login") || path.startsWith("/admin")) return "login";
   return path.replace(/^\//, "");
 }
@@ -574,7 +631,8 @@ function navItems(here) {
     ["/players", here === "players" || here === "player", "nav.players"],
     ["/stats", here === "stats", "nav.stats"],
     ["/clips", here === "clips", "nav.clips"],
-    ["/sobre", here === "about", "nav.about"]
+    ["/sobre", here === "about", "nav.about"],
+    ["/join", here === "join", "nav.join"]
   ].map(([href, on, key]) =>
     `<a href="${href}" class="${on ? "is-on" : ""}" data-i18n="${key}"></a>`
   ).join("");
@@ -717,10 +775,12 @@ function mountChrome() {
           <a href="/stats" data-i18n="nav.stats"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
           <a href="/sobre" data-i18n="nav.about"></a>
+          <a href="/join" data-i18n="nav.join"></a>
         </nav>
         <nav class="footer-col" aria-label="${t("footer.story")}">
           <h3 data-i18n="footer.story"></h3>
           <a href="/sobre" data-i18n="nav.about"></a>
+          <a href="/join" data-i18n="nav.join"></a>
           <a href="/players" data-i18n="nav.players"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
         </nav>
@@ -1642,7 +1702,7 @@ function boardCell(text, on) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall, .about-cities, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall, .about-cities, .join-page, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);

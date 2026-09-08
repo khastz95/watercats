@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/jogador/:slug", "destination": "/player" }
+    { "source": "/jogador/:slug", "destination": "/player" },
+    { "source": "/fazer-parte", "destination": "/join" }
   ]
 }

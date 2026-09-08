@@ -43,11 +43,51 @@ function formData(form) {
 
 let players = [];
 let clips = [];
+let joins = [];
 
 function playerOptions(select, selected) {
   select.innerHTML = `<option value="">—</option>` + players.map((p) =>
     `<option value="${p.id}" ${p.id === selected ? "selected" : ""}>${p.name}</option>`
   ).join("");
+}
+
+function joinStatusLabel(status) {
+  if (status === "accepted") return "Aceito";
+  if (status === "rejected") return "Recusado";
+  return "Pendente";
+}
+
+function renderJoins() {
+  const box = document.getElementById("join-list");
+  if (!box) return;
+  if (!joins.length) {
+    box.innerHTML = `<div class="empty">Nenhum pedido ainda.</div>`;
+    return;
+  }
+  box.innerHTML = joins.map((r) => {
+    const meta = [r.city, r.role, r.era, r.discord, r.contact].filter(Boolean).join(" · ");
+    const steam = r.steamUrl || (r.steamId ? `https://steamcommunity.com/profiles/${r.steamId}` : "");
+    return `
+      <div class="row row-player row-join">
+        <div class="row-body">
+          <div class="row-title">
+            <strong>${WTC.escapeHtml(r.nick)}</strong>
+            <span class="chip chip-${WTC.escapeAttr(r.status || "pending")}">${joinStatusLabel(r.status)}</span>
+          </div>
+          <div class="meta">${WTC.escapeHtml(r.name)}${meta ? " · " + WTC.escapeHtml(meta) : ""}</div>
+          ${r.message ? `<p class="meta">${WTC.escapeHtml(r.message)}</p>` : ""}
+          <div class="row-stats">
+            ${r.createdAt ? `<span>Em <b>${new Date(r.createdAt).toLocaleString()}</b></span>` : ""}
+            ${steam ? `<span><a href="${WTC.escapeAttr(steam)}" target="_blank" rel="noreferrer">Steam</a></span>` : ""}
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-ghost" type="button" data-join-ok="${r.id}">Aceitar</button>
+          <button class="btn btn-ghost" type="button" data-join-no="${r.id}">Recusar</button>
+          <button class="btn btn-danger" type="button" data-join-del="${r.id}">Apagar</button>
+        </div>
+      </div>`;
+  }).join("");
 }
 
 function renderPlayers() {
@@ -107,11 +147,17 @@ function renderClips() {
 }
 
 async function reload() {
-  const [p, c] = await Promise.all([WTC.api("/api/players"), WTC.api("/api/clips")]);
+  const [p, c, j] = await Promise.all([
+    WTC.api("/api/players"),
+    WTC.api("/api/clips"),
+    WTC.api("/api/join").catch(() => ({ requests: [] }))
+  ]);
   players = p.players;
   clips = c.clips;
+  joins = j.requests || [];
   renderPlayers();
   renderClips();
+  renderJoins();
 }
 
 playerForm.addEventListener("submit", async (e) => {
@@ -252,6 +298,35 @@ document.getElementById("clip-list").addEventListener("click", async (e) => {
       say("Clipe apagado.", true);
       await reload();
     } catch (err) { say(err.message); }
+  }
+});
+
+document.getElementById("join-reload")?.addEventListener("click", () => {
+  reload().catch((err) => say(err.message));
+});
+
+document.getElementById("join-list")?.addEventListener("click", async (e) => {
+  const ok = e.target.closest("[data-join-ok]");
+  const no = e.target.closest("[data-join-no]");
+  const del = e.target.closest("[data-join-del]");
+  try {
+    if (ok) {
+      await WTC.api("/api/join", { method: "PATCH", body: { id: ok.dataset.joinOk, status: "accepted" } });
+      say("Pedido aceito.", true);
+      await reload();
+    }
+    if (no) {
+      await WTC.api("/api/join", { method: "PATCH", body: { id: no.dataset.joinNo, status: "rejected" } });
+      say("Pedido recusado.", true);
+      await reload();
+    }
+    if (del && confirm("Apagar este pedido?")) {
+      await WTC.api("/api/join?id=" + encodeURIComponent(del.dataset.joinDel), { method: "DELETE" });
+      say("Pedido apagado.", true);
+      await reload();
+    }
+  } catch (err) {
+    say(err.message);
   }
 });
 

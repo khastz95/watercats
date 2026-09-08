@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=79">
+  <link rel="stylesheet" href="/css/app.css?v=80">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -42,6 +42,7 @@
       <button type="button" data-tab="players" class="is-on">Jogadores</button>
       <button type="button" data-tab="stats">Estatísticas</button>
       <button type="button" data-tab="clips">Clipes</button>
+      <button type="button" data-tab="join">Pedidos</button>
     </div>
     <p class="msg" id="flash"></p>
 
@@ -160,9 +161,21 @@
       <p class="source">Puxa os clipes públicos de cada jogador pelo SteamID64 e grava o link da allstar.gg. Não apaga o que foi colado à mão.</p>
       <div id="clip-list" class="admin-list"></div>
     </section>
+
+    <section class="panel" id="panel-join">
+      <div class="section-head" style="margin-top:8px">
+        <div>
+          <p class="kicker">Inscrições</p>
+          <h2>Pedidos pra entrar</h2>
+          <p>Vêm da página <a href="/join">/join</a>. Aceitar ou recusar só muda o status aqui.</p>
+        </div>
+        <button class="btn btn-ghost" type="button" id="join-reload">Atualizar</button>
+      </div>
+      <div id="join-list" class="admin-list"></div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=79"></script>
-  <script src="/js/admin.js?v=54"></script>
+  <script src="/js/site.js?v=80"></script>
+  <script src="/js/admin.js?v=55"></script>
 </body>
 </html>

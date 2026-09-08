@@ -10,6 +10,7 @@
   },
   "scripts": {
     "migrate": "node scripts/migrate.js",
+    "migrate:join": "node scripts/migrate-join.js",
     "seed": "node scripts/seed-roster.js",
     "avatars": "node scripts/steam-avatars.js",
     "clips": "node scripts/allstar-clips.js",

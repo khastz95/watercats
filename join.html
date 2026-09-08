@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fazer parte · Watercats! - Alliance</title>
+  <meta name="description" content="Quer entrar no call da Watercats? Preenche o formulário e a gente avalia.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/icon.png?v=71" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
+  <link rel="canonical" href="https://watercats.vercel.app/join">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Watercats!">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:url" content="https://watercats.vercel.app/join">
+  <meta property="og:title" content="Fazer parte · Watercats!">
+  <meta property="og:description" content="Quer entrar no call da Watercats? Preenche o formulário e a gente avalia.">
+  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Watercats!">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fazer parte · Watercats!">
+  <meta name="twitter:description" content="Quer entrar no call da Watercats? Preenche o formulário e a gente avalia.">
+  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css?v=80">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="wrap join-page">
+    <section class="join-hero">
+      <p class="kicker" data-i18n="join.kicker"></p>
+      <h1 data-i18n="join.title"></h1>
+      <p class="tagline"><span>ALLIANCE</span></p>
+      <p class="join-lede" data-i18n="join.lede"></p>
+    </section>
+
+    <form class="card form-card join-form" id="join-form" novalidate>
+      <fieldset>
+        <legend data-i18n="join.who"></legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="name" data-i18n="join.name"></label>
+            <input id="name" name="name" required autocomplete="name" maxlength="80">
+          </div>
+          <div class="field">
+            <label for="nick" data-i18n="join.nick"></label>
+            <input id="nick" name="nick" required autocomplete="username" maxlength="40" placeholder="nick">
+          </div>
+          <div class="field">
+            <label for="city" data-i18n="join.city"></label>
+            <input id="city" name="city" maxlength="80" placeholder="Cidade, UF">
+          </div>
+          <div class="field">
+            <label for="role" data-i18n="join.role"></label>
+            <input id="role" name="role" maxlength="60" placeholder="AWP, rifler, IGL…">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="join.contact"></legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="discord" data-i18n="join.discord"></label>
+            <input id="discord" name="discord" maxlength="80" placeholder="user#0000">
+          </div>
+          <div class="field">
+            <label for="contact" data-i18n="join.email"></label>
+            <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="steamId" data-i18n="join.steamId"></label>
+            <input id="steamId" name="steamId" inputmode="numeric" maxlength="32" placeholder="76561198…">
+          </div>
+          <div class="field">
+            <label for="steamUrl" data-i18n="join.steamUrl"></label>
+            <input id="steamUrl" name="steamUrl" type="url" maxlength="200" placeholder="https://steamcommunity.com/…">
+          </div>
+        </div>
+        <p class="join-hint" data-i18n="join.contactHint"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="join.game"></legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="era" data-i18n="join.era"></label>
+            <select id="era" name="era">
+              <option value="" data-i18n="join.era.empty"></option>
+              <option value="1.6">CS 1.6</option>
+              <option value="source">CS:Source</option>
+              <option value="go">CS:GO</option>
+              <option value="cs2">CS2</option>
+              <option value="more" data-i18n="join.era.more"></option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="message" data-i18n="join.message"></label>
+          <textarea id="message" name="message" rows="5" maxlength="1200" data-i18n-placeholder="join.messagePh"></textarea>
+        </div>
+      </fieldset>
+
+      <div class="join-honey" aria-hidden="true">
+        <label for="website">Site</label>
+        <input id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit" data-i18n="join.submit"></button>
+        <a class="btn btn-ghost" href="/sobre" data-i18n="nav.about"></a>
+      </div>
+      <p class="msg" id="join-msg" role="status"></p>
+    </form>
+
+    <p class="join-note" data-i18n="join.note"></p>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js?v=80"></script>
+  <script>
+    const form = document.getElementById("join-form");
+    const msg = document.getElementById("join-msg");
+
+    function fillPlaceholders() {
+      form.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        el.placeholder = WTC.t(el.getAttribute("data-i18n-placeholder"));
+      });
+    }
+
+    fillPlaceholders();
+    document.addEventListener("wtc:lang", fillPlaceholders);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.className = "msg";
+      msg.textContent = "";
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!data.name?.trim() || !data.nick?.trim()) {
+        msg.textContent = WTC.t("join.needName");
+        return;
+      }
+      if (!data.discord?.trim() && !data.steamId?.trim() && !data.steamUrl?.trim() && !data.contact?.trim()) {
+        msg.textContent = WTC.t("join.needContact");
+        return;
+      }
+      const btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = WTC.t("join.sending");
+      try {
+        await WTC.api("/api/join", { method: "POST", body: data });
+        msg.className = "msg is-ok";
+        msg.textContent = WTC.t("join.ok");
+        form.reset();
+      } catch (err) {
+        msg.textContent = err.message || WTC.t("join.fail");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = WTC.t("join.submit");
+      }
+    });
+  </script>
+</body>
+</html>
