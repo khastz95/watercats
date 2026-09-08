@@ -25,31 +25,73 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=84">
+  <link rel="stylesheet" href="/css/app.css?v=85">
 </head>
 <body>
   <header class="header" id="header"></header>
-  <main class="wrap section">
-    <div class="section-head">
-      <div>
-        <p class="kicker" data-i18n="clips.kicker"></p>
-        <h2 data-i18n="clips.title"></h2>
-        <p data-i18n="clips.sub"></p>
+  <main class="clips-page">
+    <section class="wrap clips-hero">
+      <p class="kicker" data-i18n="clips.kicker"></p>
+      <h1 data-i18n="clips.title"></h1>
+      <p class="tagline"><span>ALLIANCE</span></p>
+      <p class="clips-lede" data-i18n="clips.sub"></p>
+      <ul class="about-chips" aria-label="Arquivo">
+        <li data-i18n="clips.chip1"></li>
+        <li data-i18n="clips.chip2"></li>
+        <li data-i18n="clips.chip3"></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="#arquivo" data-i18n="clips.browse"></a>
+        <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
+        <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
       </div>
-    </div>
-    <div class="facts" id="facts"></div>
-    <div id="filters" class="clip-filters"></div>
-    <div id="list" class="grid clips"></div>
+    </section>
+
+    <section class="wrap section clips-stage" id="arquivo">
+      <div class="section-head about-section-head">
+        <div>
+          <p class="kicker"><span class="about-step">01</span> <span data-i18n="clips.stage"></span></p>
+          <h2 data-i18n="clips.stageTitle"></h2>
+          <p data-i18n="clips.stageSub"></p>
+        </div>
+        <p class="clips-count" id="count"></p>
+      </div>
+      <div class="facts clips-facts" id="facts"></div>
+      <div class="clips-toolbar">
+        <p class="clips-toolbar-lab" data-i18n="clips.filter"></p>
+        <div id="filters" class="clip-filters"></div>
+      </div>
+      <div id="list" class="grid clips"></div>
+    </section>
+
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="clips.close.kicker"></p>
+        <h2 data-i18n="clips.close.title"></h2>
+        <p data-i18n="clips.close.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/stats" data-i18n="nav.stats"></a>
+          <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=84"></script>
+  <script src="/js/site.js?v=85"></script>
   <script>
+    function countLabel(shown, total) {
+      return WTC.t("clips.count")
+        .replace("{n}", String(shown))
+        .replace("{total}", String(total));
+    }
+
     function render() {
       Promise.all([WTC.api("/api/clips"), WTC.api("/api/players")])
         .then(([{ clips }, { players }]) => {
           const list = document.getElementById("list");
           const filters = document.getElementById("filters");
           const facts = document.getElementById("facts");
+          const count = document.getElementById("count");
           if (facts) facts.innerHTML = WTC.factStrip(players, clips);
           const ids = players.map((p) => p.id).filter((id) => clips.some((c) => c.playerId === id));
           filters.innerHTML = `<button type="button" class="chip is-on" data-f="">${WTC.t("clips.all")}</button>` +
@@ -64,7 +106,9 @@
             return filter ? clips.filter((c) => c.playerId === filter) : clips;
           }
           function paint() {
-            list.innerHTML = WTC.clipPager(rows(), shown);
+            const all = rows();
+            list.innerHTML = WTC.clipPager(all, shown);
+            if (count) count.textContent = countLabel(Math.min(shown, all.length), all.length);
             WTC.motion();
           }
           paint();

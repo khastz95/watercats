@@ -25,23 +25,46 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=84">
+  <link rel="stylesheet" href="/css/app.css?v=85">
 </head>
 <body>
   <header class="header" id="header"></header>
-  <div class="pulse" id="pulse"></div>
-  <main class="wrap section season-page">
-    <div class="section-head">
-      <div>
-        <p class="kicker" data-i18n="stats.kicker"></p>
-        <h2 data-i18n="nav.stats"></h2>
-        <p data-i18n="stats.sub"></p>
+  <main class="stats-page season-page">
+    <section class="wrap stats-hero">
+      <p class="kicker" data-i18n="stats.kicker"></p>
+      <h1 data-i18n="nav.stats"></h1>
+      <p class="tagline"><span>ALLIANCE</span></p>
+      <p class="stats-lede" data-i18n="stats.sub"></p>
+      <ul class="about-chips" aria-label="Temporada">
+        <li data-i18n="stats.chip1"></li>
+        <li data-i18n="stats.chip2"></li>
+        <li data-i18n="stats.chip3"></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="#board" data-i18n="stats.browse"></a>
+        <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
+        <a class="btn btn-ghost" href="/clips" data-i18n="nav.clips"></a>
       </div>
-    </div>
-    <div id="board"></div>
+    </section>
+
+    <div class="pulse stats-pulse" id="pulse"></div>
+
+    <div class="wrap section stats-board" id="board"></div>
+
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="stats.close.kicker"></p>
+        <h2 data-i18n="stats.close.title"></h2>
+        <p data-i18n="stats.close.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/clips" data-i18n="nav.clips"></a>
+          <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=84"></script>
+  <script src="/js/site.js?v=85"></script>
   <script>
     function render() {
       const board = document.getElementById("board");
@@ -85,30 +108,61 @@
         }).join("");
 
         const note = lastSync
-          ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lastSync).toLocaleDateString()}.</p>`
-          : `<p class="source">${WTC.t("lf.empty")}</p>`;
+          ? `<p class="source stats-note">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lastSync).toLocaleDateString()}.</p>`
+          : `<p class="source stats-note">${WTC.t("lf.empty")}</p>`;
+
         board.innerHTML = `
-          <div class="grid stats-grid home-stats house-stats">${WTC.houseCards(players, clips)}</div>
-          <section class="season-hot">
-            <div class="section-head">
+          <section class="stats-block">
+            <div class="section-head about-section-head">
               <div>
-                <p class="kicker">${WTC.t("home.now")}</p>
+                <p class="kicker"><span class="about-step">01</span> <span>${WTC.t("stats.house")}</span></p>
+                <h2>${WTC.t("stats.houseTitle")}</h2>
+                <p>${WTC.t("stats.houseSub")}</p>
+              </div>
+            </div>
+            <div class="grid stats-grid home-stats house-stats">${WTC.houseCards(players, clips)}</div>
+          </section>
+
+          <section class="season-hot stats-block">
+            <div class="section-head about-section-head">
+              <div>
+                <p class="kicker"><span class="about-step">02</span> <span>${WTC.t("home.now")}</span></p>
                 <h2>${WTC.t("home.hot")}</h2>
                 <p>${WTC.t("home.hot.sub")}</p>
               </div>
             </div>
             <div class="hot-grid">${hot}</div>
           </section>
-          <div class="season-board">${sheets}</div>
-          <div class="table-wrap season-table"><table>
-            <thead><tr>
-              <th>${WTC.t("th.player")}</th><th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.premier")}</th>
-              <th>${WTC.t("lf.winrate")}</th><th>${WTC.t("lf.matches")}</th><th>${WTC.t("lf.aim")}</th>
-              <th>${WTC.t("lf.positioning")}</th><th>${WTC.t("lf.utility")}</th><th>${WTC.t("lf.hs")}</th>
-              <th>${WTC.t("lf.reaction")}</th>
-            </tr></thead>
-            <tbody>${rows}</tbody>
-          </table></div>${note}`;
+
+          <section class="stats-block">
+            <div class="section-head about-section-head">
+              <div>
+                <p class="kicker"><span class="about-step">03</span> <span>${WTC.t("stats.sheets")}</span></p>
+                <h2>${WTC.t("stats.sheetsTitle")}</h2>
+                <p>${WTC.t("stats.sheetsSub")}</p>
+              </div>
+            </div>
+            <div class="season-board">${sheets}</div>
+          </section>
+
+          <section class="stats-block">
+            <div class="section-head about-section-head">
+              <div>
+                <p class="kicker"><span class="about-step">04</span> <span>${WTC.t("stats.table")}</span></p>
+                <h2>${WTC.t("stats.tableTitle")}</h2>
+                <p>${WTC.t("stats.tableSub")}</p>
+              </div>
+            </div>
+            <div class="table-wrap season-table"><table>
+              <thead><tr>
+                <th>${WTC.t("th.player")}</th><th>${WTC.t("lf.rating")}</th><th>${WTC.t("lf.premier")}</th>
+                <th>${WTC.t("lf.winrate")}</th><th>${WTC.t("lf.matches")}</th><th>${WTC.t("lf.aim")}</th>
+                <th>${WTC.t("lf.positioning")}</th><th>${WTC.t("lf.utility")}</th><th>${WTC.t("lf.hs")}</th>
+                <th>${WTC.t("lf.reaction")}</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+            </table></div>${note}
+          </section>`;
         WTC.motion();
       }).catch(() => { board.innerHTML = WTC.errorBox(); });
     }

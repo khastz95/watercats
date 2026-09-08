@@ -61,10 +61,39 @@ const I18N = {
     "players.deck": "Fichas",
     "stats.kicker": "Temporada",
     "stats.sub": "Um recorte da temporada: rating, Premier, vitórias e mira dos membros.",
+    "stats.chip1": "Leetify",
+    "stats.chip2": "Premier",
+    "stats.chip3": "Forma",
+    "stats.browse": "Ver números",
+    "stats.house": "Casa",
+    "stats.houseTitle": "Recorte geral",
+    "stats.houseSub": "Totais e picos do lobby neste momento.",
+    "stats.sheets": "Fichas",
+    "stats.sheetsTitle": "Por membro",
+    "stats.sheetsSub": "Rating, Premier e barras de mira lado a lado.",
+    "stats.table": "Tabela",
+    "stats.tableTitle": "Comparativo",
+    "stats.tableSub": "O mesmo recorte em grade — destaque no melhor de cada coluna.",
+    "stats.close.kicker": "Arquivo",
+    "stats.close.title": "Quer ver as jogadas?",
+    "stats.close.lede": "Os números contam uma parte. O resto está nos clips.",
     "clips.kicker": "Arquivo",
     "clips.title": "Jogadas",
     "clips.sub": "O que os membros gravaram. Dá para filtrar por jogador.",
+    "clips.chip1": "Clipes",
+    "clips.chip2": "Por membro",
+    "clips.chip3": "Arquivo vivo",
+    "clips.browse": "Abrir arquivo",
+    "clips.stage": "Arquivo",
+    "clips.stageTitle": "Tudo que gravaram",
+    "clips.stageSub": "Filtra por membro, abre o destaque e carrega o resto.",
+    "clips.filter": "Filtro",
+    "clips.count": "{n} de {total}",
     "clips.more": "Carregar mais",
+    "clips.featured": "Destaque",
+    "clips.close.kicker": "Temporada",
+    "clips.close.title": "Olha os números também",
+    "clips.close.lede": "Rating, Premier e forma — o outro lado da mesma noite.",
     "about.kicker": "Watercats",
     "about.title": "O clube",
     "about.lede": "Não é org. Não é mix. É o nome que ficou no lobby — do 1.6 ao CS2.",
@@ -371,10 +400,39 @@ const I18N = {
     "players.deck": "Sheets",
     "stats.kicker": "Season",
     "stats.sub": "A snapshot of the season: rating, Premier, wins, and aim for the members.",
+    "stats.chip1": "Leetify",
+    "stats.chip2": "Premier",
+    "stats.chip3": "Form",
+    "stats.browse": "See numbers",
+    "stats.house": "House",
+    "stats.houseTitle": "Overall cut",
+    "stats.houseSub": "Totals and peaks from the lobby right now.",
+    "stats.sheets": "Sheets",
+    "stats.sheetsTitle": "By member",
+    "stats.sheetsSub": "Rating, Premier, and aim bars side by side.",
+    "stats.table": "Table",
+    "stats.tableTitle": "Compare",
+    "stats.tableSub": "The same cut in a grid — best of each column highlighted.",
+    "stats.close.kicker": "Archive",
+    "stats.close.title": "Want the clips too?",
+    "stats.close.lede": "Numbers tell one part. The rest is in the clips.",
     "clips.kicker": "Archive",
     "clips.title": "Clips",
     "clips.sub": "What the members recorded. You can filter by player.",
+    "clips.chip1": "Clips",
+    "clips.chip2": "By member",
+    "clips.chip3": "Living archive",
+    "clips.browse": "Open archive",
+    "clips.stage": "Archive",
+    "clips.stageTitle": "Everything they recorded",
+    "clips.stageSub": "Filter by member, open the featured clip, and load the rest.",
+    "clips.filter": "Filter",
+    "clips.count": "{n} of {total}",
     "clips.more": "Load more",
+    "clips.featured": "Featured",
+    "clips.close.kicker": "Season",
+    "clips.close.title": "Check the numbers too",
+    "clips.close.lede": "Rating, Premier, and form — the other side of the same night.",
     "about.kicker": "Watercats",
     "about.title": "The club",
     "about.lede": "Not an org. Not a mix. It's the name that stuck in the lobby — from 1.6 to CS2.",
@@ -1748,7 +1806,7 @@ function boardCell(text, on) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clips-page, .clips-hero, .clips-stage, .stats-page, .stats-hero, .stats-block, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
@@ -1797,11 +1855,12 @@ function clipPager(clips, shown) {
     ? `<div class="clip-more"><button type="button" class="btn" data-clip-more>${t("clips.more")}</button></div>`
     : "";
   if (!slice.length) return emptyBox("empty.clips");
-  return slice.map((c, i) => clipCard(c, { featured: i === 0 })).join("") + more;
+  return slice.map((c, i) => clipCard(c, { featured: i === 0, index: i })).join("") + more;
 }
 
 function clipCard(c, options = {}) {
   const featured = Boolean(options && options.featured);
+  const index = Number(options && options.index) || 0;
   const ink = c.playerId ? cardInk(c.playerId) : "";
   const who = c.playerId
     ? `<p class="clip-who">${playerMark(c.playerId, "is-meta")}<span>${escapeHtml(c.playerName || "")}</span></p>`
@@ -1815,7 +1874,8 @@ function clipCard(c, options = {}) {
          ${time ? `<span class="clip-time">${escapeHtml(time)}</span>` : ""}
        </button>`
     : `<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
-  return `<article class="card clip${featured ? " is-featured" : ""}"${ink ? ` style="--player:${escapeAttr(ink)}"` : ""}>
+  return `<article class="card clip${featured ? " is-featured" : ""}"${ink ? ` style="--player:${escapeAttr(ink)}; --d:${(index % 8) * 0.06}s"` : ` style="--d:${(index % 8) * 0.06}s"`}>
+    ${featured ? `<span class="clip-badge">${escapeHtml(t("clips.featured"))}</span>` : ""}
     ${poster}
     <div class="clip-body">
       ${who}

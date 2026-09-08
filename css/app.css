@@ -4008,6 +4008,222 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   gap: 14px;
   margin: 28px 0 36px;
 }
+
+.clips-page,
+.stats-page {
+  padding-bottom: 48px;
+  position: relative;
+}
+.clips-page::before,
+.stats-page::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: min(58vh, 520px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 16% 16%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%),
+    radial-gradient(ellipse 38% 32% at 90% 6%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 68%);
+  z-index: 0;
+}
+.clips-page > *,
+.stats-page > * { position: relative; z-index: 1; }
+
+.clips-hero,
+.stats-hero {
+  padding: 48px 0 18px;
+  position: relative;
+}
+.clips-hero::before,
+.stats-hero::before {
+  content: "";
+  display: block;
+  width: min(220px, 40%);
+  height: 2px;
+  margin-bottom: 22px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--blue) 40%, transparent);
+}
+.clips-hero h1,
+.stats-hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 7vw, 72px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin: 10px 0 0;
+  text-shadow: var(--title-glow);
+}
+.clips-hero .tagline,
+.stats-hero .tagline {
+  margin: 18px 0 8px;
+  font-size: clamp(20px, 3.6vw, 36px);
+}
+.clips-lede,
+.stats-lede {
+  margin-top: 14px;
+  max-width: 46ch;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 600;
+}
+.clips-hero .actions,
+.stats-hero .actions { margin-top: 22px; }
+
+.clips-stage { padding-top: 12px; }
+.clips-count {
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--blue) 32%, var(--line));
+  background: color-mix(in srgb, var(--blue) 10%, transparent);
+  color: var(--blue);
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.clips-facts {
+  margin: 8px 0 18px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--blue) 10%, transparent), transparent 48%),
+    var(--surface);
+}
+.clips-facts .fact {
+  margin: 0;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--blue) 6%, #070b12);
+}
+.clips-toolbar {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line));
+  background: color-mix(in srgb, var(--blue) 5%, var(--surface));
+}
+.clips-toolbar-lab {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.clips-page .clip-filters { margin: 0; }
+.clips-page .clip-filters .chip {
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  background: color-mix(in srgb, var(--player, var(--blue)) 8%, transparent);
+}
+.clips-page .clip-filters .chip.is-on {
+  background: color-mix(in srgb, var(--player, var(--blue)) 22%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--player, var(--blue)) 16%, transparent);
+}
+.clips-page .clips {
+  gap: 16px;
+}
+.clips-page .clip {
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 28%, var(--line));
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--player, var(--blue)) 12%, transparent), transparent 48%),
+    var(--surface);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  animation-delay: var(--d, 0s);
+}
+.clips-page .clip:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 60%, var(--line));
+  box-shadow: 0 16px 30px rgba(0, 8, 22, 0.28);
+}
+.clip-badge {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 45%, var(--line));
+  background: color-mix(in srgb, var(--player, var(--blue)) 72%, #000);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.clips-page .clip.is-featured {
+  position: relative;
+  padding: 16px;
+  gap: 22px;
+  border-color: color-mix(in srgb, var(--player, var(--blue)) 48%, var(--line));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 14%, transparent),
+    0 18px 36px rgba(0, 8, 22, 0.28);
+}
+.clips-page .clip.is-featured::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  background: var(--cut-frame);
+  opacity: 0.7;
+}
+.clips-page .clip.is-featured > * { position: relative; z-index: 1; }
+.clips-page .clip.is-featured .clip-badge { top: 24px; left: 24px; }
+.clips-page .clip-body { padding-top: 4px; }
+.clips-page .clip-more {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--blue) 18%, var(--line));
+}
+
+.stats-pulse {
+  margin: 8px 0 0;
+  border-color: color-mix(in srgb, var(--blue) 28%, var(--line));
+}
+.stats-board { padding-top: 28px; }
+.stats-block { margin-bottom: 28px; }
+.stats-block .season-board { margin-top: 8px; margin-bottom: 0; }
+.stats-block.season-hot { margin-top: 0; margin-bottom: 28px; }
+.stats-note {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--blue);
+  background: color-mix(in srgb, var(--blue) 8%, transparent);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.stats-page .house-stats {
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--blue) 10%, transparent), transparent 48%),
+    var(--surface);
+}
+.stats-page .hot-grid {
+  gap: 14px;
+}
+.stats-page .spot {
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.stats-page .season-table {
+  border-color: color-mix(in srgb, var(--blue) 28%, var(--line));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--blue) 8%, transparent), transparent 28%),
+    var(--surface);
+}
+.stats-page .season-table thead th {
+  background: color-mix(in srgb, var(--blue) 10%, transparent);
+}
+
 .season-sheet {
   display: grid;
   grid-template-columns: 56px 88px minmax(0, 1.15fr) minmax(260px, 1.35fr);
