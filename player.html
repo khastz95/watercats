@@ -1,9 +1,9 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jogador Â· Watercats! - Alliance</title>
+  <title>Jogador · Watercats! - Alliance</title>
   <meta name="description" content="Perfil de um membro do clube Watercats.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/icon.png?v=71" type="image/png">
@@ -13,25 +13,25 @@
   <meta property="og:site_name" content="Watercats!">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/jogador">
-  <meta property="og:title" content="Membro Â· Watercats!">
+  <meta property="og:title" content="Membro · Watercats!">
   <meta property="og:description" content="Perfil de um membro do clube Watercats.">
   <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Membro Â· Watercats!">
+  <meta name="twitter:title" content="Membro · Watercats!">
   <meta name="twitter:description" content="Perfil de um membro do clube Watercats.">
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=100">
+  <link rel="stylesheet" href="/css/app.css?v=101">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=100"></script>
+  <script src="/js/site.js?v=101"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -99,7 +99,7 @@
       if (window.WTC.motion) WTC.motion();
     }
 
-    // O elenco vem junto sÃ³ para ligar os colegas de time ao perfil daqui.
+    // O elenco vem junto só para ligar os colegas de time ao perfil daqui.
     Promise.all([
       WTC.api("/api/players?id=" + encodeURIComponent(slug)),
       WTC.api("/api/players").catch(() => ({ players: [] }))
@@ -107,7 +107,7 @@
       .then(([{ player: p }, { players }]) => {
         player = p;
         roster = players || [];
-        document.title = WTC.displayName(p) + " Â· Watercats! - Alliance";
+        document.title = WTC.displayName(p) + " · Watercats! - Alliance";
         draw();
       })
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });

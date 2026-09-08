@@ -41,6 +41,7 @@ Front estático, API na Vercel e dados no Supabase. O painel em `/admin` edita o
 | `/jogador/:slug` | Perfil |
 | `/stats` | Números |
 | `/clips` | Jogadas |
+| `/marca` | Marca (prévia · sem loja) |
 | `/sobre` | O clube |
 | `/join` | Pedido para entrar |
 | `/login` · `/admin` | Painel |

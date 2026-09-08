@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marca · Watercats! - Alliance</title>
+  <meta name="description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/icon.png?v=71" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
+  <link rel="canonical" href="https://watercats.vercel.app/marca">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Watercats!">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:url" content="https://watercats.vercel.app/marca">
+  <meta property="og:title" content="Marca · Watercats!">
+  <meta property="og:description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Watercats!">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Marca · Watercats!">
+  <meta name="twitter:description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css?v=101">
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <main class="marca-page">
+    <section class="wrap marca-hero">
+      <p class="kicker" data-i18n="marca.kicker"></p>
+      <h1 data-i18n="marca.title"></h1>
+      <p class="tagline"><span>ALLIANCE</span></p>
+      <p class="marca-lede" data-i18n="marca.sub"></p>
+      <ul class="about-chips" aria-label="Marca">
+        <li data-i18n="marca.chip1"></li>
+        <li data-i18n="marca.chip2"></li>
+        <li data-i18n="marca.chip3"></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="#vitrine" data-i18n="marca.browse"></a>
+        <a class="btn btn-ghost" href="#avisos" data-i18n="marca.notify"></a>
+      </div>
+    </section>
+
+    <section class="wrap section marca-stage" id="vitrine">
+      <div class="section-head about-section-head">
+        <div>
+          <p class="kicker"><span class="about-step">01</span> <span data-i18n="marca.stage"></span></p>
+          <h2 data-i18n="marca.stageTitle"></h2>
+          <p data-i18n="marca.stageSub"></p>
+        </div>
+        <p class="marca-badge" data-i18n="marca.soon"></p>
+      </div>
+      <div class="marca-grid" id="marca-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="wrap section marca-wait" id="avisos">
+      <div class="marca-wait-card">
+        <div class="marca-wait-copy">
+          <p class="kicker"><span class="about-step">02</span> <span data-i18n="marca.wait.kicker"></span></p>
+          <h2 data-i18n="marca.wait.title"></h2>
+          <p data-i18n="marca.wait.lede"></p>
+        </div>
+        <form class="marca-form" id="marca-form" novalidate>
+          <div class="field">
+            <label for="marca-name" data-i18n="marca.wait.name"></label>
+            <input id="marca-name" name="name" autocomplete="name" maxlength="80" data-i18n-placeholder="marca.wait.namePh">
+          </div>
+          <div class="field">
+            <label for="marca-email"><span data-i18n="marca.wait.email"></span> <i>*</i></label>
+            <input id="marca-email" name="email" type="email" required autocomplete="email" maxlength="120" data-i18n-placeholder="marca.wait.emailPh">
+          </div>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+          <div class="marca-form-actions">
+            <button class="btn" type="submit" data-i18n="marca.wait.submit"></button>
+            <p class="marca-form-note" data-i18n="marca.wait.note"></p>
+          </div>
+          <p class="msg" id="marca-msg" role="status"></p>
+        </form>
+        <div class="marca-done" id="marca-done" hidden>
+          <p class="kicker" data-i18n="marca.wait.okTitle"></p>
+          <h3 data-i18n="marca.wait.ok"></h3>
+          <button class="btn btn-ghost" type="button" id="marca-again" data-i18n="marca.wait.again"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="marca.close.kicker"></p>
+        <h2 data-i18n="marca.close.title"></h2>
+        <p data-i18n="marca.close.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/sobre" data-i18n="nav.about"></a>
+          <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/site.js?v=101"></script>
+  <script>
+    const PRODUCTS = [
+      { id: "camisa-team", img: "/img/marca/camisa-team.png?v=1", nameKey: "marca.item.jersey", catKey: "marca.cat.wear" },
+      { id: "blusa", img: "/img/marca/blusa-camisa.png?v=1", nameKey: "marca.item.hoodie", catKey: "marca.cat.wear" },
+      { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket", catKey: "marca.cat.wear" },
+      { id: "bone", img: "/img/marca/bone.png?v=1", nameKey: "marca.item.cap", catKey: "marca.cat.wear" },
+      { id: "bag", img: "/img/marca/bag.png?v=1", nameKey: "marca.item.bag", catKey: "marca.cat.gear" },
+      { id: "mousepad", img: "/img/marca/mousepad.png?v=1", nameKey: "marca.item.pad", catKey: "marca.cat.setup" },
+      { id: "copos", img: "/img/marca/copos.png?v=1", nameKey: "marca.item.cups", catKey: "marca.cat.home" },
+      { id: "pins", img: "/img/marca/pins.png?v=1", nameKey: "marca.item.pins", catKey: "marca.cat.collect" }
+    ];
+
+    function paintProducts() {
+      const grid = document.getElementById("marca-grid");
+      if (!grid) return;
+      grid.innerHTML = PRODUCTS.map((p) => `
+        <article class="marca-card reveal" data-product="${p.id}">
+          <div class="marca-card-media">
+            <span class="marca-card-soon" data-i18n="marca.soon"></span>
+            <img src="${p.img}" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="marca-card-body">
+            <p class="marca-card-cat">${WTC.escapeHtml(WTC.t(p.catKey))}</p>
+            <h3>${WTC.escapeHtml(WTC.t(p.nameKey))}</h3>
+            <p class="marca-card-note">${WTC.escapeHtml(WTC.t("marca.preview"))}</p>
+          </div>
+        </article>
+      `).join("");
+      grid.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = WTC.t(el.getAttribute("data-i18n"));
+      });
+      WTC.motion();
+    }
+
+    function fillPlaceholders() {
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        el.placeholder = WTC.t(el.getAttribute("data-i18n-placeholder"));
+      });
+    }
+
+    paintProducts();
+    fillPlaceholders();
+    document.addEventListener("wtc:lang", () => {
+      paintProducts();
+      fillPlaceholders();
+    });
+
+    const form = document.getElementById("marca-form");
+    const done = document.getElementById("marca-done");
+    const msg = document.getElementById("marca-msg");
+
+    document.getElementById("marca-again")?.addEventListener("click", () => {
+      done.hidden = true;
+      form.hidden = false;
+      msg.textContent = "";
+      form.email?.focus();
+    });
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.className = "msg";
+      msg.textContent = "";
+      const data = Object.fromEntries(new FormData(form).entries());
+      const email = String(data.email || "").trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = WTC.t("marca.wait.needEmail");
+        form.email.focus();
+        return;
+      }
+      const btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      const prev = btn.textContent;
+      btn.textContent = WTC.t("marca.wait.sending");
+      try {
+        await WTC.api("/api/marca", { method: "POST", body: data });
+        form.reset();
+        form.hidden = true;
+        done.hidden = false;
+        msg.textContent = "";
+      } catch (err) {
+        msg.textContent = err.message || WTC.t("marca.wait.fail");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = prev || WTC.t("marca.wait.submit");
+      }
+    });
+  </script>
+</body>
+</html>
