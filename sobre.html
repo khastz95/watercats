@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>O clube · Watercats! - Alliance</title>
-  <meta name="description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o jogo é CS2.">
+  <meta name="description" content="Watercats é um clube de amigos. CS2 na mesa principal; quando dá, a turma muda de jogo.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/icon.png?v=71" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
@@ -14,18 +14,18 @@
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/sobre">
   <meta property="og:title" content="O clube · Watercats!">
-  <meta property="og:description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o jogo é CS2.">
+  <meta property="og:description" content="Watercats é um clube de amigos. CS2 na mesa principal; quando dá, a turma muda de jogo.">
   <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="O clube · Watercats!">
-  <meta name="twitter:description" content="Watercats é um clube de amigos. O nome existe há gerações; hoje o jogo é CS2.">
+  <meta name="twitter:description" content="Watercats é um clube de amigos. CS2 na mesa principal; quando dá, a turma muda de jogo.">
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=70">
+  <link rel="stylesheet" href="/css/app.css?v=73">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -41,6 +41,18 @@
         <p data-i18n="about.p4"></p>
         <p data-i18n="about.p5"></p>
         <p data-i18n="about.p6"></p>
+      </div>
+      <div class="tables">
+        <p class="kicker" data-i18n="tables.kicker"></p>
+        <p class="tables-lead" data-i18n="tables.lead"></p>
+        <div class="tables-row">
+          <span class="is-main" data-i18n="tables.cs"></span>
+          <span data-i18n="tables.fps"></span>
+          <span data-i18n="tables.race"></span>
+          <span data-i18n="tables.arcade"></span>
+          <span data-i18n="tables.rpg"></span>
+          <span data-i18n="tables.foot"></span>
+        </div>
       </div>
       <div class="actions">
         <a class="btn" href="/players" data-i18n="cta.players"></a>
@@ -60,7 +72,7 @@
     </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=72"></script>
+  <script src="/js/site.js?v=73"></script>
   <script>
     function render() {
       WTC.api("/api/players")
