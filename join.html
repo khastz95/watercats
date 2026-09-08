@@ -25,113 +25,189 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=81">
+  <link rel="stylesheet" href="/css/app.css?v=82">
 </head>
 <body>
   <header class="header" id="header"></header>
-  <main class="wrap join-page">
-    <section class="join-hero">
-      <p class="kicker" data-i18n="join.kicker"></p>
-      <h1 data-i18n="join.title"></h1>
-      <p class="tagline"><span>ALLIANCE</span></p>
-      <p class="join-lede" data-i18n="join.lede"></p>
-    </section>
+  <main class="join-page">
+    <div class="wrap join-shell">
+      <aside class="join-aside">
+        <div class="join-seal seal">
+          <span class="seal-aura" aria-hidden="true"></span>
+          <span class="seal-ring is-wide" aria-hidden="true"></span>
+          <span class="seal-ring" aria-hidden="true"></span>
+          <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <img src="/img/badge.png?v=71" alt="" data-logo>
+        </div>
+        <p class="tagline"><span>ALLIANCE</span></p>
+        <p class="join-aside-copy" data-i18n="join.aside"></p>
+        <ul class="join-points">
+          <li data-i18n="join.point1"></li>
+          <li data-i18n="join.point2"></li>
+          <li data-i18n="join.point3"></li>
+        </ul>
+        <div class="about-inks join-inks" aria-hidden="true">
+          <img src="/img/marks/fury.png?v=1" alt="">
+          <img src="/img/marks/s4mz.png?v=1" alt="">
+          <img src="/img/marks/khastz.png?v=1" alt="">
+          <img src="/img/marks/cadu.png?v=1" alt="">
+          <img src="/img/marks/bill.png?v=1" alt="">
+        </div>
+      </aside>
 
-    <form class="card form-card join-form" id="join-form" novalidate>
-      <fieldset>
-        <legend data-i18n="join.who"></legend>
-        <div class="form-grid">
-          <div class="field">
-            <label for="name" data-i18n="join.name"></label>
-            <input id="name" name="name" required autocomplete="name" maxlength="80">
+      <section class="join-main">
+        <header class="join-hero">
+          <p class="kicker" data-i18n="join.kicker"></p>
+          <h1 data-i18n="join.title"></h1>
+          <p class="join-lede" data-i18n="join.lede"></p>
+        </header>
+
+        <form class="join-form" id="join-form" novalidate>
+          <ol class="join-steps" aria-hidden="true">
+            <li class="is-on"><span>01</span><em data-i18n="join.who"></em></li>
+            <li><span>02</span><em data-i18n="join.contact"></em></li>
+            <li><span>03</span><em data-i18n="join.game"></em></li>
+          </ol>
+
+          <div class="join-block" data-step="1">
+            <div class="join-block-head">
+              <span>01</span>
+              <h2 data-i18n="join.who"></h2>
+            </div>
+            <div class="join-grid">
+              <div class="field">
+                <label for="name"><span data-i18n="join.name"></span> <i>*</i></label>
+                <input id="name" name="name" required autocomplete="name" maxlength="80" data-i18n-placeholder="join.namePh">
+              </div>
+              <div class="field">
+                <label for="nick"><span data-i18n="join.nick"></span> <i>*</i></label>
+                <input id="nick" name="nick" required autocomplete="username" maxlength="40" data-i18n-placeholder="join.nickPh">
+              </div>
+              <div class="field">
+                <label for="city" data-i18n="join.city"></label>
+                <input id="city" name="city" maxlength="80" data-i18n-placeholder="join.cityPh">
+              </div>
+              <div class="field">
+                <label for="role" data-i18n="join.role"></label>
+                <input id="role" name="role" maxlength="60" data-i18n-placeholder="join.rolePh">
+              </div>
+            </div>
           </div>
-          <div class="field">
-            <label for="nick" data-i18n="join.nick"></label>
-            <input id="nick" name="nick" required autocomplete="username" maxlength="40" placeholder="nick">
+
+          <div class="join-block" data-step="2">
+            <div class="join-block-head">
+              <span>02</span>
+              <h2 data-i18n="join.contact"></h2>
+            </div>
+            <p class="join-hint" data-i18n="join.contactHint"></p>
+            <div class="join-grid">
+              <div class="field">
+                <label for="discord" data-i18n="join.discord"></label>
+                <input id="discord" name="discord" maxlength="80" data-i18n-placeholder="join.discordPh">
+              </div>
+              <div class="field">
+                <label for="contact" data-i18n="join.email"></label>
+                <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" data-i18n-placeholder="join.emailPh">
+              </div>
+              <div class="field">
+                <label for="steamId" data-i18n="join.steamId"></label>
+                <input id="steamId" name="steamId" inputmode="numeric" maxlength="32" data-i18n-placeholder="join.steamIdPh">
+              </div>
+              <div class="field">
+                <label for="steamUrl" data-i18n="join.steamUrl"></label>
+                <input id="steamUrl" name="steamUrl" type="url" maxlength="200" data-i18n-placeholder="join.steamUrlPh">
+              </div>
+            </div>
           </div>
-          <div class="field">
-            <label for="city" data-i18n="join.city"></label>
-            <input id="city" name="city" maxlength="80" placeholder="Cidade, UF">
+
+          <div class="join-block" data-step="3">
+            <div class="join-block-head">
+              <span>03</span>
+              <h2 data-i18n="join.game"></h2>
+            </div>
+            <div class="field">
+              <span class="join-label" data-i18n="join.era"></span>
+              <div class="join-eras" role="radiogroup" aria-label="Era">
+                <label class="join-era"><input type="radio" name="era" value="1.6"><span>CS 1.6</span></label>
+                <label class="join-era"><input type="radio" name="era" value="source"><span>CS:Source</span></label>
+                <label class="join-era"><input type="radio" name="era" value="go"><span>CS:GO</span></label>
+                <label class="join-era"><input type="radio" name="era" value="cs2" checked><span>CS2</span></label>
+                <label class="join-era"><input type="radio" name="era" value="more"><span data-i18n="join.era.more"></span></label>
+              </div>
+            </div>
+            <div class="field join-message">
+              <label for="message" data-i18n="join.message"></label>
+              <textarea id="message" name="message" rows="5" maxlength="1200" data-i18n-placeholder="join.messagePh"></textarea>
+            </div>
           </div>
-          <div class="field">
-            <label for="role" data-i18n="join.role"></label>
-            <input id="role" name="role" maxlength="60" placeholder="AWP, rifler, IGL…">
+
+          <div class="join-honey" aria-hidden="true">
+            <label for="website">Site</label>
+            <input id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="join-foot">
+            <p class="join-note" data-i18n="join.note"></p>
+            <div class="actions">
+              <button class="btn" type="submit" data-i18n="join.submit"></button>
+              <a class="btn btn-ghost" href="/sobre" data-i18n="nav.about"></a>
+            </div>
+          </div>
+          <p class="msg" id="join-msg" role="status"></p>
+        </form>
+
+        <div class="join-done" id="join-done" hidden>
+          <p class="kicker" data-i18n="join.kicker"></p>
+          <h2 data-i18n="join.okTitle"></h2>
+          <p data-i18n="join.ok"></p>
+          <div class="actions">
+            <a class="btn" href="/players" data-i18n="cta.players"></a>
+            <a class="btn btn-ghost" href="/sobre" data-i18n="nav.about"></a>
+            <button class="btn btn-ghost" type="button" id="join-again" data-i18n="join.again"></button>
           </div>
         </div>
-      </fieldset>
-
-      <fieldset>
-        <legend data-i18n="join.contact"></legend>
-        <div class="form-grid">
-          <div class="field">
-            <label for="discord" data-i18n="join.discord"></label>
-            <input id="discord" name="discord" maxlength="80" placeholder="user#0000">
-          </div>
-          <div class="field">
-            <label for="contact" data-i18n="join.email"></label>
-            <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email">
-          </div>
-          <div class="field">
-            <label for="steamId" data-i18n="join.steamId"></label>
-            <input id="steamId" name="steamId" inputmode="numeric" maxlength="32" placeholder="76561198…">
-          </div>
-          <div class="field">
-            <label for="steamUrl" data-i18n="join.steamUrl"></label>
-            <input id="steamUrl" name="steamUrl" type="url" maxlength="200" placeholder="https://steamcommunity.com/…">
-          </div>
-        </div>
-        <p class="join-hint" data-i18n="join.contactHint"></p>
-      </fieldset>
-
-      <fieldset>
-        <legend data-i18n="join.game"></legend>
-        <div class="form-grid">
-          <div class="field">
-            <label for="era" data-i18n="join.era"></label>
-            <select id="era" name="era">
-              <option value="" data-i18n="join.era.empty"></option>
-              <option value="1.6">CS 1.6</option>
-              <option value="source">CS:Source</option>
-              <option value="go">CS:GO</option>
-              <option value="cs2">CS2</option>
-              <option value="more" data-i18n="join.era.more"></option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="message" data-i18n="join.message"></label>
-          <textarea id="message" name="message" rows="5" maxlength="1200" data-i18n-placeholder="join.messagePh"></textarea>
-        </div>
-      </fieldset>
-
-      <div class="join-honey" aria-hidden="true">
-        <label for="website">Site</label>
-        <input id="website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-
-      <div class="actions">
-        <button class="btn" type="submit" data-i18n="join.submit"></button>
-        <a class="btn btn-ghost" href="/sobre" data-i18n="nav.about"></a>
-      </div>
-      <p class="msg" id="join-msg" role="status"></p>
-    </form>
-
-    <p class="join-note" data-i18n="join.note"></p>
+      </section>
+    </div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=81"></script>
+  <script src="/js/site.js?v=82"></script>
   <script>
     const form = document.getElementById("join-form");
+    const done = document.getElementById("join-done");
     const msg = document.getElementById("join-msg");
+    const steps = [...document.querySelectorAll(".join-steps li")];
 
     function fillPlaceholders() {
-      form.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
         el.placeholder = WTC.t(el.getAttribute("data-i18n-placeholder"));
       });
     }
 
+    function markStep(n) {
+      steps.forEach((li, i) => li.classList.toggle("is-on", i < n));
+    }
+
+    function syncSteps() {
+      const name = form.name.value.trim();
+      const nick = form.nick.value.trim();
+      const contact = form.discord.value.trim() || form.steamId.value.trim() || form.steamUrl.value.trim() || form.contact.value.trim();
+      if (name && nick && contact) markStep(3);
+      else if (name && nick) markStep(2);
+      else markStep(1);
+    }
+
     fillPlaceholders();
     document.addEventListener("wtc:lang", fillPlaceholders);
+    form.addEventListener("input", syncSteps);
+    syncSteps();
+
+    document.getElementById("join-again")?.addEventListener("click", () => {
+      done.hidden = true;
+      form.hidden = false;
+      msg.textContent = "";
+      form.querySelector('[name="era"][value="cs2"]').checked = true;
+      syncSteps();
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -140,10 +216,12 @@
       const data = Object.fromEntries(new FormData(form).entries());
       if (!data.name?.trim() || !data.nick?.trim()) {
         msg.textContent = WTC.t("join.needName");
+        form.name.focus();
         return;
       }
       if (!data.discord?.trim() && !data.steamId?.trim() && !data.steamUrl?.trim() && !data.contact?.trim()) {
         msg.textContent = WTC.t("join.needContact");
+        form.discord.focus();
         return;
       }
       const btn = form.querySelector('[type="submit"]');
@@ -151,9 +229,11 @@
       btn.textContent = WTC.t("join.sending");
       try {
         await WTC.api("/api/join", { method: "POST", body: data });
-        msg.className = "msg is-ok";
-        msg.textContent = WTC.t("join.ok");
         form.reset();
+        form.hidden = true;
+        done.hidden = false;
+        msg.textContent = "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         msg.textContent = err.message || WTC.t("join.fail");
       } finally {
