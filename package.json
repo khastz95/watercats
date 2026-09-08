@@ -1,7 +1,7 @@
 {
   "name": "watercats",
   "private": true,
-  "description": "Site WATERCATS — elenco, stats e clipes allstar.gg.",
+  "description": "Site do clube WATERCATS — membros, números e jogadas.",
   "homepage": "https://watercats.vercel.app",
   "license": "MIT",
   "repository": {
@@ -18,5 +18,8 @@
   },
   "dependencies": {
     "postgres": "^3.4.7"
+  },
+  "bugs": {
+    "url": "https://github.com/khastz95/watercats/issues"
   }
 }

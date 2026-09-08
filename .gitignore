@@ -1,11 +1,16 @@
+# secrets
 .env
 .env.local
 .env*.local
 .env*
 !.env.example
+
+# local / tooling
 .vercel
-node_modules
+node_modules/
 .DS_Store
 Thumbs.db
+*.log
 
-.env*
+# private notes
+steam-grupo.txt

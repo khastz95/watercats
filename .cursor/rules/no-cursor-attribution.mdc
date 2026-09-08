@@ -1,0 +1,6 @@
+---
+description: Sem atribuição do Cursor em commits ou PRs
+alwaysApply: true
+---
+
+Nunca adicione `Co-authored-by: Cursor`, `Made-with: Cursor` ou qualquer trailer/atribuição do Cursor em commits, PRs ou comentários de código.
