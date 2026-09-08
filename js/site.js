@@ -10,7 +10,7 @@ const I18N = {
     "nav.menu": "Menu",
     "nav.close": "Fechar",
     "hero.kicker": "Watercats · CS2",
-    "hero.tagline": "OLD FRIENDS. SAME GAMES.",
+    "hero.tagline": "ALLIANCE",
     "hero.lede": "Watercats é um clube de amigos. O nome existe há gerações: começou com um grupo que jogava junto e foi passando adiante, sem perder o jeito de se encontrar no servidor.",
     "hero.body": "Hoje jogamos CS2. A rotina é a de sempre — combinar um horário, entrar junto e passar a noite em jogo. Por aqui ficam os membros, as jogadas que gravamos e um recorte da temporada.",
     "hero.note.cs": "CS2",
@@ -70,7 +70,7 @@ const I18N = {
     "about.p2": "Desde então o clube atravessou gerações. Gente nova chegou, outra saiu, e o nome ficou. Cada época teve o seu jeito; o que se repetiu foi se encontrar para jogar.",
     "about.p3": "Antes do CS2 foram outros jogos. O círculo mudou um pouco, mas a casa continua a mesma: amigos que marcam horário e entram juntos.",
     "about.p4": "No dia a dia é isso. A gente se conhece, combina a noite e joga. Vitória e derrota ficam no mesmo call.",
-    "about.p5": "A frase do clube é OLD FRIENDS. SAME GAMES. Amigos de longa data, ainda nos mesmos jogos.",
+    "about.p5": "A frase do clube é ALLIANCE. Amigos de longa data, ainda nos mesmos jogos.",
     "about.p6": "Este site reúne os membros de agora, as jogadas que valeu a pena guardar e um recorte da temporada.",
     "about.crew": "Membros de agora",
     "clips.all": "Todo mundo",
@@ -81,7 +81,7 @@ const I18N = {
     "error.load": "Não foi possível carregar agora. Tente de novo em instantes.",
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
-    "footer.tag": "OLD FRIENDS. SAME GAMES.",
+    "footer.tag": "ALLIANCE",
     "footer.blurb": "Um clube de amigos. CS2, o mesmo nome de sempre.",
     "footer.explore": "Navegar",
     "footer.story": "A história",
@@ -218,7 +218,7 @@ const I18N = {
     "nav.menu": "Menu",
     "nav.close": "Close",
     "hero.kicker": "Watercats · CS2",
-    "hero.tagline": "OLD FRIENDS. SAME GAMES.",
+    "hero.tagline": "ALLIANCE",
     "hero.lede": "Watercats is a club of friends. The name has been around for generations: it started with a group that queued together and was passed along, without losing the habit of meeting in-game.",
     "hero.body": "Today we play CS2. The routine is the same as ever — pick a time, join up, and spend the night in a match. This site holds the members, the clips we saved, and a snapshot of the season.",
     "hero.note.cs": "CS2",
@@ -278,7 +278,7 @@ const I18N = {
     "about.p2": "Since then the club has gone through generations. New people arrived, others left, and the name stayed. Each era had its own style; what kept repeating was meeting up to play.",
     "about.p3": "There were other games before CS2. The circle shifted a little, but the house is the same: friends who pick a time and join up.",
     "about.p4": "Day to day, that's it. We know each other, we set a night, we play. Wins and losses stay in the same call.",
-    "about.p5": "The club line is OLD FRIENDS. SAME GAMES. Long-time friends, still in the same games.",
+    "about.p5": "The club line is ALLIANCE. Long-time friends, still in the same games.",
     "about.p6": "This site gathers the current members, the clips worth keeping, and a snapshot of the season.",
     "about.crew": "Members now",
     "clips.all": "Everyone",
@@ -289,7 +289,7 @@ const I18N = {
     "error.load": "Couldn't load this right now. Try again in a moment.",
     "retry": "Try again",
     "skip": "Skip to content",
-    "footer.tag": "OLD FRIENDS. SAME GAMES.",
+    "footer.tag": "ALLIANCE",
     "footer.blurb": "A club of friends. CS2, the same name as ever.",
     "footer.explore": "Navigate",
     "footer.story": "The story",
@@ -559,7 +559,7 @@ function mountChrome() {
             <img class="brand-seal" src="${logo}" alt="" data-icon>
             <span class="brand-lockup">
               <img src="${WORD}" alt="Watercats" data-wordmark>
-              <span class="brand-sub">OLD FRIENDS. <em>SAME GAMES.</em></span>
+              <span class="brand-sub"><em>ALLIANCE</em></span>
             </span>
           </a>
           <nav class="nav" aria-label="Watercats">
@@ -584,7 +584,7 @@ function mountChrome() {
       <nav class="nav-mobile" aria-label="${t("nav.menu")}">
         <div class="nav-mobile-head">
           <img src="${WORD}" alt="Watercats" data-wordmark>
-          <p class="nav-slogan">OLD FRIENDS. <span>SAME GAMES.</span></p>
+          <p class="nav-slogan"><span>ALLIANCE</span></p>
         </div>
         <div class="nav-mobile-links">${navItems(here)}</div>
         <div class="nav-mobile-tools">${tools}</div>
@@ -598,7 +598,7 @@ function mountChrome() {
             <img class="footer-seal" src="${logo}" alt="" data-icon>
             <img src="${WORD}" alt="Watercats" data-wordmark>
           </a>
-          <p class="footer-tag">OLD FRIENDS. <em>SAME GAMES.</em></p>
+          <p class="footer-tag"><em>ALLIANCE</em></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
         </div>
         <nav class="footer-col" aria-label="${t("footer.explore")}">
