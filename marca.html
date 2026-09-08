@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=105">
+  <link rel="stylesheet" href="/css/app.css?v=106">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -136,17 +136,17 @@
   </div>
 
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=105"></script>
+  <script src="/js/site.js?v=106"></script>
   <script>
     const PRODUCTS = [
-      { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket", size: "hero" },
-      { id: "bone", img: "/img/marca/bone.png?v=1", nameKey: "marca.item.cap", size: "square" },
-      { id: "pins", img: "/img/marca/pins.png?v=1", nameKey: "marca.item.pins", size: "square" },
-      { id: "blusa", img: "/img/marca/blusa-camisa.png?v=1", nameKey: "marca.item.hoodie", size: "wide" },
-      { id: "camisa-team", img: "/img/marca/camisa-team.png?v=1", nameKey: "marca.item.jersey", size: "tall" },
-      { id: "bag", img: "/img/marca/bag.png?v=1", nameKey: "marca.item.bag", size: "wide" },
-      { id: "mousepad", img: "/img/marca/mousepad.png?v=1", nameKey: "marca.item.pad", size: "tall" },
-      { id: "copos", img: "/img/marca/copos.png?v=1", nameKey: "marca.item.cups", size: "full" }
+      { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket" },
+      { id: "bone", img: "/img/marca/bone.png?v=1", nameKey: "marca.item.cap" },
+      { id: "pins", img: "/img/marca/pins.png?v=1", nameKey: "marca.item.pins" },
+      { id: "blusa", img: "/img/marca/blusa-camisa.png?v=1", nameKey: "marca.item.hoodie" },
+      { id: "camisa-team", img: "/img/marca/camisa-team.png?v=1", nameKey: "marca.item.jersey" },
+      { id: "bag", img: "/img/marca/bag.png?v=1", nameKey: "marca.item.bag" },
+      { id: "mousepad", img: "/img/marca/mousepad.png?v=1", nameKey: "marca.item.pad" },
+      { id: "copos", img: "/img/marca/copos.png?v=1", nameKey: "marca.item.cups" }
     ];
 
     let active = 0;
@@ -170,7 +170,7 @@
       `).join("");
 
       wall.innerHTML = PRODUCTS.map((p, i) => `
-        <button type="button" class="marca-pane is-${p.size} reveal" data-i="${i}" style="--d:${(i * 0.05).toFixed(2)}s">
+        <button type="button" class="marca-pane reveal" data-i="${i}" style="--d:${(i * 0.05).toFixed(2)}s">
           <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
           <span class="sheet-no">${String(i + 1).padStart(2, "0")}</span>
           <img src="${p.img}" alt="${WTC.escapeAttr(WTC.t(p.nameKey))}" loading="${i < 2 ? "eager" : "lazy"}" decoding="async">
