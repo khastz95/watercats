@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=78">
+  <link rel="stylesheet" href="/css/app.css?v=79">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -53,12 +53,10 @@
           <h1 data-i18n="about.title"></h1>
           <p class="tagline"><span>ALLIANCE</span></p>
           <p class="about-lede" data-i18n="about.lede"></p>
-          <p class="about-body" data-i18n="about.body"></p>
-          <p class="about-alliance" data-i18n="about.alliance"></p>
           <div class="actions">
-            <a class="btn" href="/players" data-i18n="cta.players"></a>
+            <a class="btn" href="#eras" data-i18n="about.era.kicker"></a>
+            <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
             <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
-            <a class="btn btn-ghost" href="#eras" data-i18n="about.era.kicker"></a>
           </div>
         </div>
       </div>
@@ -72,39 +70,40 @@
           <p data-i18n="about.era.sub"></p>
         </div>
       </div>
-      <p class="about-era-hint" data-i18n="about.era.hint"></p>
-      <div class="era-track" role="tablist" aria-label="Eras do Counter-Strike">
-        <button type="button" class="era-pip is-on" role="tab" aria-selected="true" data-era="1.6">
-          <em data-i18n="about.era.1.6.y"></em>
-          <b data-i18n="about.era.1.6.t"></b>
-        </button>
-        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="source">
-          <em data-i18n="about.era.source.y"></em>
-          <b data-i18n="about.era.source.t"></b>
-        </button>
-        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="go">
-          <em data-i18n="about.era.go.y"></em>
-          <b data-i18n="about.era.go.t"></b>
-        </button>
-        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="cs2">
-          <em data-i18n="about.era.cs2.y"></em>
-          <b data-i18n="about.era.cs2.t"></b>
-        </button>
-        <button type="button" class="era-pip" role="tab" aria-selected="false" data-era="more">
-          <em data-i18n="about.era.more.y"></em>
-          <b data-i18n="about.era.more.t"></b>
-        </button>
-      </div>
-      <div class="era-stage" data-era-stage>
-        <div class="era-visual" aria-hidden="true">
-          <span class="era-year" data-era-year></span>
-          <img class="era-mark" src="/img/badge.png?v=71" alt="" data-logo>
+
+      <div class="era-shell" data-era-shell>
+        <div class="era-rail" data-era-rail>
+          <div class="era-rail-line" aria-hidden="true">
+            <i class="era-rail-fill" data-era-fill></i>
+            <b class="era-rail-knob" data-era-knob></b>
+          </div>
+          <div class="era-track" role="tablist" aria-label="Eras do Counter-Strike" data-era-track></div>
         </div>
-        <div class="era-copy">
-          <p class="kicker" data-era-kicker></p>
-          <h3 data-era-title></h3>
-          <p data-era-body></p>
-          <p class="era-reply" data-era-reply hidden></p>
+
+        <div class="era-tools">
+          <button type="button" class="btn btn-ghost" data-era-prev data-i18n="about.era.prev"></button>
+          <button type="button" class="btn btn-ghost" data-era-toggle data-i18n="about.era.play"></button>
+          <button type="button" class="btn btn-ghost" data-era-next data-i18n="about.era.next"></button>
+        </div>
+
+        <div class="era-stage" data-era-stage>
+          <div class="era-visual" data-era-visual aria-hidden="true">
+            <span class="era-year" data-era-year></span>
+            <span class="era-gen" data-era-gen></span>
+            <img class="era-mark" src="/img/badge.png?v=71" alt="" data-logo>
+            <div class="era-scan" aria-hidden="true"></div>
+          </div>
+          <div class="era-copy">
+            <p class="kicker" data-era-kicker></p>
+            <h3 data-era-title></h3>
+            <p data-era-body></p>
+            <div class="era-stats" data-era-stats></div>
+            <div class="era-vote-row">
+              <button type="button" class="btn" data-era-vote data-i18n="about.era.vote"></button>
+              <p class="era-reply" data-era-reply hidden></p>
+            </div>
+            <div class="era-poll" data-era-poll aria-label="Votos"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -131,126 +130,267 @@
       </div>
       <div id="wall"></div>
     </section>
-
-    <section class="wrap section about-night">
-      <div class="section-head">
-        <div>
-          <p class="kicker" data-i18n="about.night.kicker"></p>
-          <h2 data-i18n="about.night.title"></h2>
-          <p data-i18n="about.night.sub"></p>
-        </div>
-      </div>
-      <div class="night-chips" data-night>
-        <button type="button" class="night-chip is-on" data-night-chip="cs" data-i18n="about.night.cs"></button>
-        <button type="button" class="night-chip" data-night-chip="fps" data-i18n="about.night.fps"></button>
-        <button type="button" class="night-chip" data-night-chip="race" data-i18n="about.night.race"></button>
-        <button type="button" class="night-chip" data-night-chip="arcade" data-i18n="about.night.arcade"></button>
-        <button type="button" class="night-chip" data-night-chip="rpg" data-i18n="about.night.rpg"></button>
-        <button type="button" class="night-chip" data-night-chip="foot" data-i18n="about.night.foot"></button>
-      </div>
-      <p class="about-night-note" data-i18n="about.night.note"></p>
-    </section>
-
-    <section class="wrap section about-site">
-      <div class="about-site-card">
-        <div>
-          <p class="kicker" data-i18n="about.site.kicker"></p>
-          <h2 data-i18n="about.site.title"></h2>
-          <p data-i18n="about.site.body"></p>
-        </div>
-        <div class="actions">
-          <a class="btn" href="/players" data-i18n="cta.players"></a>
-          <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
-          <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="wrap section">
-      <div class="section-head">
-        <div>
-          <p class="kicker" data-i18n="about.crew"></p>
-          <h2 data-i18n="about.crew"></h2>
-          <p data-i18n="about.crew.sub"></p>
-        </div>
-        <a href="/players" data-i18n="cta.players"></a>
-      </div>
-      <div id="roster"></div>
-    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=78"></script>
+  <script src="/js/site.js?v=79"></script>
   <script>
-    const ERAS = ["1.6", "source", "go", "cs2", "more"];
+    const ERAS = [
+      { id: "1.6", nights: 412, crew: 7, tone: "#6ea8ff" },
+      { id: "source", nights: 286, crew: 6, tone: "#7bc4ff" },
+      { id: "go", nights: 1480, crew: 11, tone: "#3d8eec" },
+      { id: "cs2", nights: 318, crew: 5, tone: "#006bff" },
+      { id: "more", nights: 94, crew: 5, tone: "#5ad0c8" }
+    ];
     const ERA_KEY = "wtc-about-era";
-    let activeEra = localStorage.getItem(ERA_KEY) || "cs2";
-    if (!ERAS.includes(activeEra)) activeEra = "cs2";
+    const VOTE_KEY = "wtc-about-vote";
+    const POLL_KEY = "wtc-about-poll";
+    const SEED = { "1.6": 18, source: 11, go: 34, cs2: 27, more: 9 };
 
-    function paintEra(id, replied) {
-      activeEra = id;
-      localStorage.setItem(ERA_KEY, id);
+    let index = ERAS.findIndex((e) => e.id === localStorage.getItem(ERA_KEY));
+    if (index < 0) index = 3;
+    let playing = false;
+    let timer = null;
+    let dragging = false;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function pollBag() {
+      let bag = {};
+      try { bag = JSON.parse(localStorage.getItem(POLL_KEY) || "{}") || {}; } catch (_) {}
+      const out = {};
+      ERAS.forEach((e) => { out[e.id] = (SEED[e.id] || 0) + (Number(bag[e.id]) || 0); });
+      return out;
+    }
+
+    function saveVote(id) {
+      localStorage.setItem(VOTE_KEY, id);
+      let bag = {};
+      try { bag = JSON.parse(localStorage.getItem(POLL_KEY) || "{}") || {}; } catch (_) {}
+      bag[id] = (Number(bag[id]) || 0) + 1;
+      localStorage.setItem(POLL_KEY, JSON.stringify(bag));
+    }
+
+    function buildTrack() {
+      const track = document.querySelector("[data-era-track]");
+      if (!track) return;
+      track.innerHTML = ERAS.map((e, i) =>
+        `<button type="button" class="era-pip${i === index ? " is-on" : ""}" role="tab" aria-selected="${i === index}" data-era-index="${i}" data-era="${e.id}">
+          <em></em><b></b>
+        </button>`
+      ).join("");
+      labelTrack();
+    }
+
+    function labelTrack() {
       document.querySelectorAll(".era-pip").forEach((btn) => {
-        const on = btn.dataset.era === id;
-        btn.classList.toggle("is-on", on);
-        btn.setAttribute("aria-selected", on ? "true" : "false");
+        const id = btn.dataset.era;
+        btn.querySelector("em").textContent = WTC.t("about.era." + id + ".y");
+        btn.querySelector("b").textContent = WTC.t("about.era." + id + ".t");
       });
-      const stage = document.querySelector("[data-era-stage]");
-      if (!stage) return;
-      stage.dataset.active = id;
-      stage.classList.remove("is-swap");
-      void stage.offsetWidth;
-      stage.classList.add("is-swap");
-      document.querySelector("[data-era-year]").textContent = WTC.t("about.era." + id + ".y");
-      document.querySelector("[data-era-kicker]").textContent = WTC.t("about.era." + id + ".y");
-      document.querySelector("[data-era-title]").textContent = WTC.t("about.era." + id + ".t");
-      document.querySelector("[data-era-body]").textContent = WTC.t("about.era." + id);
-      const reply = document.querySelector("[data-era-reply]");
-      if (replied) {
-        reply.hidden = false;
-        reply.textContent = WTC.t("about.era.reply." + id);
+    }
+
+    function paintPoll() {
+      const box = document.querySelector("[data-era-poll]");
+      if (!box) return;
+      const votes = pollBag();
+      const total = Object.values(votes).reduce((a, b) => a + b, 0) || 1;
+      box.innerHTML = `<p class="era-poll-lab">${WTC.t("about.era.votes")}</p>` +
+        ERAS.map((e) => {
+          const n = votes[e.id];
+          const pct = Math.round((n / total) * 100);
+          return `<div class="era-poll-row${e.id === ERAS[index].id ? " is-on" : ""}" style="--w:${pct}%">
+            <span>${WTC.t("about.era." + e.id + ".t")}</span>
+            <i><b></b></i>
+            <em>${pct}%</em>
+          </div>`;
+        }).join("");
+    }
+
+    function paintStats(era) {
+      const box = document.querySelector("[data-era-stats]");
+      if (!box) return;
+      const rows = [
+        ["about.era.stat.years", WTC.t("about.era." + era.id + ".y"), null],
+        ["about.era.stat.nights", era.nights, era.nights],
+        ["about.era.stat.maps", WTC.t("about.era." + era.id + ".map"), null],
+        ["about.era.stat.server", WTC.t("about.era." + era.id + ".server"), null],
+        ["about.era.stat.crew", era.crew, era.crew]
+      ];
+      box.innerHTML = rows.map(([key, text, count]) =>
+        `<div class="era-stat"><span>${WTC.t(key)}</span><b${count != null ? ` data-count="${count}" data-digits="0"` : ""}>${WTC.escapeHtml(String(text))}</b></div>`
+      ).join("");
+      if (!reduce && window.WTC.motion) {
+        box.querySelectorAll("[data-count]").forEach((el) => { delete el.dataset.counted; });
+        // lightweight count without full motion scan
+        box.querySelectorAll("[data-count]").forEach((el) => {
+          const end = Number(el.dataset.count);
+          if (!Number.isFinite(end)) return;
+          const start = performance.now();
+          const tick = (now) => {
+            const p = Math.min(1, (now - start) / 700);
+            el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        });
       }
     }
 
-    function bindAbout() {
-      document.querySelector(".era-track")?.addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-era]");
-        if (!btn) return;
-        paintEra(btn.dataset.era, true);
+    function setRail() {
+      const pct = ERAS.length <= 1 ? 0 : (index / (ERAS.length - 1)) * 100;
+      const fill = document.querySelector("[data-era-fill]");
+      const knob = document.querySelector("[data-era-knob]");
+      if (fill) fill.style.width = pct + "%";
+      if (knob) knob.style.left = pct + "%";
+    }
+
+    function paintEra(opts = {}) {
+      const era = ERAS[index];
+      localStorage.setItem(ERA_KEY, era.id);
+      document.querySelectorAll(".era-pip").forEach((btn, i) => {
+        const on = i === index;
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
       });
-      document.querySelector("[data-night]")?.addEventListener("click", (e) => {
-        const chip = e.target.closest("[data-night-chip]");
-        if (!chip) return;
-        chip.classList.toggle("is-on");
-        const box = chip.closest("[data-night]");
-        const on = [...box.querySelectorAll(".night-chip.is-on")].map((el) => el.dataset.nightChip);
-        box.dataset.mix = on.join(",") || "none";
+      const shell = document.querySelector("[data-era-shell]");
+      const stage = document.querySelector("[data-era-stage]");
+      if (shell) shell.style.setProperty("--era", era.tone);
+      if (stage) {
+        stage.dataset.active = era.id;
+        stage.classList.remove("is-swap");
+        void stage.offsetWidth;
+        stage.classList.add("is-swap");
+      }
+      setRail();
+      document.querySelector("[data-era-year]").textContent = WTC.t("about.era." + era.id + ".y");
+      document.querySelector("[data-era-gen]").textContent = WTC.t("about.era." + era.id + ".g");
+      document.querySelector("[data-era-kicker]").textContent = WTC.t("about.era." + era.id + ".g");
+      document.querySelector("[data-era-title]").textContent = WTC.t("about.era." + era.id + ".t");
+      document.querySelector("[data-era-body]").textContent = WTC.t("about.era." + era.id);
+      paintStats(era);
+      paintPoll();
+
+      const reply = document.querySelector("[data-era-reply]");
+      const voteBtn = document.querySelector("[data-era-vote]");
+      const voted = localStorage.getItem(VOTE_KEY);
+      if (opts.showReply) {
+        reply.hidden = false;
+        reply.textContent = WTC.t("about.era.reply." + era.id);
+      } else if (voted === era.id) {
+        reply.hidden = false;
+        reply.textContent = WTC.t("about.era.voted");
+      } else {
+        reply.hidden = true;
+      }
+      if (voteBtn) {
+        voteBtn.disabled = Boolean(voted);
+        voteBtn.textContent = WTC.t(voted ? "about.era.voted" : "about.era.vote");
+      }
+    }
+
+    function go(i, opts) {
+      index = (i + ERAS.length) % ERAS.length;
+      paintEra(opts || {});
+    }
+
+    function setPlaying(on) {
+      playing = on;
+      const btn = document.querySelector("[data-era-toggle]");
+      if (btn) btn.textContent = WTC.t(on ? "about.era.pause" : "about.era.play");
+      clearInterval(timer);
+      if (on && !reduce) timer = setInterval(() => go(index + 1), 4200);
+    }
+
+    function indexFromClientX(x) {
+      const rail = document.querySelector("[data-era-rail]");
+      if (!rail) return index;
+      const rect = rail.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      return Math.round(p * (ERAS.length - 1));
+    }
+
+    function bindAbout() {
+      buildTrack();
+      document.querySelector("[data-era-track]")?.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-era-index]");
+        if (!btn) return;
+        setPlaying(false);
+        go(Number(btn.dataset.eraIndex));
+      });
+      document.querySelector("[data-era-prev]")?.addEventListener("click", () => { setPlaying(false); go(index - 1); });
+      document.querySelector("[data-era-next]")?.addEventListener("click", () => { setPlaying(false); go(index + 1); });
+      document.querySelector("[data-era-toggle]")?.addEventListener("click", () => setPlaying(!playing));
+      document.querySelector("[data-era-vote]")?.addEventListener("click", () => {
+        if (localStorage.getItem(VOTE_KEY)) return;
+        saveVote(ERAS[index].id);
+        paintEra({ showReply: true });
+      });
+
+      const rail = document.querySelector("[data-era-rail]");
+      const startDrag = (x) => {
+        dragging = true;
+        setPlaying(false);
+        go(indexFromClientX(x));
+      };
+      rail?.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".era-pip")) return;
+        rail.setPointerCapture(e.pointerId);
+        startDrag(e.clientX);
+      });
+      rail?.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        go(indexFromClientX(e.clientX));
+      });
+      rail?.addEventListener("pointerup", () => { dragging = false; });
+      rail?.addEventListener("pointercancel", () => { dragging = false; });
+
+      const visual = document.querySelector("[data-era-visual]");
+      visual?.addEventListener("pointermove", (e) => {
+        if (reduce) return;
+        const r = visual.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width - 0.5) * 12;
+        const y = ((e.clientY - r.top) / r.height - 0.5) * 12;
+        visual.style.setProperty("--px", x.toFixed(1) + "px");
+        visual.style.setProperty("--py", y.toFixed(1) + "px");
+      });
+      visual?.addEventListener("pointerleave", () => {
+        visual.style.setProperty("--px", "0px");
+        visual.style.setProperty("--py", "0px");
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (!document.getElementById("eras")) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); setPlaying(false); go(index + 1); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); setPlaying(false); go(index - 1); }
+        if (e.key === " ") {
+          if (e.target.closest("input, textarea, button, a")) return;
+          e.preventDefault();
+          setPlaying(!playing);
+        }
       });
     }
 
     function render() {
-      paintEra(activeEra, false);
+      labelTrack();
+      paintEra();
       WTC.api("/api/players")
         .then(({ players }) => {
-          document.getElementById("cities").innerHTML = players.length
-            ? WTC.aboutCities(players)
-            : "";
-          document.getElementById("wall").innerHTML = players.length
-            ? WTC.aboutWall(players)
-            : WTC.emptyBox("empty.players");
-          document.getElementById("roster").innerHTML = players.length
-            ? WTC.starRoster(players)
-            : WTC.emptyBox("empty.players");
+          document.getElementById("cities").innerHTML = players.length ? WTC.aboutCities(players) : "";
+          document.getElementById("wall").innerHTML = players.length ? WTC.aboutWall(players) : WTC.emptyBox("empty.players");
           WTC.motion();
         })
         .catch(() => {
-          document.getElementById("roster").innerHTML = WTC.errorBox();
+          document.getElementById("wall").innerHTML = WTC.errorBox();
         });
     }
 
     bindAbout();
     render();
+    if (!reduce) setPlaying(true);
     document.addEventListener("wtc:lang", () => {
-      paintEra(activeEra, false);
+      labelTrack();
+      const btn = document.querySelector("[data-era-toggle]");
+      if (btn) btn.textContent = WTC.t(playing ? "about.era.pause" : "about.era.play");
+      paintEra();
       render();
     });
   </script>
