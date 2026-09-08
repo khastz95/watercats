@@ -652,16 +652,15 @@ body.nav-open .header { z-index: 210; }
   gap: 12px;
 }
 .brand-seal {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   flex: none;
   object-fit: contain;
-  padding: 3px;
-  border: 1px dashed color-mix(in srgb, var(--blue) 40%, transparent);
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  box-shadow:
-    0 0 16px color-mix(in srgb, var(--blue) 28%, transparent),
-    inset 0 0 10px color-mix(in srgb, var(--blue) 12%, transparent);
+  background: transparent;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--blue) 28%, transparent);
 }
 .brand-lockup {
   display: flex;
@@ -3899,7 +3898,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .skill { grid-template-columns: 1fr auto; }
   .skill i { grid-column: 1 / -1; }
   .brand img:not(.brand-seal) { height: 30px; width: auto; max-width: min(200px, 56vw); }
-  .brand-seal { width: 38px; height: 38px; }
+  .brand-seal { width: 42px; height: 42px; }
   .brand-sub { font-size: 11px; letter-spacing: 0.14em; }
   :root { --header: 76px; }
   .deal,

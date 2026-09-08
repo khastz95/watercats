@@ -718,7 +718,8 @@ const I18N = {
 const TOKEN_KEY = "wtc_token";
 const LANG_KEY = "wtc_lang";
 const MARK = "/img/badge.png?v=71";
-const WORD = "/img/wordmark-light.png?v=90";
+const WORD = "/img/wordmark-dark.png?v=62";
+const BRAND_SEAL = "/img/logo-white.png?v=91";
 
 function lang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "pt";
@@ -731,6 +732,7 @@ function applyTheme() {
     el.src = MARK;
   });
   document.querySelectorAll("[data-icon]").forEach((el) => { el.src = MARK; });
+  document.querySelectorAll("[data-brand-seal]").forEach((el) => { el.src = BRAND_SEAL; });
 }
 
 function t(key) {
@@ -856,7 +858,7 @@ function mountChrome() {
       <div class="header-bar">
         <div class="wrap header-inner">
           <a class="brand" href="/">
-            <img class="brand-seal" src="${logo}" alt="" data-icon>
+            <img class="brand-seal" src="${BRAND_SEAL}" alt="" data-brand-seal>
             <span class="brand-lockup">
               <img src="${WORD}" alt="Watercats" data-wordmark>
               <span class="brand-sub"><em>ALLIANCE</em></span>
