@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jogador · Watercats!</title>
+  <title>Jogador · Watercats! - Alliance</title>
   <meta name="description" content="Perfil de um membro do clube Watercats.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/icon.png?v=71" type="image/png">
@@ -107,7 +107,7 @@
       .then(([{ player: p }, { players }]) => {
         player = p;
         roster = players || [];
-        document.title = WTC.displayName(p) + " · Watercats!";
+        document.title = WTC.displayName(p) + " · Watercats! - Alliance";
         draw();
       })
       .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
