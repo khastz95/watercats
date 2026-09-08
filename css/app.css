@@ -5280,7 +5280,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .marca-page > * { position: relative; z-index: 1; }
 
 .marca-hero {
-  padding: 48px 0 18px;
+  padding: 48px 0 28px;
   position: relative;
 }
 .marca-hero::before {
@@ -5294,9 +5294,121 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 .marca-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(180px, 0.65fr);
-  gap: clamp(24px, 4vw, 48px);
-  align-items: end;
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: center;
+}
+.marca-hero-seal {
+  display: grid;
+  justify-items: stretch;
+}
+.marca-seal-board {
+  --gem: 7px;
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: clamp(18px, 3vw, 26px) clamp(16px, 2.5vw, 22px) 20px;
+  border: 1px solid color-mix(in srgb, var(--blue) 34%, var(--line));
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 18%, color-mix(in srgb, var(--blue) 22%, transparent), transparent 68%),
+    linear-gradient(165deg, color-mix(in srgb, var(--blue) 12%, transparent), transparent 48%),
+    var(--surface);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--blue) 12%, transparent),
+    0 18px 40px rgba(0, 8, 22, 0.28);
+  overflow: hidden;
+}
+.marca-seal-board::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  background: var(--cut-frame);
+  opacity: 0.75;
+}
+.marca-seal-board > * { position: relative; z-index: 1; }
+.marca-seal {
+  width: min(240px, 68vw);
+  margin: 0 auto;
+  animation: aboutSeal 7s ease-in-out infinite;
+}
+.marca-wordmark {
+  width: min(180px, 56%);
+  height: auto;
+  display: block;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--blue) 28%, transparent));
+}
+.marca-seal-tag {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+}
+.marca-seal-tag em { font-style: normal; }
+.marca-mini {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+.marca-mini-item {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line));
+  background: color-mix(in srgb, #000 42%, var(--surface));
+  cursor: zoom-in;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.marca-mini-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.marca-mini-item:hover,
+.marca-mini-item:focus-visible {
+  border-color: color-mix(in srgb, var(--blue) 65%, var(--line));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--blue) 20%, transparent);
+  outline: none;
+  transform: translateY(-2px);
+}
+.marca-seal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px dashed color-mix(in srgb, var(--blue) 24%, var(--line));
+}
+.marca-count {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  text-align: center;
+}
+.marca-seal-soon {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid color-mix(in srgb, var(--blue) 28%, var(--line));
+  padding: 4px 8px;
 }
 .marca-hero h1 {
   font-family: var(--display);
@@ -5320,25 +5432,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   font-weight: 600;
 }
 .marca-hero .actions { margin-top: 22px; }
-.marca-hero-side {
-  display: grid;
-  justify-items: center;
-  gap: 16px;
-  padding-bottom: 8px;
-}
-.marca-seal {
-  width: min(200px, 42vw);
-  margin: 0 auto;
-}
-.marca-count {
-  margin: 0;
-  font-family: var(--display);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--blue-light);
-  text-align: center;
-}
 
 .marca-stage { padding-top: 12px; }
 .marca-hint {
@@ -5736,10 +5829,8 @@ body.marca-lb-open { overflow: hidden; }
 
 @media (max-width: 900px) {
   .marca-hero-grid { grid-template-columns: 1fr; }
-  .marca-hero-side {
-    justify-items: start;
-    order: -1;
-  }
+  .marca-hero-seal { order: -1; max-width: 420px; }
+  .marca-seal { width: min(220px, 58vw); }
   .marca-hint { text-align: left; max-width: none; }
   .marca-wait-card { grid-template-columns: 1fr; }
   .marca-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -5764,6 +5855,7 @@ body.marca-lb-open { overflow: hidden; }
   .marca-lb-nav.is-next { right: 16px; }
 }
 @media (max-width: 900px), (hover: none) {
+  .marca-seal { animation: none; }
   .marca-pane:hover img,
   .marca-pane:focus-visible img { transform: none; }
   .marca-pane:hover::before,

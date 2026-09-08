@@ -25,13 +25,32 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=106">
+  <link rel="stylesheet" href="/css/app.css?v=107">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="marca-page">
     <section class="wrap marca-hero">
       <div class="marca-hero-grid">
+        <aside class="marca-hero-seal">
+          <div class="marca-seal-board">
+            <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <div class="seal marca-seal">
+              <span class="seal-aura" aria-hidden="true"></span>
+              <span class="seal-ring is-wide" aria-hidden="true"></span>
+              <span class="seal-ring" aria-hidden="true"></span>
+              <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <img src="/img/badge.png?v=71" alt="Logo Watercats" data-logo>
+            </div>
+            <img class="marca-wordmark" src="/img/wordmark-dark.png?v=71" alt="Watercats" data-wordmark>
+            <p class="marca-seal-tag"><em>ALLIANCE</em></p>
+            <div class="marca-mini" id="marca-mini" aria-hidden="true"></div>
+            <div class="marca-seal-meta">
+              <p class="marca-count" id="marca-count"></p>
+              <p class="marca-seal-soon" data-i18n="marca.soon"></p>
+            </div>
+          </div>
+        </aside>
         <div class="marca-hero-copy">
           <p class="kicker" data-i18n="marca.kicker"></p>
           <h1 data-i18n="marca.title"></h1>
@@ -48,16 +67,6 @@
             <a class="btn btn-ghost" href="/sobre" data-i18n="nav.about"></a>
           </div>
         </div>
-        <aside class="marca-hero-side" aria-hidden="true">
-          <div class="seal marca-seal">
-            <span class="seal-aura"></span>
-            <span class="seal-ring is-wide"></span>
-            <span class="seal-ring"></span>
-            <span class="seal-gems"><i></i><i></i><i></i><i></i></span>
-            <img src="/img/badge.png?v=71" alt="" data-logo>
-          </div>
-          <p class="marca-count" id="marca-count"></p>
-        </aside>
       </div>
     </section>
 
@@ -136,7 +145,7 @@
   </div>
 
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=106"></script>
+  <script src="/js/site.js?v=107"></script>
   <script>
     const PRODUCTS = [
       { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket" },
@@ -153,6 +162,7 @@
     const film = document.getElementById("marca-film");
     const wall = document.getElementById("marca-wall");
     const countEl = document.getElementById("marca-count");
+    const miniEl = document.getElementById("marca-mini");
     const lb = document.getElementById("marca-lightbox");
     const lbImg = document.getElementById("marca-lb-img");
     const lbName = document.getElementById("marca-lb-name");
@@ -161,6 +171,13 @@
     function paint() {
       if (countEl) {
         countEl.textContent = WTC.t("marca.count").replace("{n}", String(PRODUCTS.length));
+      }
+      if (miniEl) {
+        miniEl.innerHTML = PRODUCTS.slice(0, 4).map((p, i) => `
+          <button type="button" class="marca-mini-item" data-i="${i}" aria-label="${WTC.escapeAttr(WTC.t(p.nameKey))}">
+            <img src="${p.img}" alt="" loading="lazy" decoding="async">
+          </button>
+        `).join("");
       }
 
       film.innerHTML = PRODUCTS.map((p, i) => `
@@ -223,6 +240,14 @@
     });
 
     film.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-i]");
+      if (!btn) return;
+      const i = Number(btn.dataset.i);
+      document.querySelector(`.marca-pane[data-i="${i}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      openAt(i);
+    });
+
+    miniEl?.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-i]");
       if (!btn) return;
       const i = Number(btn.dataset.i);
