@@ -217,6 +217,158 @@ main { flex: 1; position: relative; z-index: 1; min-width: 0; }
   object-fit: cover;
   aspect-ratio: 1;
 }
+.page-mark.is-ink::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(560px, 52vw);
+  height: min(560px, 52vw);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--player, var(--blue)) 22%, transparent), transparent 68%);
+  pointer-events: none;
+}
+.page-mark.is-ink img.is-player {
+  width: min(520px, 48vw);
+  opacity: 0.14;
+  border-radius: 0;
+  object-fit: contain;
+  aspect-ratio: auto;
+  filter: drop-shadow(0 0 42px color-mix(in srgb, var(--player, var(--blue)) 50%, transparent));
+}
+
+.player-mark {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  isolation: isolate;
+  pointer-events: none;
+}
+.player-mark::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--player, var(--blue)) 48%, transparent) 0%, color-mix(in srgb, var(--player, var(--blue)) 16%, transparent) 42%, transparent 72%);
+  pointer-events: none;
+}
+.player-mark img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--player, var(--blue)) 70%, transparent));
+}
+.player-mark.is-art {
+  position: absolute;
+  z-index: 5;
+  width: 24%;
+  height: auto;
+  aspect-ratio: 1;
+}
+.player-mark.is-hero {
+  width: 52px;
+  height: 52px;
+}
+.player-mark.is-name,
+.player-mark.is-row {
+  width: 32px;
+  height: 32px;
+}
+.player-mark.is-chip,
+.player-mark.is-meta,
+.player-mark.is-inline {
+  width: 26px;
+  height: 26px;
+}
+.deal-art .player-mark.is-art {
+  top: 10px;
+  left: 10px;
+  width: 28%;
+}
+.player-card-photo .player-mark.is-art {
+  left: 12px;
+  top: 14px;
+  width: 26%;
+}
+.dossier-frame .player-mark.is-art {
+  left: 12%;
+  top: 10%;
+  right: auto;
+  bottom: auto;
+  width: 20%;
+}
+.spot-face .player-mark.is-art {
+  left: 2px;
+  top: 2px;
+  right: auto;
+  bottom: auto;
+  width: 36%;
+}
+.spot-face {
+  position: relative;
+  display: block;
+  width: 92px;
+  height: 92px;
+}
+.season-face .player-mark.is-art {
+  right: -6px;
+  bottom: -6px;
+  width: 38px;
+  height: 38px;
+}
+.dossier-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.dossier-title .dossier-name { margin: 0; }
+.season-main h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.clip-who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--player, var(--blue)) 40%, var(--text));
+}
+.mate-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.row-title strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.row-player .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pulse-item .player-mark {
+  width: 22px;
+  height: 22px;
+}
+@media (min-width: 641px) {
+  .season-main > h3 > .player-mark { display: none; }
+}
+
 body.nav-open { overflow: hidden; }
 
 img { max-width: 100%; display: block; }
@@ -228,8 +380,7 @@ img { max-width: 100%; display: block; }
 .spot-photo,
 .season-photo,
 .player-card .photo,
-.row-photo,
-.profile-back img {
+.row-photo {
   object-position: center 18%;
 }
 a { color: inherit; text-decoration: none; }
@@ -1485,16 +1636,21 @@ td a:hover { color: var(--blue); }
   margin: 0 0 16px;
 }
 .clip-filters .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
   background: transparent;
+  padding: 5px 10px 5px 6px;
   transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
-.clip-filters .chip:hover { transform: translateY(-1px); border-color: var(--blue); }
+.clip-filters .chip:hover { transform: translateY(-1px); border-color: var(--player, var(--blue)); }
 .clip-filters .chip.is-on {
-  color: var(--blue);
-  border-color: var(--blue);
+  color: var(--player, var(--blue));
+  border-color: var(--player, var(--blue));
 }
-.clip h3 { margin: 10px 0 4px; font-size: 15px; font-weight: 600; }
+.clip h3 { margin: 8px 0 4px; font-size: 15px; font-weight: 600; }
+.clip-who + h3 { margin-top: 6px; }
 .empty, .error {
   padding: 40px 24px 28px;
   border: 1px solid var(--line);
@@ -1576,12 +1732,22 @@ td a:hover { color: var(--blue); }
   pointer-events: none;
   overflow: hidden;
 }
-.profile-back img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(24px);
-  opacity: 0.16;
+.profile-back .player-mark.is-back {
+  position: absolute;
+  left: 72%;
+  top: 48%;
+  width: min(320px, 46%);
+  height: auto;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: 0.28;
+}
+.profile-back .player-mark.is-back::before {
+  inset: -18%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--player, var(--blue)) 38%, transparent), transparent 70%);
+}
+.profile-back .player-mark.is-back img {
+  filter: drop-shadow(0 0 28px color-mix(in srgb, var(--player, var(--blue)) 60%, transparent));
 }
 .profile-back b {
   position: absolute;
@@ -2617,7 +2783,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   }
   .hero-logo img,
   .frame-photo,
-  .profile-back img,
   .pulse-track,
   .reel-track,
   .clip-play-icon,
@@ -2781,6 +2946,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 .season-face {
   position: relative;
+  overflow: visible;
+  z-index: 1;
 }
 .season-photo,
 .season-face .photo {

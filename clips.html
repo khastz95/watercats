@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=75">
+  <link rel="stylesheet" href="/css/app.css?v=76">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -42,7 +42,7 @@
     <div id="list" class="grid clips"></div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=75"></script>
+  <script src="/js/site.js?v=76"></script>
   <script>
     function render() {
       Promise.all([WTC.api("/api/clips"), WTC.api("/api/players")])
@@ -54,8 +54,9 @@
           const ids = players.map((p) => p.id).filter((id) => clips.some((c) => c.playerId === id));
           filters.innerHTML = `<button type="button" class="chip is-on" data-f="">${WTC.t("clips.all")}</button>` +
             ids.map((id) => {
-              const name = players.find((p) => p.id === id)?.name || id;
-              return `<button type="button" class="chip" data-f="${WTC.escapeAttr(id)}">${WTC.escapeHtml(name)}</button>`;
+              const p = players.find((x) => x.id === id);
+              const name = (p && p.name) || id;
+              return `<button type="button" class="chip" data-f="${WTC.escapeAttr(id)}" style="--player:${WTC.escapeAttr(WTC.cardInk(p || id))}">${WTC.playerMark(p || id, "is-chip")}${WTC.escapeHtml(name)}</button>`;
             }).join("");
           let filter = "";
           let shown = 12;

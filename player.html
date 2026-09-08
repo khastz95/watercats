@@ -25,13 +25,13 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=75">
+  <link rel="stylesheet" href="/css/app.css?v=76">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=75"></script>
+  <script src="/js/site.js?v=76"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -73,7 +73,7 @@
         ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>`
         : `<p class="source">${WTC.t("lf.empty")}</p>`;
 
-      WTC.tintMark(WTC.photoOf(p));
+      WTC.tintMark(WTC.markOf(p), WTC.cardInk(p));
       root.style.setProperty("--player", WTC.cardInk(p));
       const clips = p.clips || [];
       root.innerHTML = `

@@ -963,9 +963,9 @@ function leetifyDossier(p, roster = [], options = {}) {
   const mateRows = mates.map((m) => {
     const club = bySteam[m.steam64Id];
     const label = club
-      ? `<a href="/jogador/${encodeURIComponent(club.id)}">${escapeHtml(club.name)}</a>`
+      ? `<a class="mate-link" href="/jogador/${encodeURIComponent(club.id)}">${playerMark(club, "is-inline")}${escapeHtml(club.name)}</a>`
       : `<a href="https://leetify.com/app/profile/${escapeAttr(m.steam64Id)}" target="_blank" rel="noreferrer">…${escapeHtml(String(m.steam64Id).slice(-6))}</a>`;
-    return `<div class="metric"><span>${label}</span><b>${m.matches} <i>${t("lf.matesUnit")}</i></b></div>`;
+    return `<div class="metric"${club ? ` style="--player:${escapeAttr(cardInk(club))}"` : ""}><span>${label}</span><b>${m.matches} <i>${t("lf.matesUnit")}</i></b></div>`;
   }).join("");
 
   const bans = (lf.bans || []).map((b) =>
@@ -1052,24 +1052,33 @@ function photoFrame(p) {
     <span class="seal-ring" aria-hidden="true"></span>
     <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     ${playerPhoto(p, "frame-photo")}
+    ${playerMark(p, "is-art")}
   </div>`;
 }
 
-function tintMark(src) {
+function tintMark(src, ink) {
   const img = document.querySelector(".page-mark img");
+  const wrap = document.querySelector(".page-mark");
   if (!img) return;
   if (src) {
     img.src = src;
     img.classList.add("is-player");
+    if (wrap) {
+      wrap.classList.add("is-ink");
+      if (ink) wrap.style.setProperty("--player", ink);
+    }
   } else {
     img.classList.remove("is-player");
+    if (wrap) {
+      wrap.classList.remove("is-ink");
+      wrap.style.removeProperty("--player");
+    }
     applyTheme();
   }
 }
 
 function profileHero(p, options = {}) {
   const s = stats(p);
-  const src = photoOf(p);
   const idn = identity(p);
   const color = cardInk(p);
   const highlights = [
@@ -1085,14 +1094,14 @@ function profileHero(p, options = {}) {
   ].filter(Boolean).join("");
   return `<section class="profile-hero dossier" style="--player:${escapeAttr(color)}">
     <div class="profile-back" aria-hidden="true">
-      ${src ? `<img src="${escapeAttr(src)}" alt="">` : ""}
+      ${playerMark(p, "is-back")}
       <b>${escapeHtml(idn.tag || p.name)}</b>
     </div>
     <div class="profile-hero-grid">
       ${photoFrame(p)}
       <div class="profile-main">
         <p class="kicker">${escapeHtml(idn.role || t("nav.players"))}</p>
-        <h1 class="dossier-name">${displayNameHtml(p)}</h1>
+        <div class="dossier-title">${playerMark(p, "is-hero")}<h1 class="dossier-name">${displayNameHtml(p)}</h1></div>
         ${idn.place ? `<p class="dossier-place">${escapeHtml(idn.place)}</p>` : ""}
         <div class="dossier-tags">${tags}</div>
         ${p.bio ? `<p class="bio">${escapeHtml(p.bio)}</p>` : ""}
@@ -1126,8 +1135,9 @@ function matchRibbon(lf) {
 }
 
 function whoCell(p) {
-  return `<a class="who" href="/jogador/${encodeURIComponent(p.id)}">
+  return `<a class="who" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
     ${playerPhoto(p, "who-photo")}
+    ${playerMark(p, "is-inline")}
     <span>${escapeHtml(p.name)}</span>
   </a>`;
 }
@@ -1180,6 +1190,7 @@ function playerCard(p, options = {}) {
     <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <div class="player-card-photo">
       ${playerPhoto(p)}
+      ${playerMark(p, "is-art")}
       ${idn.role ? `<span class="sheet-class">${escapeHtml(idn.role)}</span>` : ""}
     </div>
     <div class="player-card-head">
@@ -1220,10 +1231,30 @@ const CARD_INK = {
   bill: "#3CB08A",
   fury: "#E0C45C"
 };
+const MARKS = {
+  fury: "/img/marks/fury.png?v=1",
+  s4mz: "/img/marks/s4mz.png?v=1",
+  khastz: "/img/marks/khastz.png?v=1",
+  cadu: "/img/marks/cadu.png?v=1",
+  bill: "/img/marks/bill.png?v=1"
+};
 
 function cardInk(p) {
-  if (p && CARD_INK[p.id]) return CARD_INK[p.id];
-  return (p && p.color) || "#4A7CC8";
+  const id = typeof p === "string" ? p : (p && p.id);
+  if (id && CARD_INK[id]) return CARD_INK[id];
+  return (p && typeof p === "object" && p.color) || "#4A7CC8";
+}
+
+function markOf(p) {
+  const id = typeof p === "string" ? p : (p && p.id);
+  return (id && MARKS[id]) || "";
+}
+
+function playerMark(p, cls = "") {
+  const src = markOf(p);
+  if (!src) return "";
+  const extra = cls ? ` ${cls}` : "";
+  return `<span class="player-mark${extra}" aria-hidden="true"><img src="${escapeAttr(src)}" alt=""></span>`;
 }
 
 function starOrder(players) {
@@ -1254,6 +1285,7 @@ function dealCard(p, options = {}) {
       <span class="deal-cuts" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span class="deal-art">
         ${playerPhoto(p, "deal-photo")}
+        ${playerMark(p, "is-art")}
         <span class="deal-plate">
           <span class="deal-name">${escapeHtml(p.name)}</span>
           <span class="deal-type">${escapeHtml(t("deal.set"))} — ${escapeHtml(klass)}${from ? ` · ${escapeHtml(from)}` : ""}</span>
@@ -1297,7 +1329,7 @@ function spotCard(p, rank) {
   const sub = [idn.realName, idn.role || idn.place].filter(Boolean).join(" · ");
   return `<a class="card spot" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
     <span class="spot-rank">${String(rank).padStart(2, "0")}</span>
-    ${playerPhoto(p, "spot-photo")}
+    <span class="spot-face">${playerPhoto(p, "spot-photo")}${playerMark(p, "is-art")}</span>
     <div class="spot-body">
       <h3>${escapeHtml(p.name)}</h3>
       ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
@@ -1316,7 +1348,7 @@ function pulseLine(players) {
   if (!list.length) return "";
   const bits = list.map((p) => {
     const s = stats(p);
-    return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "pulse-photo")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
+    return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "pulse-photo")}${playerMark(p, "is-inline")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
   }).join("");
   const copies = Math.max(4, Math.ceil(14 / list.length) * 2);
   return `<div class="pulse-track">${Array.from({ length: copies }, () => bits).join("")}</div>`;
@@ -1431,9 +1463,9 @@ function seasonSheet(p, s, rank, lead) {
   const ink = cardInk(p);
   return `<a class="card season-sheet is-${rank}" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(ink)}">
     <span class="season-rank">${String(rank).padStart(2, "0")}</span>
-    <div class="season-face">${playerPhoto(p, "season-photo")}</div>
+    <div class="season-face">${playerPhoto(p, "season-photo")}${playerMark(p, "is-art")}</div>
     <div class="season-main">
-      <h3>${escapeHtml(p.name)}</h3>
+      <h3>${playerMark(p, "is-name")}${escapeHtml(p.name)}</h3>
       ${sub ? `<p class="meta">${escapeHtml(sub)}</p>` : ""}
       ${formBadges(p)}
       ${skillBars(p)}
@@ -1526,7 +1558,11 @@ function clipPager(clips, shown) {
 
 function clipCard(c, options = {}) {
   const featured = Boolean(options && options.featured);
-  const meta = [c.playerName, c.map, c.weapon].filter(Boolean).join(" · ");
+  const ink = c.playerId ? cardInk(c.playerId) : "";
+  const who = c.playerId
+    ? `<p class="clip-who">${playerMark(c.playerId, "is-meta")}<span>${escapeHtml(c.playerName || "")}</span></p>`
+    : "";
+  const meta = [c.map, c.weapon, c.views != null ? String(c.views) : ""].filter(Boolean).join(" · ");
   const time = c.duration != null ? fmtDuration(c.duration) : "";
   const poster = c.thumb
     ? `<button type="button" class="clip-play" data-play-clip="${escapeAttr(c.embed)}" data-play-title="${escapeAttr(c.title)}" aria-label="${escapeAttr(t("clips.play") + ": " + c.title)}">
@@ -1535,11 +1571,12 @@ function clipCard(c, options = {}) {
          ${time ? `<span class="clip-time">${escapeHtml(time)}</span>` : ""}
        </button>`
     : `<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
-  return `<article class="card clip${featured ? " is-featured" : ""}">
+  return `<article class="card clip${featured ? " is-featured" : ""}"${ink ? ` style="--player:${escapeAttr(ink)}"` : ""}>
     ${poster}
     <div class="clip-body">
+      ${who}
       <h3>${escapeHtml(c.title)}</h3>
-      <p class="meta">${escapeHtml(meta)}${c.views != null ? ` · ${c.views}` : ""}</p>
+      <p class="meta">${escapeHtml(meta)}</p>
     </div>
   </article>`;
 }
@@ -1603,7 +1640,7 @@ window.WTC = {
   playerCard, lockedCard, playerDeck, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
-  skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark,
+  skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark, playerMark, markOf,
   identity, displayName, profileLinks, cardInk, leetifyDossier, leetifySyncBtn,
   TOKEN_KEY
 };

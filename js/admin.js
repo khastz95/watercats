@@ -62,11 +62,11 @@ function renderPlayers() {
          </div>`
       : `<div class="row-stats"><span class="row-warn">Sem Leetify${p.steamId ? "" : " (falta SteamID64)"}</span></div>`;
     return `
-      <div class="row row-player">
+      <div class="row row-player" style="--player:${WTC.escapeAttr(WTC.cardInk(p))}">
         ${WTC.playerPhoto(p, "row-photo")}
         <div class="row-body">
           <div class="row-title">
-            <strong>${WTC.escapeHtml(p.name)}</strong>
+            <strong>${WTC.playerMark(p, "is-row")}${WTC.escapeHtml(p.name)}</strong>
             <span class="chip chip-${WTC.escapeAttr(p.status || "active")}">${WTC.escapeHtml(WTC.statusLabel(p.status))}</span>
           </div>
           ${meta ? `<div class="meta">${WTC.escapeHtml(meta)}</div>` : ""}
@@ -91,11 +91,11 @@ function renderClips() {
     const meta = [c.playerName || "—", c.map, c.weapon, c.source === "allstar" ? "allstar" : "manual"]
       .filter(Boolean).join(" · ");
     return `
-      <div class="row row-player">
+      <div class="row row-player" style="--player:${WTC.escapeAttr(WTC.cardInk(c.playerId || ""))}">
         ${thumb}
         <div class="row-body">
           <div class="row-title"><strong>${WTC.escapeHtml(c.title)}</strong></div>
-          <div class="meta">${WTC.escapeHtml(meta)}</div>
+          <div class="meta">${WTC.playerMark(c.playerId, "is-meta")}${WTC.escapeHtml(meta)}</div>
         </div>
         <div class="row-actions">
           <a class="btn btn-ghost" href="${WTC.escapeAttr(c.url)}" target="_blank" rel="noreferrer">Abrir</a>
