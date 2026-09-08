@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Números · Watercats! - Alliance</title>
-  <meta name="description" content="A temporada do clube Watercats: rating, Premier, vitórias e mira.">
+  <title>NÃºmeros Â· Watercats! - Alliance</title>
+  <meta name="description" content="A temporada do clube Watercats: rating, Premier, vitÃ³rias e mira.">
   <meta name="theme-color" content="#000000">
-  <link rel="icon" href="/img/icon.png?v=71" type="image/png">
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
+  <link rel="icon" href="/img/icon.png?v=107" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=107">
   <link rel="canonical" href="https://watercats.vercel.app/stats">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Watercats!">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/stats">
-  <meta property="og:title" content="Números · Watercats!">
-  <meta property="og:description" content="A temporada do clube Watercats: rating, Premier, vitórias e mira.">
-  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta property="og:title" content="NÃºmeros Â· Watercats!">
+  <meta property="og:description" content="A temporada do clube Watercats: rating, Premier, vitÃ³rias e mira.">
+  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=107">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Números · Watercats!">
-  <meta name="twitter:description" content="A temporada do clube Watercats: rating, Premier, vitórias e mira.">
-  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta name="twitter:title" content="NÃºmeros Â· Watercats!">
+  <meta name="twitter:description" content="A temporada do clube Watercats: rating, Premier, vitÃ³rias e mira.">
+  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=107">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="/css/app.css?v=107">
@@ -97,13 +97,13 @@
             </th>
             ${WTC.boardCell(WTC.dash(s.rating, 2), WTC.isBest(s.rating, lead.rating))}
             ${WTC.boardCell(WTC.dash(s.premier), WTC.isBest(s.premier, lead.premier))}
-            ${WTC.boardCell(s.winrate == null ? "—" : WTC.pct(s.winrate), WTC.isBest(s.winrate, lead.winrate))}
+            ${WTC.boardCell(s.winrate == null ? "â€”" : WTC.pct(s.winrate), WTC.isBest(s.winrate, lead.winrate))}
             ${WTC.boardCell(WTC.dash(s.matches), WTC.isBest(s.matches, lead.matches))}
             ${WTC.boardCell(WTC.dash(s.aim, 1), WTC.isBest(s.aim, lead.aim))}
             ${WTC.boardCell(WTC.dash(s.positioning, 1), WTC.isBest(s.positioning, lead.positioning))}
             ${WTC.boardCell(WTC.dash(s.utility, 1), WTC.isBest(s.utility, lead.utility))}
-            ${WTC.boardCell(s.hsAccuracy == null ? "—" : WTC.dash(s.hsAccuracy, 1) + "%", WTC.isBest(s.hsAccuracy, lead.hsAccuracy))}
-            ${WTC.boardCell(s.reactionMs == null ? "—" : WTC.dash(s.reactionMs), WTC.isBest(s.reactionMs, lead.reactionMs))}
+            ${WTC.boardCell(s.hsAccuracy == null ? "â€”" : WTC.dash(s.hsAccuracy, 1) + "%", WTC.isBest(s.hsAccuracy, lead.hsAccuracy))}
+            ${WTC.boardCell(s.reactionMs == null ? "â€”" : WTC.dash(s.reactionMs), WTC.isBest(s.reactionMs, lead.reactionMs))}
           </tr>`;
         }).join("");
 

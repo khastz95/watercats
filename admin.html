@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Painel · Watercats! - Alliance</title>
+  <title>Painel Â· Watercats! - Alliance</title>
   <meta name="description" content="Painel do clube Watercats.">
   <meta name="theme-color" content="#000000">
-  <link rel="icon" href="/img/icon.png?v=71" type="image/png">
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
+  <link rel="icon" href="/img/icon.png?v=107" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=107">
   <link rel="canonical" href="https://watercats.vercel.app/admin">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Watercats!">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/admin">
-  <meta property="og:title" content="Painel · Watercats!">
+  <meta property="og:title" content="Painel Â· Watercats!">
   <meta property="og:description" content="Painel do clube Watercats.">
-  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=107">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Painel · Watercats!">
+  <meta name="twitter:title" content="Painel Â· Watercats!">
   <meta name="twitter:description" content="Painel do clube Watercats.">
-  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
+  <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=107">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="/css/app.css?v=107">
@@ -32,15 +32,15 @@
   <main class="wrap admin">
     <div class="section-head">
       <div>
-        <p class="live"><i></i> Edição</p>
+        <p class="live"><i></i> EdiÃ§Ã£o</p>
         <h2>Painel</h2>
-        <p>Edite jogadores, estatísticas e links da allstar.gg.</p>
+        <p>Edite jogadores, estatÃ­sticas e links da allstar.gg.</p>
       </div>
       <button class="btn btn-ghost" id="logout" type="button">Sair</button>
     </div>
     <div class="tabs">
       <button type="button" data-tab="players" class="is-on">Jogadores</button>
-      <button type="button" data-tab="stats">Estatísticas</button>
+      <button type="button" data-tab="stats">EstatÃ­sticas</button>
       <button type="button" data-tab="clips">Clipes</button>
       <button type="button" data-tab="join">Pedidos</button>
     </div>
@@ -55,7 +55,7 @@
           <div class="form-grid">
             <div class="field"><label>Nick / ID</label><input name="name" required placeholder="s4mz"></div>
             <div class="field"><label>Nome real</label><input name="realName"></div>
-            <div class="field"><label>Função</label><input name="role" placeholder="AWPer, IGL, Rifler"></div>
+            <div class="field"><label>FunÃ§Ã£o</label><input name="role" placeholder="AWPer, IGL, Rifler"></div>
             <div class="field"><label>Status</label>
               <select name="status">
                 <option value="active">Ativo</option>
@@ -64,14 +64,14 @@
               </select>
             </div>
             <div class="field"><label>Cidade</label><input name="city"></div>
-            <div class="field"><label>País</label><input name="country"></div>
+            <div class="field"><label>PaÃ­s</label><input name="country"></div>
           </div>
         </fieldset>
 
         <fieldset>
           <legend>Contas</legend>
           <div class="form-grid">
-            <div class="field"><label>SteamID64</label><input name="steamId" inputmode="numeric" placeholder="76561198…"></div>
+            <div class="field"><label>SteamID64</label><input name="steamId" inputmode="numeric" placeholder="76561198â€¦"></div>
             <div class="field"><label>Steam URL</label><input name="steamUrl"></div>
             <div class="field"><label>FACEIT nick</label><input name="faceitNick"></div>
             <div class="field"><label>FACEIT URL</label><input name="faceitUrl"></div>
@@ -79,13 +79,13 @@
             <div class="field"><label>Twitch</label><input name="twitchUrl"></div>
             <div class="field"><label>Discord</label><input name="discord"></div>
           </div>
-          <p class="hint">O SteamID64 é o que a Leetify usa para puxar os números.</p>
+          <p class="hint">O SteamID64 Ã© o que a Leetify usa para puxar os nÃºmeros.</p>
         </fieldset>
 
         <fieldset>
           <legend>Casa</legend>
           <div class="form-grid">
-            <div class="field"><label>Ano que começou</label><input name="startedPlaying" type="number"></div>
+            <div class="field"><label>Ano que comeÃ§ou</label><input name="startedPlaying" type="number"></div>
             <div class="field"><label>Entrou em</label><input name="joinedAt" type="date"></div>
             <div class="field"><label>Ordem no elenco</label><input name="sortOrder" type="number" value="0"></div>
             <div class="field"><label>Cor</label><input name="color" type="color" value="#006BFF"></div>
@@ -95,7 +95,7 @@
         <fieldset>
           <legend>Perfil</legend>
           <div class="field"><label>Bio</label><textarea name="bio"></textarea></div>
-          <div class="field"><label>Foto (JPG/PNG até 1,5 MB)</label><input name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
+          <div class="field"><label>Foto (JPG/PNG atÃ© 1,5 MB)</label><input name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
           <p class="hint">Sem foto enviada, o site mostra o avatar da Steam.</p>
         </fieldset>
 
@@ -117,23 +117,23 @@
           <div class="field"><label>ADR</label><input name="adr" type="number" step="0.1"></div>
           <div class="field"><label>HS%</label><input name="hsPercent" type="number" step="0.1"></div>
           <div class="field"><label>Mapas</label><input name="mapsPlayed" type="number"></div>
-          <div class="field"><label>Vitórias</label><input name="wins" type="number"></div>
+          <div class="field"><label>VitÃ³rias</label><input name="wins" type="number"></div>
           <div class="field"><label>Derrotas</label><input name="losses" type="number"></div>
           <div class="field"><label>Abates</label><input name="kills" type="number"></div>
           <div class="field"><label>Mortes</label><input name="deaths" type="number"></div>
-          <div class="field"><label>Assistências</label><input name="assists" type="number"></div>
+          <div class="field"><label>AssistÃªncias</label><input name="assists" type="number"></div>
           <div class="field"><label>Primeiros abates</label><input name="firstKills" type="number"></div>
           <div class="field"><label>Clutches</label><input name="clutches" type="number"></div>
           <div class="field"><label>MVP</label><input name="mvp" type="number"></div>
         </div>
         <div class="actions" style="margin-top:12px">
-          <button class="btn" type="submit">Salvar estatísticas</button>
+          <button class="btn" type="submit">Salvar estatÃ­sticas</button>
           <button class="btn btn-ghost" type="button" id="leetify-sync">Sincronizar Leetify</button>
         </div>
       </form>
       <p class="source">
-        A Leetify traz rating, Premier, vitórias, mira, posicionamento e utilitária pelo SteamID64.
-        K/D e ADR ela não devolve — esses só saem daqui.
+        A Leetify traz rating, Premier, vitÃ³rias, mira, posicionamento e utilitÃ¡ria pelo SteamID64.
+        K/D e ADR ela nÃ£o devolve â€” esses sÃ³ saem daqui.
       </p>
     </section>
 
@@ -141,13 +141,13 @@
       <form id="clip-form" class="card" style="margin-bottom:16px">
         <input type="hidden" name="id">
         <div class="form-grid">
-          <div class="field"><label>Título</label><input name="title" required></div>
+          <div class="field"><label>TÃ­tulo</label><input name="title" required></div>
           <div class="field"><label>Jogador</label><select name="playerId"></select></div>
           <div class="field" style="grid-column:1/-1"><label>Link allstar.gg</label><input name="url" required placeholder="https://allstar.gg/clip/..."></div>
           <div class="field"><label>Mapa</label><input name="map" placeholder="Mirage"></div>
           <div class="field"><label>Destaque</label>
             <select name="featured">
-              <option value="false">Não</option>
+              <option value="false">NÃ£o</option>
               <option value="true">Sim</option>
             </select>
           </div>
@@ -158,16 +158,16 @@
           <button class="btn btn-ghost" type="button" id="allstar-sync">Buscar clipes da allstar.gg</button>
         </div>
       </form>
-      <p class="source">Puxa os clipes públicos de cada jogador pelo SteamID64 e grava o link da allstar.gg. Não apaga o que foi colado à mão.</p>
+      <p class="source">Puxa os clipes pÃºblicos de cada jogador pelo SteamID64 e grava o link da allstar.gg. NÃ£o apaga o que foi colado Ã  mÃ£o.</p>
       <div id="clip-list" class="admin-list"></div>
     </section>
 
     <section class="panel" id="panel-join">
       <div class="section-head" style="margin-top:8px">
         <div>
-          <p class="kicker">Inscrições</p>
+          <p class="kicker">InscriÃ§Ãµes</p>
           <h2>Pedidos pra entrar</h2>
-          <p>Vêm da página <a href="/join">/join</a>. Aceitar ou recusar só muda o status aqui.</p>
+          <p>VÃªm da pÃ¡gina <a href="/join">/join</a>. Aceitar ou recusar sÃ³ muda o status aqui.</p>
         </div>
         <button class="btn btn-ghost" type="button" id="join-reload">Atualizar</button>
       </div>
@@ -176,6 +176,6 @@
   </main>
   <footer class="footer" id="footer"></footer>
   <script src="/js/site.js?v=107"></script>
-  <script src="/js/admin.js?v=55"></script>
+  <script src="/js/admin.js?v=107"></script>
 </body>
 </html>
