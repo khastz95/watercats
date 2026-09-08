@@ -248,28 +248,6 @@ const I18N = {
     "profile.numbers": "Como está jogando",
     "profile.crew": "Os outros membros",
     "profile.crewSub": "O clube não é uma pessoa só. Abra outra ficha se quiser.",
-    "profile.kicker": "Ficha",
-    "profile.lede": "Perfil do membro, números da temporada e jogadas no arquivo.",
-    "profile.chip1": "Ficha",
-    "profile.chip2": "Números",
-    "profile.chip3": "Jogadas",
-    "profile.back": "Membros",
-    "profile.toNumbers": "Ver números",
-    "profile.toPlays": "Ver jogadas",
-    "profile.numbersKicker": "Temporada",
-    "profile.numbersSub": "Rating, Premier, mira e o restante da ficha Leetify.",
-    "profile.playsKicker": "Arquivo",
-    "profile.playsTitle": "Jogadas",
-    "profile.playsSub": "O que gravou e entrou no arquivo do clube.",
-    "profile.playsCount": "{n} no arquivo",
-    "profile.crewKicker": "Lobby",
-    "profile.crewTitle": "Os outros membros",
-    "profile.close.kicker": "Lobby",
-    "profile.close.title": "Quer ver o resto do clube?",
-    "profile.close.lede": "Abra outra ficha, os números da casa ou o arquivo de jogadas.",
-    "profile.matesSub": "Com quem mais joga nas partidas recentes.",
-    "profile.recentSub": "As últimas noites na fila — mapa, placar e rating.",
-    "profile.bansSub": "Alertas que a Leetify marcou no histórico.",
     "info.realName": "Nome",
     "info.role": "Função",
     "info.from": "De",
@@ -630,28 +608,6 @@ const I18N = {
     "profile.numbers": "How they play",
     "profile.crew": "The other members",
     "profile.crewSub": "The club isn't one person. Open another profile if you want.",
-    "profile.kicker": "Sheet",
-    "profile.lede": "Member profile, season numbers, and clips in the archive.",
-    "profile.chip1": "Sheet",
-    "profile.chip2": "Numbers",
-    "profile.chip3": "Clips",
-    "profile.back": "Members",
-    "profile.toNumbers": "See numbers",
-    "profile.toPlays": "See clips",
-    "profile.numbersKicker": "Season",
-    "profile.numbersSub": "Rating, Premier, aim, and the rest of the Leetify sheet.",
-    "profile.playsKicker": "Archive",
-    "profile.playsTitle": "Clips",
-    "profile.playsSub": "What they recorded and put in the club archive.",
-    "profile.playsCount": "{n} in the archive",
-    "profile.crewKicker": "Lobby",
-    "profile.crewTitle": "The other members",
-    "profile.close.kicker": "Lobby",
-    "profile.close.title": "Want the rest of the club?",
-    "profile.close.lede": "Open another sheet, the house numbers, or the clip archive.",
-    "profile.matesSub": "Who they queue with most in recent matches.",
-    "profile.recentSub": "Latest nights in queue — map, score, and rating.",
-    "profile.bansSub": "Flags Leetify marked in the history.",
     "info.realName": "Name",
     "info.role": "Role",
     "info.from": "From",
@@ -1306,7 +1262,6 @@ function leetifyDossier(p, roster = [], options = {}) {
   const list = lf.matchesRecent || [];
   const shown = Math.max(0, Number(options.shown) || 6);
   const visible = list.slice(0, shown);
-  const step = options.step || "01";
 
   const rankTiles = [
     ["lf.rating", ranks.leetify, 2],
@@ -1380,67 +1335,38 @@ function leetifyDossier(p, roster = [], options = {}) {
   }).join("");
 
   return `
-    <section class="wrap section lf-sheet player-numbers" id="numeros">
-      <div class="section-head about-section-head">
-        <div>
-          <p class="kicker"><span class="about-step">${escapeHtml(step)}</span> <span>${escapeHtml(t("profile.numbersKicker"))}</span></p>
-          <h2>${escapeHtml(t("profile.numbers"))}</h2>
-          <p>${escapeHtml(t("profile.numbersSub"))}</p>
-        </div>
-        ${leetifySyncBtn(p.id)}
+    <section class="section lf-sheet">
+      <div class="section-head"><div><p class="kicker">${t("lf.sheet")}</p><h2>${t("profile.numbers")}</h2></div>${leetifySyncBtn(p.id)}</div>
+      <div class="grid stats-grid">
+        ${countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2)}
+        ${countBox(dash(s.premier), t("lf.premier"), s.premier)}
+        ${countBox(s.winrate == null ? "—" : pct(s.winrate), t("lf.winrate"), s.winrate == null ? null : s.winrate * 100, 1, "%")}
+        ${countBox(dash(s.matches), t("lf.matches"), s.matches)}
+        ${countBox(dash(s.aim, 1), t("lf.aim"), s.aim, 1)}
+        ${countBox(dash(s.positioning, 1), t("lf.positioning"), s.positioning, 1)}
+        ${countBox(dash(s.utility, 1), t("lf.utility"), s.utility, 1)}
+        ${countBox(s.kd == null ? "—" : dash(s.kd, 2), t("th.kd"), s.kd, 2)}
       </div>
-      <div class="player-panel">
-        <div class="grid stats-grid">
-          ${countBox(dash(s.rating, 2), t("lf.rating"), s.rating, 2)}
-          ${countBox(dash(s.premier), t("lf.premier"), s.premier)}
-          ${countBox(s.winrate == null ? "—" : pct(s.winrate), t("lf.winrate"), s.winrate == null ? null : s.winrate * 100, 1, "%")}
-          ${countBox(dash(s.matches), t("lf.matches"), s.matches)}
-          ${countBox(dash(s.aim, 1), t("lf.aim"), s.aim, 1)}
-          ${countBox(dash(s.positioning, 1), t("lf.positioning"), s.positioning, 1)}
-          ${countBox(dash(s.utility, 1), t("lf.utility"), s.utility, 1)}
-          ${countBox(s.kd == null ? "—" : dash(s.kd, 2), t("th.kd"), s.kd, 2)}
-        </div>
-        ${lf.syncedAt ? `<p class="source">${t("lf.sub")} ${t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>` : ""}
-        <p class="kicker lf-kicker">${t("lf.skills")}</p>
-        ${skillBars(p, { full: true })}
-        ${rankTiles ? `<p class="kicker lf-kicker">${t("lf.ranks")}</p><div class="lf-tiles">${rankTiles}</div>` : ""}
-        ${mapTiles ? `<p class="kicker lf-kicker">${t("lf.maps")}</p><div class="lf-tiles">${mapTiles}</div>` : ""}
-        <div class="grid metric-grid">${groups}</div>
-      </div>
+      ${lf.syncedAt ? `<p class="source">${t("lf.sub")} ${t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>` : ""}
+      <p class="kicker lf-kicker">${t("lf.skills")}</p>
+      ${skillBars(p, { full: true })}
+      ${rankTiles ? `<p class="kicker lf-kicker">${t("lf.ranks")}</p><div class="lf-tiles">${rankTiles}</div>` : ""}
+      ${mapTiles ? `<p class="kicker lf-kicker">${t("lf.maps")}</p><div class="lf-tiles">${mapTiles}</div>` : ""}
+      <div class="grid metric-grid">${groups}</div>
     </section>
-    ${mates.length ? `<section class="wrap section player-mates">
-      <div class="section-head about-section-head">
-        <div>
-          <p class="kicker">${escapeHtml(t("lf.mates"))}</p>
-          <h2>${escapeHtml(t("lf.mates"))}</h2>
-          <p>${escapeHtml(t("profile.matesSub"))}</p>
-        </div>
-      </div>
-      <div class="player-panel"><div class="card metric-card lf-card">${mateRows}</div></div>
+    ${mates.length ? `<section class="section">
+      <div class="section-head"><div><h2>${t("lf.mates")}</h2></div></div>
+      <div class="card metric-card lf-card">${mateRows}</div>
     </section>` : ""}
-    ${bans ? `<section class="wrap section player-bans">
-      <div class="section-head about-section-head">
-        <div>
-          <p class="kicker">${escapeHtml(t("lf.bans"))}</p>
-          <h2>${escapeHtml(t("lf.bans"))}</h2>
-          <p>${escapeHtml(t("profile.bansSub"))}</p>
-        </div>
-      </div>
-      <div class="player-panel"><div class="card metric-card lf-card">${bans}</div></div>
+    ${bans ? `<section class="section">
+      <div class="section-head"><div><h2>${t("lf.bans")}</h2></div></div>
+      <div class="card metric-card lf-card">${bans}</div>
     </section>` : ""}
-    ${list.length ? `<section class="wrap section player-recent" id="lf-history">
-      <div class="section-head about-section-head">
-        <div>
-          <p class="kicker">${escapeHtml(t("lf.recent"))}</p>
-          <h2>${escapeHtml(t("lf.recent"))}</h2>
-          <p>${escapeHtml(t("profile.recentSub"))}</p>
-        </div>
-      </div>
-      <div class="player-panel">
-        ${matchRibbon(lf)}
-        <div class="lf-matches">${matchCards}</div>
-        ${shown < list.length ? `<div class="lf-more"><button type="button" class="btn" data-match-more>${t("clips.more")}</button></div>` : ""}
-      </div>
+    ${list.length ? `<section class="section" id="lf-history">
+      <div class="section-head"><div><h2>${t("lf.recent")}</h2></div></div>
+      ${matchRibbon(lf)}
+      <div class="lf-matches">${matchCards}</div>
+      ${shown < list.length ? `<div class="lf-more"><button type="button" class="btn" data-match-more>${t("clips.more")}</button></div>` : ""}
     </section>` : ""}`;
 }
 
@@ -1491,24 +1417,7 @@ function profileHero(p, options = {}) {
     idn.place && `<span class="chip chip-place">${escapeHtml(idn.place)}</span>`,
     `<span class="chip chip-${escapeAttr(p.status || "active")}">${escapeHtml(statusLabel(p.status))}</span>`
   ].filter(Boolean).join("");
-  return `
-  <section class="wrap player-intro">
-    <a class="player-back" href="/players">${escapeHtml(t("profile.back"))}</a>
-    <p class="kicker">${escapeHtml(t("profile.kicker"))}</p>
-    <p class="tagline"><span>ALLIANCE</span></p>
-    <p class="player-lede">${escapeHtml(t("profile.lede"))}</p>
-    <ul class="about-chips" aria-label="${escapeAttr(t("profile.kicker"))}">
-      <li>${escapeHtml(t("profile.chip1"))}</li>
-      <li>${escapeHtml(t("profile.chip2"))}</li>
-      <li>${escapeHtml(t("profile.chip3"))}</li>
-    </ul>
-    <div class="actions">
-      <a class="btn" href="#numeros">${escapeHtml(t("profile.toNumbers"))}</a>
-      <a class="btn btn-ghost" href="#jogadas">${escapeHtml(t("profile.toPlays"))}</a>
-      <a class="btn btn-ghost" href="/players">${escapeHtml(t("profile.back"))}</a>
-    </div>
-  </section>
-  <section class="wrap profile-hero dossier" style="--player:${escapeAttr(color)}">
+  return `<section class="profile-hero dossier" style="--player:${escapeAttr(color)}">
     <div class="profile-back" aria-hidden="true">
       ${playerMark(p, "is-back")}
       <b>${escapeHtml(idn.tag || p.name)}</b>
@@ -1520,7 +1429,7 @@ function profileHero(p, options = {}) {
         <div class="dossier-title">${playerMark(p, "is-hero")}<h1 class="dossier-name">${displayNameHtml(p)}</h1></div>
         ${idn.place ? `<p class="dossier-place">${escapeHtml(idn.place)}</p>` : ""}
         <div class="dossier-tags">${tags}</div>
-        ${p.bio ? `<p class="bio">${escapeHtml(p.bio)}</p>` : `<p class="bio is-empty">${escapeHtml(t("profile.emptyBio"))}</p>`}
+        ${p.bio ? `<p class="bio">${escapeHtml(p.bio)}</p>` : ""}
         ${profileLinkBar(p)}
         ${options.links || ""}
         ${recentForm(p).length ? `
@@ -1995,7 +1904,7 @@ let motionSafety;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const soft = window.matchMedia("(max-width: 900px), (hover: none)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .clips-hero, .clips-stage, .stats-hero, .stats-block, .players-hero, .players-block, .home-block, .home-facts-block, .clip-reel, .story-grid, .story-card, .place-box, .season-board, .season-sheet, .season-hot, .player-intro, .player-panel";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .clips-hero, .clips-stage, .stats-hero, .stats-block, .players-hero, .players-block, .home-block, .home-facts-block, .clip-reel, .story-grid, .story-card, .place-box, .season-board, .season-sheet, .season-hot";
   const nodes = [...document.querySelectorAll(sel)];
 
   const show = (el) => {

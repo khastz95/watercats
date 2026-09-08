@@ -25,13 +25,13 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=99">
+  <link rel="stylesheet" href="/css/app.css?v=98">
 </head>
-<body class="is-player">
+<body>
   <header class="header" id="header"></header>
-  <main class="player-page" id="main"></main>
+  <main class="wrap" id="main"></main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=99"></script>
+  <script src="/js/site.js?v=98"></script>
   <script>
     const slug = decodeURIComponent(location.pathname.split("/").filter(Boolean).pop() || "");
     const root = document.getElementById("main");
@@ -54,23 +54,6 @@
       return label === key ? mode : label;
     }
 
-    function numbersEmpty(p) {
-      const synced = p.leetify && p.leetify.syncedAt
-        ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(p.leetify.syncedAt).toLocaleDateString()}.</p>`
-        : `<p class="source">${WTC.t("lf.empty")}</p>`;
-      return `<section class="wrap section lf-sheet player-numbers" id="numeros">
-        <div class="section-head about-section-head">
-          <div>
-            <p class="kicker"><span class="about-step">01</span> <span>${esc(WTC.t("profile.numbersKicker"))}</span></p>
-            <h2>${esc(WTC.t("profile.numbers"))}</h2>
-            <p>${esc(WTC.t("profile.numbersSub"))}</p>
-          </div>
-          ${WTC.leetifySyncBtn(p.id)}
-        </div>
-        <div class="player-panel">${synced}</div>
-      </section>`;
-    }
-
     function draw() {
       if (!player) return;
       const p = player;
@@ -86,59 +69,37 @@
         infoRow("lf.privacy", privacyLabel(lf && lf.privacy)),
         infoRow("lf.since", lf && lf.firstMatch ? new Date(lf.firstMatch).toLocaleDateString() : "")
       ].filter(Boolean).join("");
+      const synced = lf && lf.syncedAt
+        ? `<p class="source">${WTC.t("lf.sub")} ${WTC.t("lf.synced")} ${new Date(lf.syncedAt).toLocaleDateString()}.</p>`
+        : `<p class="source">${WTC.t("lf.empty")}</p>`;
 
       WTC.tintMark(WTC.markOf(p), WTC.cardInk(p));
       root.style.setProperty("--player", WTC.cardInk(p));
       const clips = p.clips || [];
-      const playsCount = WTC.t("profile.playsCount").replace("{n}", String(clips.length));
       root.innerHTML = `
         ${WTC.profileHero(p, { info })}
 
-        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches, step: "01" }) : numbersEmpty(p)}
+        ${lf ? WTC.leetifyDossier(p, roster, { shown: shownMatches }) : `<section class="section"><div class="section-head"><div><h2>${WTC.t("profile.numbers")}</h2></div>${WTC.leetifySyncBtn(p.id)}</div>${synced}</section>`}
 
-        <section class="wrap section player-plays" id="jogadas">
-          <div class="section-head about-section-head">
-            <div>
-              <p class="kicker"><span class="about-step">02</span> <span>${esc(WTC.t("profile.playsKicker"))}</span></p>
-              <h2>${esc(WTC.t("profile.playsTitle"))}</h2>
-              <p>${esc(WTC.t("profile.playsSub"))}</p>
-            </div>
-            <p class="player-count">${esc(playsCount)}</p>
-          </div>
-          <div class="player-panel">
-            <div class="grid clips">${clips.length ? WTC.clipPager(clips, shownClips) : WTC.emptyBox("empty.clips")}</div>
-          </div>
+        <section class="section">
+          <div class="section-head"><h2>${WTC.t("profile.plays")}</h2></div>
+          <div class="grid clips">${WTC.clipPager(clips, shownClips)}</div>
         </section>
 
-        ${roster.length ? `<section class="wrap section star-section player-crew">
-          <div class="section-head about-section-head">
+        ${roster.length ? `<section class="section star-section">
+          <div class="section-head">
             <div>
-              <p class="kicker"><span class="about-step">03</span> <span>${esc(WTC.t("profile.crewKicker"))}</span></p>
-              <h2>${esc(WTC.t("profile.crewTitle"))}</h2>
-              <p>${esc(WTC.t("profile.crewSub"))}</p>
-            </div>
-            <a class="btn btn-ghost" href="/players">${esc(WTC.t("profile.back"))}</a>
-          </div>
-          <div class="player-panel players-table-shell">
-            ${WTC.starRoster(roster, { currentId: p.id, compact: true })}
-          </div>
-        </section>` : ""}
-
-        <section class="wrap section about-close">
-          <div class="about-close-card">
-            <p class="kicker">${esc(WTC.t("profile.close.kicker"))}</p>
-            <h2>${esc(WTC.t("profile.close.title"))}</h2>
-            <p>${esc(WTC.t("profile.close.lede"))}</p>
-            <div class="actions">
-              <a class="btn" href="/players">${esc(WTC.t("cta.players"))}</a>
-              <a class="btn btn-ghost" href="/stats">${esc(WTC.t("nav.stats"))}</a>
-              <a class="btn btn-ghost" href="/clips">${esc(WTC.t("nav.clips"))}</a>
+              <p class="kicker">${WTC.t("profile.crew")}</p>
+              <h2>${WTC.t("profile.crew")}</h2>
+              <p>${WTC.t("profile.crewSub")}</p>
             </div>
           </div>
-        </section>`;
+          ${WTC.starRoster(roster, { currentId: p.id, compact: true })}
+        </section>` : ""}`;
       if (window.WTC.motion) WTC.motion();
     }
 
+    // O elenco vem junto só para ligar os colegas de time ao perfil daqui.
     Promise.all([
       WTC.api("/api/players?id=" + encodeURIComponent(slug)),
       WTC.api("/api/players").catch(() => ({ players: [] }))
@@ -149,7 +110,7 @@
         document.title = WTC.displayName(p) + " · Watercats! - Alliance";
         draw();
       })
-      .catch(() => { root.innerHTML = `<div class="wrap section">${WTC.emptyBox("empty.players")}</div>`; });
+      .catch(() => { root.innerHTML = `<div class="section">${WTC.emptyBox("empty.players")}</div>`; });
     document.addEventListener("wtc:lang", draw);
     root.addEventListener("click", async (e) => {
       const sync = e.target.closest("[data-leetify-sync]");
