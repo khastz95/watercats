@@ -231,11 +231,14 @@ const I18N = {
     "retry": "Tentar de novo",
     "skip": "Pular para o conteúdo",
     "footer.tag": "ALLIANCE",
-    "footer.blurb": "Um clube de amigos. Principalmente CS2, o mesmo nome de sempre.",
+    "footer.blurb": "Clube de amigos. Principalmente CS2 — o mesmo nome de sempre no lobby.",
     "footer.explore": "Navegar",
+    "footer.club": "O clube",
     "footer.story": "A história",
     "footer.house": "Painel",
+    "footer.cta": "Fazer parte",
     "footer.copy": "© 2026 Watercats",
+    "footer.line": "Alliance · lobby de amigos",
     "status.active": "No clube",
     "status.inactive": "Fora",
     "status.alumni": "Passou pelo clube",
@@ -588,11 +591,14 @@ const I18N = {
     "retry": "Try again",
     "skip": "Skip to content",
     "footer.tag": "ALLIANCE",
-    "footer.blurb": "A club of friends. Mostly CS2, the same name as ever.",
+    "footer.blurb": "A club of friends. Mostly CS2 — the same name as ever in the lobby.",
     "footer.explore": "Navigate",
+    "footer.club": "The club",
     "footer.story": "The story",
     "footer.house": "Panel",
+    "footer.cta": "Join",
     "footer.copy": "© 2026 Watercats",
+    "footer.line": "Alliance · friends lobby",
     "status.active": "In the club",
     "status.inactive": "Away",
     "status.alumni": "Former member",
@@ -894,19 +900,28 @@ function mountChrome() {
   }
   if (footer) {
     footer.innerHTML = `
+      <div class="footer-glow" aria-hidden="true"></div>
       <div class="wrap footer-grid">
         <div class="footer-brand">
           <a class="footer-mark" href="/">
-            <span class="footer-medal" aria-hidden="true">
-              <span class="seal-aura"></span>
-              <span class="seal-ring is-wide"></span>
-              <span class="seal-ring"></span>
-              <img class="footer-seal" src="${BRAND_SEAL}" alt="" data-brand-seal>
+            <img class="footer-seal" src="${BRAND_SEAL}" alt="" data-brand-seal>
+            <span class="footer-lockup">
+              <img src="${WORD}" alt="Watercats" data-wordmark>
+              <span class="footer-tag"><em>ALLIANCE</em></span>
             </span>
-            <img src="${WORD}" alt="Watercats" data-wordmark>
           </a>
-          <p class="footer-tag"><em>ALLIANCE</em></p>
           <p class="footer-blurb" data-i18n="footer.blurb"></p>
+          <div class="footer-actions">
+            <a class="btn" href="/join" data-i18n="footer.cta"></a>
+            <a class="btn btn-ghost" href="/sobre" data-i18n="cta.about"></a>
+          </div>
+          <div class="about-inks footer-inks" aria-hidden="true">
+            <img src="/img/marks/fury.png?v=1" alt="">
+            <img src="/img/marks/s4mz.png?v=1" alt="">
+            <img src="/img/marks/khastz.png?v=1" alt="">
+            <img src="/img/marks/cadu.png?v=1" alt="">
+            <img src="/img/marks/bill.png?v=1" alt="">
+          </div>
         </div>
         <nav class="footer-col" aria-label="${t("footer.explore")}">
           <h3 data-i18n="footer.explore"></h3>
@@ -914,20 +929,22 @@ function mountChrome() {
           <a href="/players" data-i18n="nav.players"></a>
           <a href="/stats" data-i18n="nav.stats"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
-          <a href="/sobre" data-i18n="nav.about"></a>
-          <a href="/join" data-i18n="nav.join"></a>
         </nav>
-        <nav class="footer-col" aria-label="${t("footer.story")}">
-          <h3 data-i18n="footer.story"></h3>
+        <nav class="footer-col" aria-label="${t("footer.club")}">
+          <h3 data-i18n="footer.club"></h3>
           <a href="/sobre" data-i18n="nav.about"></a>
           <a href="/join" data-i18n="nav.join"></a>
-          <a href="/players" data-i18n="nav.players"></a>
-          <a href="/clips" data-i18n="nav.clips"></a>
+          <a href="/login" data-i18n="nav.login"></a>
+          <a href="/admin" data-i18n="nav.admin"></a>
         </nav>
       </div>
       <div class="footer-bar">
         <div class="wrap">
-          <p data-i18n="footer.copy"></p>
+          <p class="footer-copy">
+            <span data-i18n="footer.copy"></span>
+            <span class="footer-dot" aria-hidden="true"></span>
+            <span data-i18n="footer.line"></span>
+          </p>
           <p class="footer-legal">
             <a href="/login" data-i18n="nav.login"></a>
             <span aria-hidden="true">·</span>
