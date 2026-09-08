@@ -595,7 +595,12 @@ function mountChrome() {
       <div class="wrap footer-grid">
         <div class="footer-brand">
           <a class="footer-mark" href="/">
-            <img class="footer-seal" src="${logo}" alt="" data-icon>
+            <span class="footer-medal" aria-hidden="true">
+              <span class="seal-aura"></span>
+              <span class="seal-ring is-wide"></span>
+              <span class="seal-ring"></span>
+              <img class="footer-seal" src="${logo}" alt="" data-icon>
+            </span>
             <img src="${WORD}" alt="Watercats" data-wordmark>
           </a>
           <p class="footer-tag"><em>ALLIANCE</em></p>
@@ -1042,6 +1047,8 @@ function leetifyDossier(p, roster = [], options = {}) {
 
 function photoFrame(p) {
   return `<div class="photo-frame dossier-frame">
+    <span class="seal-aura" aria-hidden="true"></span>
+    <span class="seal-ring is-wide" aria-hidden="true"></span>
     <span class="seal-ring" aria-hidden="true"></span>
     <span class="seal-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     ${playerPhoto(p, "frame-photo")}

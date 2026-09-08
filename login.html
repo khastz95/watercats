@@ -25,13 +25,15 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=74">
+  <link rel="stylesheet" href="/css/app.css?v=75">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="wrap login">
     <div class="login-stage">
       <div class="login-mark seal is-sm" aria-hidden="true">
+        <span class="seal-aura" aria-hidden="true"></span>
+        <span class="seal-ring is-wide"></span>
         <span class="seal-ring"></span>
         <span class="seal-gems"><i></i><i></i><i></i><i></i></span>
         <img src="/img/badge.png?v=71" alt="" data-icon>
@@ -49,7 +51,7 @@
     </div>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=74"></script>
+  <script src="/js/site.js?v=75"></script>
   <script>
     if (sessionStorage.getItem(WTC.TOKEN_KEY)) location.replace("/admin");
     document.getElementById("form").addEventListener("submit", async (e) => {
