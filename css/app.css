@@ -69,6 +69,16 @@ body {
   max-width: 100%;
   padding-top: var(--header);
 }
+@media (max-width: 900px), (hover: none) {
+  body { background-attachment: scroll; }
+  body::before,
+  .water-caustics,
+  .water-field svg,
+  .water-surface svg {
+    animation: none;
+  }
+  .water-caustics { opacity: 0.16; filter: blur(24px); }
+}
 body::before {
   content: "";
   position: fixed;
@@ -3957,6 +3967,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .reveal.is-in {
   animation: rise 0.62s ease both;
   animation-delay: var(--d, 0s);
+}
+@media (max-width: 900px), (hover: none) {
+  .reveal,
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 @media (max-width: 900px) {

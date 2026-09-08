@@ -1894,30 +1894,51 @@ function boardCell(text, on) {
 }
 
 let motionIo;
+let motionSafety;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clips-page, .clips-hero, .clips-stage, .stats-page, .stats-hero, .stats-block, .players-page, .players-hero, .players-block, .home-page, .home-block, .home-facts-block, .clip-reel, .story-grid, .story-card, .place-box, .season-board, .season-sheet, .season-hot";
-  if (reduce) {
-    document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
-    runCounts(document);
+  const soft = window.matchMedia("(max-width: 900px), (hover: none)").matches;
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .clips-hero, .clips-stage, .stats-hero, .stats-block, .players-hero, .players-block, .home-block, .home-facts-block, .clip-reel, .story-grid, .story-card, .place-box, .season-board, .season-sheet, .season-hot";
+  const nodes = [...document.querySelectorAll(sel)];
+
+  const show = (el) => {
+    el.classList.add("is-in");
+    el.classList.remove("reveal");
+    runCounts(el);
+  };
+
+  if (reduce || soft) {
+    nodes.forEach(show);
     return;
   }
+
   if (!motionIo) {
     motionIo = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
-        e.target.classList.add("is-in");
-        runCounts(e.target);
+        show(e.target);
         motionIo.unobserve(e.target);
       });
-    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    }, { threshold: 0.01, rootMargin: "48px 0px 48px 0px" });
   }
-  document.querySelectorAll(sel).forEach((el, i) => {
+
+  nodes.forEach((el, i) => {
     if (el.classList.contains("is-in")) return;
+    const rect = el.getBoundingClientRect();
+    const visible = rect.bottom > 0 && rect.top < (window.innerHeight || 800) + 48;
+    if (visible) {
+      show(el);
+      return;
+    }
     el.classList.add("reveal");
     el.style.setProperty("--d", `${(i % 8) * 0.06}s`);
     motionIo.observe(el);
   });
+
+  clearTimeout(motionSafety);
+  motionSafety = setTimeout(() => {
+    document.querySelectorAll(".reveal").forEach(show);
+  }, 1200);
 }
 
 function fmtDuration(n) {
