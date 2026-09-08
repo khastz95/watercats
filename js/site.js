@@ -803,6 +803,10 @@ function setMenu(open) {
 
 function mountWater() {
   if (document.querySelector(".water")) return;
+  // SVGs + blur animado matam o scroll no celular.
+  if (window.matchMedia("(max-width: 900px), (hover: none), (prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
   const el = document.createElement("div");
   el.className = "water";
   el.setAttribute("aria-hidden", "true");
@@ -1701,10 +1705,12 @@ function spotCard(p, rank) {
 function pulseLine(players) {
   const list = players || [];
   if (!list.length) return "";
+  const soft = window.matchMedia("(max-width: 900px), (hover: none)").matches;
   const bits = list.map((p) => {
     const s = stats(p);
     return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}"><span class="pulse-face">${playerPhoto(p, "pulse-photo")}${playerMark(p, "is-art")}</span><b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
   }).join("");
+  if (soft) return `<div class="pulse-track is-static">${bits}</div>`;
   const copies = Math.max(4, Math.ceil(14 / list.length) * 2);
   return `<div class="pulse-track">${Array.from({ length: copies }, () => bits).join("")}</div>`;
 }
@@ -1952,7 +1958,14 @@ function fmtDuration(n) {
 function clipReel(clips) {
   const rows = (clips || []).slice(0, 12);
   if (!rows.length) return "";
-  const cards = rows.map((c) => clipCard(c)).join("");
+  const soft = window.matchMedia("(max-width: 900px), (hover: none)").matches;
+  const slice = soft ? rows.slice(0, 6) : rows;
+  const cards = slice.map((c) => clipCard(c)).join("");
+  if (soft) {
+    return `<div class="clip-reel is-static" data-reel>
+      <div class="reel-track">${cards}</div>
+    </div>`;
+  }
   return `<div class="clip-reel" data-reel>
     <div class="reel-track">${cards}${cards}</div>
   </div>`;

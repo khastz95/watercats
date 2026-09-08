@@ -71,13 +71,72 @@ body {
 }
 @media (max-width: 900px), (hover: none) {
   body { background-attachment: scroll; }
-  body::before,
-  .water-caustics,
-  .water-field svg,
-  .water-surface svg {
-    animation: none;
+  body::before {
+    display: none;
   }
-  .water-caustics { opacity: 0.16; filter: blur(24px); }
+  .water { display: none !important; }
+  .header-bar,
+  .footer {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .seal-aura,
+  .seal-ring,
+  .seal-gems i,
+  .about-hero-seal .seal,
+  .about-inks img,
+  .about-live i,
+  .era-ring,
+  .era-visual::before,
+  .era-scan,
+  .clip-play-icon,
+  .deal-gem,
+  .party-inks i,
+  .pulse-track,
+  .reel-track,
+  .page-mark img {
+    animation: none !important;
+  }
+  .pulse-track,
+  .reel-track {
+    transform: none !important;
+    width: auto;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .pulse-track.is-static,
+  .clip-reel.is-static .reel-track {
+    animation: none !important;
+  }
+  .clip-reel.is-static {
+    mask-image: none;
+    overflow: visible;
+  }
+  .clip-reel.is-static .clip {
+    width: min(280px, 86vw);
+  }
+  .pulse {
+    overflow: visible;
+  }
+  .pulse-track.is-static {
+    gap: 18px 24px;
+    padding: 0 12px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  .pulse:hover .pulse-track,
+  .clip-reel:hover .reel-track,
+  .clip-reel.is-paused .reel-track {
+    animation-play-state: paused;
+  }
+  .page-mark { display: none; }
+  .party-glow { display: none; }
+  .deal::before,
+  .deal::after { opacity: 0.45; }
 }
 body::before {
   content: "";
