@@ -667,7 +667,7 @@ body.nav-open .header { z-index: 210; }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
 }
 .brand img:not(.brand-seal) {
@@ -680,19 +680,19 @@ body.nav-open .header { z-index: 210; }
   border-radius: 0;
 }
 .brand-sub {
+  display: block;
   font-family: var(--display);
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  line-height: 1;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.15;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--blue);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  text-shadow: 0 0 14px color-mix(in srgb, var(--blue) 40%, transparent);
+  padding-right: 0.18em;
 }
-.brand-sub em { color: var(--blue); font-style: normal; }
+.brand-sub em { color: inherit; font-style: normal; }
 .nav {
   display: flex;
   align-items: center;
@@ -3897,10 +3897,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hero { padding-top: 28px; }
   .skill { grid-template-columns: 1fr auto; }
   .skill i { grid-column: 1 / -1; }
-  .brand img:not(.brand-seal) { height: 22px; width: auto; max-width: min(168px, 52vw); }
-  .brand-seal { width: 30px; height: 30px; }
-  .brand-sub { letter-spacing: 0.1em; }
-  :root { --header: 68px; }
+  .brand img:not(.brand-seal) { height: 24px; width: auto; max-width: min(168px, 52vw); }
+  .brand-seal { width: 32px; height: 32px; }
+  .brand-sub { font-size: 11px; letter-spacing: 0.14em; }
+  :root { --header: 72px; }
   .deal,
   .deal.is-compact {
     justify-content: flex-start;
@@ -3985,6 +3985,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   inset: 4px;
 }
 .brand-sub,
+.nav-slogan,
+.footer-tag {
+  font-style: normal;
+}
 .nav-slogan,
 .footer-tag {
   font-style: oblique;
@@ -5093,7 +5097,4 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 @media (max-width: 640px) {
   .players { grid-template-columns: 1fr; }
-  .player-card:hover { transform: none; }
-  .players-table-shell { padding: 8px 4px; }
-}
-
+  .player-card:hover { transform: none;
