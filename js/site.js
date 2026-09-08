@@ -1136,8 +1136,7 @@ function matchRibbon(lf) {
 
 function whoCell(p) {
   return `<a class="who" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
-    ${playerPhoto(p, "who-photo")}
-    ${playerMark(p, "is-inline")}
+    <span class="who-face">${playerPhoto(p, "who-photo")}${playerMark(p, "is-art")}</span>
     <span>${escapeHtml(p.name)}</span>
   </a>`;
 }
@@ -1348,7 +1347,7 @@ function pulseLine(players) {
   if (!list.length) return "";
   const bits = list.map((p) => {
     const s = stats(p);
-    return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "pulse-photo")}${playerMark(p, "is-inline")}<b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
+    return `<span class="pulse-item" style="--player:${escapeAttr(cardInk(p))}"><span class="pulse-face">${playerPhoto(p, "pulse-photo")}${playerMark(p, "is-art")}</span><b>${escapeHtml(p.name)}</b>${dash(s.rating, 2)}</span>`;
   }).join("");
   const copies = Math.max(4, Math.ceil(14 / list.length) * 2);
   return `<div class="pulse-track">${Array.from({ length: copies }, () => bits).join("")}</div>`;

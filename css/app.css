@@ -269,48 +269,68 @@ main { flex: 1; position: relative; z-index: 1; min-width: 0; }
 .player-mark.is-art {
   position: absolute;
   z-index: 5;
-  width: 24%;
-  height: auto;
-  aspect-ratio: 1;
+  top: 8px;
+  left: 8px;
+  width: 40px;
+  height: 40px;
 }
 .player-mark.is-hero {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
 }
 .player-mark.is-name,
 .player-mark.is-row {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
 }
 .player-mark.is-chip,
 .player-mark.is-meta,
 .player-mark.is-inline {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
 }
+
+.deal-card .player-mark::before,
+.player-card .player-mark::before,
+.spot .player-mark::before,
+.season-sheet .player-mark::before,
+.clip .player-mark::before,
+.dossier-frame .player-mark::before {
+  inset: 12%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--player, var(--blue)) 14%, transparent) 0%, color-mix(in srgb, var(--player, var(--blue)) 4%, transparent) 52%, transparent 74%);
+}
+.deal-card .player-mark img,
+.player-card .player-mark img,
+.spot .player-mark img,
+.season-sheet .player-mark img,
+.clip .player-mark img,
+.dossier-frame .player-mark img {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
+
 .deal-art .player-mark.is-art {
-  top: 10px;
-  left: 10px;
-  width: 28%;
+  top: 8px;
+  left: 8px;
+  width: 40px;
+  height: 40px;
+}
+.deal.is-compact .deal-art .player-mark.is-art {
+  top: 6px;
+  left: 6px;
+  width: 32px;
+  height: 32px;
 }
 .player-card-photo .player-mark.is-art {
-  left: 12px;
-  top: 14px;
-  width: 26%;
+  top: 10px;
+  left: 10px;
+  width: 44px;
+  height: 44px;
 }
 .dossier-frame .player-mark.is-art {
-  left: 12%;
-  top: 10%;
-  right: auto;
-  bottom: auto;
-  width: 20%;
-}
-.spot-face .player-mark.is-art {
-  left: 2px;
-  top: 2px;
-  right: auto;
-  bottom: auto;
-  width: 36%;
+  top: 16px;
+  left: 16px;
+  width: 48px;
+  height: 48px;
 }
 .spot-face {
   position: relative;
@@ -318,22 +338,60 @@ main { flex: 1; position: relative; z-index: 1; min-width: 0; }
   width: 92px;
   height: 92px;
 }
+.spot-face .player-mark.is-art {
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+}
 .season-face .player-mark.is-art {
-  right: -6px;
-  bottom: -6px;
-  width: 38px;
-  height: 38px;
+  top: 4px;
+  left: 4px;
+  right: auto;
+  bottom: auto;
+  width: 28px;
+  height: 28px;
+}
+.who-face,
+.pulse-face {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  overflow: visible;
+}
+.who-face {
+  width: 36px;
+  height: 36px;
+}
+.pulse-face {
+  width: 28px;
+  height: 28px;
+}
+.who-face .who-photo,
+.pulse-face .pulse-photo {
+  width: 100%;
+  height: 100%;
+}
+.who-face .player-mark.is-art,
+.pulse-face .player-mark.is-art {
+  top: auto;
+  left: auto;
+  right: -4px;
+  bottom: -4px;
+  width: 16px;
+  height: 16px;
 }
 .dossier-title {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 .dossier-title .dossier-name { margin: 0; }
 .season-main h3 {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .clip-who {
   display: flex;
@@ -344,6 +402,7 @@ main { flex: 1; position: relative; z-index: 1; min-width: 0; }
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  line-height: 1;
   color: color-mix(in srgb, var(--player, var(--blue)) 40%, var(--text));
 }
 .mate-link {
@@ -360,10 +419,6 @@ main { flex: 1; position: relative; z-index: 1; min-width: 0; }
   display: flex;
   align-items: center;
   gap: 8px;
-}
-.pulse-item .player-mark {
-  width: 22px;
-  height: 22px;
 }
 @media (min-width: 641px) {
   .season-main > h3 > .player-mark { display: none; }
