@@ -670,14 +670,13 @@ body.nav-open .header { z-index: 210; }
   min-width: 0;
 }
 .brand img:not(.brand-seal) {
-  height: 34px;
+  height: 26px;
   width: auto;
-  max-width: min(240px, 58vw);
+  max-width: min(200px, 52vw);
   object-fit: contain;
   object-position: left center;
   flex: none;
   border-radius: 0;
-  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--blue) 22%, transparent));
 }
 .brand-sub {
   display: block;
@@ -3897,7 +3896,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .hero { padding-top: 28px; }
   .skill { grid-template-columns: 1fr auto; }
   .skill i { grid-column: 1 / -1; }
-  .brand img:not(.brand-seal) { height: 30px; width: auto; max-width: min(200px, 56vw); }
+  .brand img:not(.brand-seal) { height: 22px; width: auto; max-width: min(168px, 52vw); }
   .brand-seal { width: 42px; height: 42px; }
   .brand-sub { font-size: 11px; letter-spacing: 0.14em; }
   :root { --header: 76px; }
