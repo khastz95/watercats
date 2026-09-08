@@ -24,8 +24,8 @@ const I18N = {
     "home.roster": "Quem joga agora",
     "home.roster.sub": "Cinco fichas na mesa. Abra uma para ver perfil, números e jogadas.",
     "home.strip": "Quem já passou por aqui deixou o nome. Quem está agora segue com ele.",
-    "star.sub": "Os cinco na mesa.",
-    "players.locked": "Fechado",
+    "star.sub": "A mesa de agora.",
+    "players.locked": "Em aberto",
     "star.hint": "Puxe a ficha da mesa.",
     "deal.set": "Watercats",
     "deal.game": "CS2",
@@ -58,7 +58,20 @@ const I18N = {
     "stat.premier": "Premier",
     "players.kicker": "Membros",
     "players.sub": "Quem faz parte do clube hoje. Abra uma ficha para ver o perfil, as estatísticas e as jogadas de cada um.",
+    "players.chip1": "Mesa",
+    "players.chip2": "Fichas",
+    "players.chip3": "Clube fechado",
+    "players.browse": "Ver a mesa",
+    "players.count": "{n} na casa",
+    "players.table": "Mesa",
+    "players.tableTitle": "Na mão",
+    "players.tableSub": "A formação visual do lobby. Clica na ficha e abre o perfil.",
     "players.deck": "Fichas",
+    "players.deckTitle": "Arquivo do elenco",
+    "players.deckSub": "Todos os membros, com rating, Premier e forma.",
+    "players.close.kicker": "Lobby",
+    "players.close.title": "Quer sentar na mesa?",
+    "players.close.lede": "Clube fechado, com peneira. Manda o pedido e a gente avalia.",
     "stats.kicker": "Temporada",
     "stats.sub": "Um recorte da temporada: rating, Premier, vitórias e mira dos membros.",
     "stats.chip1": "Leetify",
@@ -363,8 +376,8 @@ const I18N = {
     "home.roster": "Who's playing now",
     "home.roster.sub": "Five sheets on the table. Open one for the profile, stats, and clips.",
     "home.strip": "Whoever passed through left the name. Whoever's here now still carries it.",
-    "star.sub": "The five on the table.",
-    "players.locked": "Locked",
+    "star.sub": "The table now.",
+    "players.locked": "Open",
     "star.hint": "Pull a sheet from the table.",
     "deal.set": "Watercats",
     "deal.game": "CS2",
@@ -397,7 +410,20 @@ const I18N = {
     "stat.premier": "Premier",
     "players.kicker": "Members",
     "players.sub": "Who's in the club today. Open a profile for stats, clips, and the rest of the page.",
+    "players.chip1": "Table",
+    "players.chip2": "Sheets",
+    "players.chip3": "Closed club",
+    "players.browse": "See the table",
+    "players.count": "{n} in the house",
+    "players.table": "Table",
+    "players.tableTitle": "In hand",
+    "players.tableSub": "The lobby's visual lineup. Click a sheet to open the profile.",
     "players.deck": "Sheets",
+    "players.deckTitle": "Roster archive",
+    "players.deckSub": "Every member, with rating, Premier, and form.",
+    "players.close.kicker": "Lobby",
+    "players.close.title": "Want a seat at the table?",
+    "players.close.lede": "Closed club, with a screen. Send a request and we'll review it.",
     "stats.kicker": "Season",
     "stats.sub": "A snapshot of the season: rating, Premier, wins, and aim for the members.",
     "stats.chip1": "Leetify",
@@ -1449,8 +1475,9 @@ function playerCard(p, options = {}) {
   const sub = [idn.realName, idn.place].filter(Boolean).join(" · ");
   const slot = options.slot ? String(options.slot).padStart(2, "0") : "";
   const party = options.party ? String(options.party).padStart(2, "0") : "";
+  const delay = options.index != null ? ` --d:${(Number(options.index) % 8) * 0.06}s` : "";
   const wr = s.winrate == null || s.winrate === "" ? null : Math.max(0, Math.min(100, Number(s.winrate) * 100));
-  return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}">
+  return `<a class="card player-card" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))};${delay}">
     ${slot ? `<span class="sheet-no">${slot}${party ? "/" + party : ""}</span>` : ""}
     <span class="sheet-gems" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <div class="player-card-photo">
@@ -1476,15 +1503,45 @@ function playerCard(p, options = {}) {
 }
 
 function playerDeck(players) {
-  const roster = starOrder(players);
+  const roster = rosterOrder(players);
   if (!roster.length) return "";
   const party = roster.length;
-  const sheets = roster.map((p, i) => playerCard(p, { slot: i + 1, party })).join("");
-  const empty = [party + 1, party + 2].map((n) => lockedCard({ slot: n })).join("");
+  const sheets = roster.map((p, i) => playerCard(p, { slot: i + 1, party, index: i })).join("");
   return `<div class="players-deck">
-    <p class="kicker players-deck-kicker">${escapeHtml(t("players.deck"))}</p>
-    <div class="grid players">${sheets}${empty}</div>
+    <div class="grid players">${sheets}</div>
   </div>`;
+}
+
+function playersPage(players) {
+  const list = players || [];
+  if (!list.length) return "";
+  const inks = rosterOrder(list).map((p) =>
+    `<i style="--player:${escapeAttr(cardInk(p))}"></i>`
+  ).join("");
+  return `
+    <section class="players-block" id="mesa">
+      <div class="section-head about-section-head">
+        <div>
+          <p class="kicker"><span class="about-step">01</span> <span>${escapeHtml(t("players.table"))}</span></p>
+          <h2>${escapeHtml(t("players.tableTitle"))}</h2>
+          <p>${escapeHtml(t("players.tableSub"))}</p>
+        </div>
+        <div class="party-inks" aria-hidden="true">${inks}</div>
+      </div>
+      <div class="players-table-shell">
+        ${starRoster(list)}
+      </div>
+    </section>
+    <section class="players-block" id="fichas">
+      <div class="section-head about-section-head">
+        <div>
+          <p class="kicker"><span class="about-step">02</span> <span>${escapeHtml(t("players.deck"))}</span></p>
+          <h2>${escapeHtml(t("players.deckTitle"))}</h2>
+          <p>${escapeHtml(t("players.deckSub"))}</p>
+        </div>
+      </div>
+      ${playerDeck(list)}
+    </section>`;
 }
 
 // Mão na mesa, esquerda → direita. khastz no centro.
@@ -1522,12 +1579,16 @@ function playerMark(p, cls = "") {
   return `<span class="player-mark${extra}" aria-hidden="true"><img src="${escapeAttr(src)}" alt=""></span>`;
 }
 
-function starOrder(players) {
+function rosterOrder(players) {
   const byId = Object.fromEntries((players || []).filter((p) => p && p.id).map((p) => [p.id, p]));
   const placed = STAR_SLOTS.map((id) => byId[id]).filter(Boolean);
   const used = new Set(placed.map((p) => p.id));
   const extra = (players || []).filter((p) => p && p.id && !used.has(p.id));
-  return placed.concat(extra).slice(0, 5);
+  return placed.concat(extra);
+}
+
+function starOrder(players) {
+  return rosterOrder(players).slice(0, 5);
 }
 
 function dealCard(p, options = {}) {
@@ -1806,7 +1867,7 @@ function boardCell(text, on) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clips-page, .clips-hero, .clips-stage, .stats-page, .stats-hero, .stats-block, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clips-page, .clips-hero, .clips-stage, .stats-page, .stats-hero, .stats-block, .players-page, .players-hero, .players-block, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
@@ -1942,7 +2003,7 @@ document.addEventListener("click", (e) => {
 
 window.WTC = {
   t, api, dash, pct, metric, mapName, METRICS,
-  playerCard, lockedCard, playerDeck, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
+  playerCard, lockedCard, playerDeck, playersPage, starRoster, clipCard, clipReel, clipPager, emptyBox, errorBox, statusLabel,
   stats, place, playerPhoto, photoOf, formBadges, recentForm, escapeHtml, escapeAttr,
   spotCard, pulseLine, factStrip, houseCards, seasonBoard, boardCell, isBest, motion, pickHomeClips,
   skillBars, photoFrame, profileHero, matchRibbon, whoCell, tintMark, playerMark, markOf,

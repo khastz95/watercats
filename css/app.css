@@ -4716,7 +4716,120 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   50% { opacity: 0.55; transform: rotate(45deg) scale(1.2); }
 }
 
-.players-deck { margin-top: 28px; }
+.players-page {
+  padding-bottom: 48px;
+  position: relative;
+}
+.players-page::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: min(58vh, 520px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 14%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 34% at 88% 8%, color-mix(in srgb, #7b68d4 12%, transparent), transparent 68%);
+  z-index: 0;
+}
+.players-page > * { position: relative; z-index: 1; }
+.players-hero {
+  padding: 48px 0 18px;
+  position: relative;
+}
+.players-hero::before {
+  content: "";
+  display: block;
+  width: min(220px, 40%);
+  height: 2px;
+  margin-bottom: 22px;
+  background: linear-gradient(90deg, var(--blue), #3cb08a 30%, #e0c45c 55%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--blue) 40%, transparent);
+}
+.players-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: end;
+}
+.players-hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 7vw, 72px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin: 10px 0 0;
+  text-shadow: var(--title-glow);
+}
+.players-hero .tagline {
+  margin: 18px 0 8px;
+  font-size: clamp(20px, 3.6vw, 36px);
+}
+.players-lede {
+  margin-top: 14px;
+  max-width: 46ch;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 600;
+}
+.players-hero .actions { margin-top: 22px; }
+.players-hero-side {
+  display: grid;
+  justify-items: end;
+  gap: 14px;
+  padding-bottom: 6px;
+}
+.players-inks img { width: 46px; height: 46px; }
+.players-count {
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--blue) 32%, var(--line));
+  background: color-mix(in srgb, var(--blue) 10%, transparent);
+  color: var(--blue);
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.players-pulse {
+  margin: 8px 0 0;
+  border-color: color-mix(in srgb, var(--blue) 28%, var(--line));
+}
+.players-board { padding-top: 28px; }
+.players-block { margin-bottom: 34px; }
+.players-block .party-inks { margin: 0; }
+.players-table-shell {
+  position: relative;
+  padding: 12px 10px 8px;
+  border: 1px solid color-mix(in srgb, var(--blue) 26%, var(--line));
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--blue) 12%, transparent), transparent 46%),
+    color-mix(in srgb, var(--blue) 4%, #070b12);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--blue) 10%, transparent),
+    0 18px 40px rgba(0, 8, 22, 0.24);
+  overflow: hidden;
+}
+.players-table-shell::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  background: var(--cut-frame);
+  opacity: 0.55;
+  z-index: 2;
+}
+.players-table-shell .star-stage,
+.players-table-shell .deal,
+.players-table-shell .star-hint { position: relative; z-index: 1; }
+.players-page .star-hint {
+  margin: 0 auto 12px;
+  max-width: 36ch;
+}
+
+.players-deck { margin-top: 8px; }
 .players-deck-kicker {
   margin: 0 0 14px;
   color: color-mix(in srgb, var(--blue) 70%, var(--muted));
@@ -4735,6 +4848,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
     inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 16%, transparent),
     0 0 24px color-mix(in srgb, var(--player, var(--blue)) 10%, transparent);
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  animation-delay: var(--d, 0s);
 }
 .player-card::after {
   background:
@@ -4886,12 +5000,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .is-players .section-head::before {
   background: linear-gradient(90deg, var(--blue), #3cb08a 28%, #e0c45c 48%, #e09050 68%, #7b68d4 88%, transparent);
 }
-.is-players .pulse {
+.is-players .pulse,
+.players-pulse {
   border-color: color-mix(in srgb, var(--blue) 28%, var(--line));
 }
 
-@media (max-width: 640px) {
-  .players { grid-template-columns: 1fr; }
-  .player-card:hover { transform: none; }
-}
-
+@media (max-width: 900px) {
+  .players-hero-grid { grid-template-columns: 1fr; }
+  .players-hero-side 

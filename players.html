@@ -25,33 +25,72 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=86">
+  <link rel="stylesheet" href="/css/app.css?v=87">
 </head>
 <body class="is-players">
   <header class="header" id="header"></header>
-  <div class="pulse" id="pulse"></div>
-  <main class="wrap section">
-    <div class="section-head">
-      <div>
-        <p class="kicker" data-i18n="players.kicker"></p>
-        <h2 data-i18n="nav.players"></h2>
-        <p data-i18n="players.sub"></p>
+  <main class="players-page">
+    <section class="wrap players-hero">
+      <div class="players-hero-grid">
+        <div class="players-hero-copy">
+          <p class="kicker" data-i18n="players.kicker"></p>
+          <h1 data-i18n="nav.players"></h1>
+          <p class="tagline"><span>ALLIANCE</span></p>
+          <p class="players-lede" data-i18n="players.sub"></p>
+          <ul class="about-chips" aria-label="Membros">
+            <li data-i18n="players.chip1"></li>
+            <li data-i18n="players.chip2"></li>
+            <li data-i18n="players.chip3"></li>
+          </ul>
+          <div class="actions">
+            <a class="btn" href="#mesa" data-i18n="players.browse"></a>
+            <a class="btn btn-ghost" href="/stats" data-i18n="nav.stats"></a>
+            <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
+          </div>
+        </div>
+        <div class="players-hero-side" aria-hidden="true">
+          <div class="about-inks players-inks">
+            <img src="/img/marks/fury.png?v=1" alt="">
+            <img src="/img/marks/s4mz.png?v=1" alt="">
+            <img src="/img/marks/khastz.png?v=1" alt="">
+            <img src="/img/marks/cadu.png?v=1" alt="">
+            <img src="/img/marks/bill.png?v=1" alt="">
+          </div>
+          <p class="players-count" id="count"></p>
+        </div>
       </div>
-    </div>
-    <div id="list"></div>
+    </section>
+
+    <div class="pulse players-pulse" id="pulse"></div>
+
+    <div class="wrap section players-board" id="list"></div>
+
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="players.close.kicker"></p>
+        <h2 data-i18n="players.close.title"></h2>
+        <p data-i18n="players.close.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/join" data-i18n="nav.join"></a>
+          <a class="btn btn-ghost" href="/clips" data-i18n="nav.clips"></a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=86"></script>
+  <script src="/js/site.js?v=87"></script>
   <script>
     function render() {
       WTC.api("/api/players")
         .then(({ players }) => {
           const pulse = document.getElementById("pulse");
+          const count = document.getElementById("count");
           if (pulse) pulse.innerHTML = WTC.pulseLine(players);
+          if (count) {
+            count.textContent = WTC.t("players.count").replace("{n}", String(players.length));
+          }
           document.getElementById("list").innerHTML = players.length
-            ? `<div class="party-inks" aria-hidden="true">${players.map((p) =>
-                `<i style="--player:${WTC.cardInk(p)}"></i>`
-              ).join("")}</div>` + WTC.starRoster(players) + WTC.playerDeck(players)
+            ? WTC.playersPage(players)
             : WTC.emptyBox("empty.players");
           WTC.motion();
         })
