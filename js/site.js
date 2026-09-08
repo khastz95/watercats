@@ -870,8 +870,8 @@ function navItems(here) {
     ["/players", here === "players" || here === "player", "nav.players"],
     ["/stats", here === "stats", "nav.stats"],
     ["/clips", here === "clips", "nav.clips"],
-    ["/marca", here === "marca", "nav.marca"],
     ["/sobre", here === "about", "nav.about"],
+    ["/marca", here === "marca", "nav.marca"],
     ["/join", here === "join", "nav.join"]
   ].map(([href, on, key]) =>
     `<a href="${href}" class="${on ? "is-on" : ""}" data-i18n="${key}"></a>`
@@ -1027,7 +1027,6 @@ function mountChrome() {
           <a href="/players" data-i18n="nav.players"></a>
           <a href="/stats" data-i18n="nav.stats"></a>
           <a href="/clips" data-i18n="nav.clips"></a>
-          <a href="/marca" data-i18n="nav.marca"></a>
         </nav>
         <nav class="footer-col" aria-label="${t("footer.club")}">
           <h3 data-i18n="footer.club"></h3>
