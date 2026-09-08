@@ -5259,128 +5259,215 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   .players-table-shell { padding: 8px 4px; }
 }
 
-/* —— Marca / produtos (prévia) —— */
-.marca-page .marca-hero {
-  padding-top: clamp(28px, 6vw, 56px);
-  padding-bottom: 8px;
+/* —— Marca / vitrine —— */
+.marca-page {
+  padding-bottom: 0;
+  position: relative;
+}
+.marca-page::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(70vh, 640px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 0%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 28% at 88% 18%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 70%);
+  z-index: 0;
+}
+.marca-page > * { position: relative; z-index: 1; }
+
+.marca-intro {
+  padding: clamp(36px, 7vw, 72px) 0 28px;
+  text-align: center;
+  max-width: 720px;
+  margin-inline: auto;
+}
+.marca-intro h1 {
+  font-family: var(--display);
+  font-size: clamp(36px, 7vw, 68px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin: 10px 0 0;
+  text-shadow: var(--title-glow);
+}
+.marca-intro .tagline {
+  margin: 18px 0 0;
+  font-size: clamp(18px, 3vw, 28px);
+  justify-content: center;
 }
 .marca-lede {
-  max-width: 52ch;
+  margin: 18px auto 0;
+  max-width: 42ch;
   color: var(--muted);
   line-height: 1.65;
-  margin: 12px 0 0;
+  font-size: clamp(15px, 1.8vw, 18px);
 }
-.marca-badge {
-  margin: 0;
-  align-self: end;
+.marca-hint {
+  margin: 22px 0 0;
   font-family: var(--display);
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--blue-light);
-  border: 1px solid color-mix(in srgb, var(--blue) 40%, var(--line));
-  padding: 8px 12px;
-  background: color-mix(in srgb, var(--blue) 12%, transparent);
+  color: color-mix(in srgb, var(--blue-light) 80%, var(--muted));
 }
-.marca-grid {
+
+.marca-vitrine {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
+  padding: 0 0 48px;
 }
-.marca-card {
+.marca-film {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--blue) 22%, var(--line));
-  background:
-    linear-gradient(165deg, color-mix(in srgb, var(--blue) 10%, transparent), transparent 42%),
-    color-mix(in srgb, var(--surface) 88%, #000);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px max(16px, calc((100vw - 1120px) / 2 + 16px)) 12px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
-.marca-card:hover {
-  border-color: color-mix(in srgb, var(--blue) 55%, var(--line));
-  transform: translateY(-3px);
-}
-.marca-card-media {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
+.marca-thumb {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: 1px solid transparent;
   background: #05080f;
+  overflow: hidden;
+  scroll-snap-align: start;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
-.marca-card-media img {
+.marca-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.45s ease;
 }
-.marca-card:hover .marca-card-media img {
-  transform: scale(1.04);
+.marca-thumb.is-on,
+.marca-thumb:hover,
+.marca-thumb:focus-visible {
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--blue) 70%, transparent);
+  outline: none;
+  transform: translateY(-2px);
 }
-.marca-card-soon {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1;
-  font-family: var(--display);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text);
-  background: color-mix(in srgb, #000 72%, var(--blue));
-  border: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
-  padding: 6px 10px;
-}
-.marca-card-body {
-  padding: 14px 16px 18px;
+
+.marca-wall {
   display: grid;
-  gap: 4px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 10px;
+  grid-auto-flow: dense;
+  padding: 0 max(12px, calc((100vw - 1280px) / 2 + 12px));
 }
-.marca-card-cat {
-  margin: 0;
-  font-family: var(--display);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--blue-light);
-}
-.marca-card-body h3 {
-  margin: 0;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(16px, 2vw, 20px);
-  letter-spacing: 0.02em;
-}
-.marca-card-note {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-.marca-wait { padding-top: 12px; }
-.marca-wait-card {
+.marca-pane {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
-  gap: 28px;
-  padding: clamp(22px, 4vw, 36px);
-  border: 1px solid color-mix(in srgb, var(--blue) 28%, var(--line));
-  background:
-    radial-gradient(ellipse 60% 80% at 0% 0%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 55%),
-    color-mix(in srgb, var(--surface) 90%, #000);
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #04070e;
   overflow: hidden;
+  cursor: zoom-in;
+  isolation: isolate;
 }
-.marca-wait-card::before {
+.marca-pane::after {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--blue-light), var(--blue), transparent);
+  inset: 0;
+  background: linear-gradient(180deg, transparent 48%, color-mix(in srgb, #000 78%, transparent) 100%);
+  opacity: 0.55;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
-.marca-wait-copy,
-.marca-form,
-.marca-done {
-  position: relative;
+.marca-pane img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.7s ease;
+}
+.marca-pane:hover img,
+.marca-pane:focus-visible img {
+  transform: scale(1.08);
+}
+.marca-pane:hover::after,
+.marca-pane:focus-visible::after {
+  opacity: 0.85;
+}
+.marca-pane-meta {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
   z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-align: left;
+  pointer-events: none;
+}
+.marca-pane:hover .marca-pane-meta,
+.marca-pane:focus-visible .marca-pane-meta {
+  opacity: 1;
+  transform: none;
+}
+.marca-pane-meta em {
+  font-family: var(--display);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--blue-light);
+}
+.marca-pane-meta strong {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(15px, 1.8vw, 20px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.marca-pane.is-hero {
+  grid-column: span 8;
+  grid-row: span 2;
+  min-height: min(68vh, 620px);
+}
+.marca-pane.is-wide {
+  grid-column: span 7;
+  min-height: min(42vh, 380px);
+}
+.marca-pane.is-tall {
+  grid-column: span 5;
+  min-height: min(52vh, 480px);
+}
+.marca-pane.is-square {
+  grid-column: span 4;
+  min-height: min(36vh, 320px);
+  aspect-ratio: 1 / 1;
+}
+.marca-pane.is-full {
+  grid-column: span 12;
+  min-height: min(48vh, 440px);
+}
+
+.marca-wait {
+  margin-top: 8px;
+  padding: 48px 0 64px;
+  border-top: 1px solid color-mix(in srgb, var(--blue) 18%, var(--line));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--blue) 6%, transparent), transparent 60%);
+}
+.marca-wait-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
 }
 .marca-wait-copy h2 {
   margin: 8px 0 10px;
@@ -5388,34 +5475,32 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   font-size: clamp(24px, 4vw, 36px);
   line-height: 1.1;
 }
-.marca-wait-copy p { color: var(--muted); max-width: 42ch; line-height: 1.65; }
-.marca-form {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-}
-.marca-form .field { display: grid; gap: 6px; }
-.marca-form .field label {
-  font-family: var(--display);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.marca-wait-copy p {
+  margin: 0 auto;
   color: var(--muted);
+  max-width: 40ch;
+  line-height: 1.65;
 }
-.marca-form .field label i { color: var(--blue-light); font-style: normal; }
-.marca-form input {
-  width: 100%;
-  min-height: 44px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, #000 35%, var(--surface));
+.marca-form { margin-top: 22px; }
+.marca-form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.marca-form-row input[type="email"] {
+  flex: 1 1 220px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid color-mix(in srgb, var(--blue) 28%, var(--line));
+  background: color-mix(in srgb, #000 40%, var(--surface));
   color: var(--text);
   font: inherit;
 }
-.marca-form input:focus {
+.marca-form-row input:focus {
   outline: none;
-  border-color: color-mix(in srgb, var(--blue) 60%, var(--line));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent);
+  border-color: color-mix(in srgb, var(--blue) 65%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 16%, transparent);
 }
 .marca-form .hp {
   position: absolute;
@@ -5425,34 +5510,136 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
   opacity: 0;
   pointer-events: none;
 }
-.marca-form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 16px;
-  margin-top: 4px;
-}
 .marca-form-note {
-  margin: 0;
+  margin: 12px 0 0;
   font-size: 12px;
   color: var(--muted);
-  max-width: 28ch;
 }
-.marca-done h3 {
-  margin: 8px 0 16px;
+.marca-done {
+  margin-top: 18px;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.marca-done p {
+  margin: 0;
   font-family: var(--display);
-  font-size: clamp(20px, 3vw, 28px);
+  font-size: clamp(18px, 2.5vw, 24px);
 }
-@media (max-width: 980px) {
-  .marca-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .marca-wait-card { grid-template-columns: 1fr; }
+
+.marca-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 24px max(12px, 3vw);
+  background: color-mix(in srgb, #000 88%, #06152e);
+  backdrop-filter: blur(10px);
 }
-@media (max-width: 640px) {
-  .marca-grid { grid-template-columns: 1fr; }
-  .marca-card:hover { transform: none; }
-  .marca-badge { align-self: start; }
+.marca-lightbox[hidden] { display: none !important; }
+body.marca-lb-open { overflow: hidden; }
+.marca-lb-stage {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  max-height: calc(100vh - 48px);
+}
+.marca-lb-stage img {
+  max-width: min(1100px, 92vw);
+  max-height: calc(100vh - 110px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 24px 80px color-mix(in srgb, #000 55%, transparent);
+}
+.marca-lb-stage figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.marca-lb-stage figcaption span {
+  font-size: 11px;
+  color: var(--blue-light);
+}
+.marca-lb-stage figcaption strong { font-size: 15px; }
+.marca-lb-close,
+.marca-lb-nav {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--blue) 35%, transparent);
+  background: color-mix(in srgb, #000 45%, transparent);
+  color: #fff;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.marca-lb-close:hover,
+.marca-lb-nav:hover {
+  border-color: var(--blue-light);
+  background: color-mix(in srgb, var(--blue) 22%, transparent);
+}
+.marca-lb-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  font-size: 26px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .marca-pane.is-hero,
+  .marca-pane.is-wide,
+  .marca-pane.is-tall,
+  .marca-pane.is-square,
+  .marca-pane.is-full {
+    grid-column: span 12;
+    min-height: min(52vh, 420px);
+    aspect-ratio: auto;
+  }
+  .marca-pane-meta {
+    opacity: 1;
+    transform: none;
+  }
+  .marca-pane::after { opacity: 0.72; }
+  .marca-lightbox {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    padding-top: 64px;
+  }
+  .marca-lb-nav {
+    position: absolute;
+    bottom: 18px;
+  }
+  .marca-lb-nav.is-prev { left: 16px; }
+  .marca-lb-nav.is-next { right: 16px; }
 }
 @media (max-width: 900px), (hover: none) {
-  .marca-card:hover .marca-card-media img { transform: none; }
+  .marca-pane:hover img,
+  .marca-pane:focus-visible img { transform: scale(1.02); }
+  .marca-lightbox { backdrop-filter: none; }
 }
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Marca · Watercats! - Alliance</title>
-  <meta name="description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta name="description" content="Vitrine da marca Watercats — prévia do que vem. Sem loja ainda.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/icon.png?v=71" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=71">
@@ -14,127 +14,132 @@
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://watercats.vercel.app/marca">
   <meta property="og:title" content="Marca · Watercats!">
-  <meta property="og:description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta property="og:description" content="Vitrine da marca Watercats — prévia do que vem. Sem loja ainda.">
   <meta property="og:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Watercats!">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Marca · Watercats!">
-  <meta name="twitter:description" content="Prévia da marca Watercats — produtos em breve. Inscreva-se para novidades.">
+  <meta name="twitter:description" content="Vitrine da marca Watercats — prévia do que vem. Sem loja ainda.">
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=101">
+  <link rel="stylesheet" href="/css/app.css?v=102">
 </head>
 <body>
   <header class="header" id="header"></header>
   <main class="marca-page">
-    <section class="wrap marca-hero">
+    <section class="marca-intro wrap">
       <p class="kicker" data-i18n="marca.kicker"></p>
       <h1 data-i18n="marca.title"></h1>
       <p class="tagline"><span>ALLIANCE</span></p>
       <p class="marca-lede" data-i18n="marca.sub"></p>
-      <ul class="about-chips" aria-label="Marca">
-        <li data-i18n="marca.chip1"></li>
-        <li data-i18n="marca.chip2"></li>
-        <li data-i18n="marca.chip3"></li>
-      </ul>
-      <div class="actions">
-        <a class="btn" href="#vitrine" data-i18n="marca.browse"></a>
-        <a class="btn btn-ghost" href="#avisos" data-i18n="marca.notify"></a>
-      </div>
+      <p class="marca-hint" data-i18n="marca.hint"></p>
     </section>
 
-    <section class="wrap section marca-stage" id="vitrine">
-      <div class="section-head about-section-head">
-        <div>
-          <p class="kicker"><span class="about-step">01</span> <span data-i18n="marca.stage"></span></p>
-          <h2 data-i18n="marca.stageTitle"></h2>
-          <p data-i18n="marca.stageSub"></p>
-        </div>
-        <p class="marca-badge" data-i18n="marca.soon"></p>
-      </div>
-      <div class="marca-grid" id="marca-grid" aria-live="polite"></div>
+    <section class="marca-vitrine" id="vitrine" aria-label="Vitrine">
+      <div class="marca-film" id="marca-film" tabindex="0"></div>
+      <div class="marca-wall" id="marca-wall"></div>
     </section>
 
-    <section class="wrap section marca-wait" id="avisos">
-      <div class="marca-wait-card">
+    <section class="wrap marca-wait" id="avisos">
+      <div class="marca-wait-inner">
         <div class="marca-wait-copy">
-          <p class="kicker"><span class="about-step">02</span> <span data-i18n="marca.wait.kicker"></span></p>
+          <p class="kicker" data-i18n="marca.wait.kicker"></p>
           <h2 data-i18n="marca.wait.title"></h2>
           <p data-i18n="marca.wait.lede"></p>
         </div>
         <form class="marca-form" id="marca-form" novalidate>
-          <div class="field">
-            <label for="marca-name" data-i18n="marca.wait.name"></label>
-            <input id="marca-name" name="name" autocomplete="name" maxlength="80" data-i18n-placeholder="marca.wait.namePh">
-          </div>
-          <div class="field">
-            <label for="marca-email"><span data-i18n="marca.wait.email"></span> <i>*</i></label>
+          <div class="marca-form-row">
+            <label class="sr-only" for="marca-email" data-i18n="marca.wait.email"></label>
             <input id="marca-email" name="email" type="email" required autocomplete="email" maxlength="120" data-i18n-placeholder="marca.wait.emailPh">
-          </div>
-          <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
-          <div class="marca-form-actions">
+            <input id="marca-name" name="name" type="text" autocomplete="name" maxlength="80" class="sr-only" tabindex="-1" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
             <button class="btn" type="submit" data-i18n="marca.wait.submit"></button>
-            <p class="marca-form-note" data-i18n="marca.wait.note"></p>
           </div>
+          <p class="marca-form-note" data-i18n="marca.wait.note"></p>
           <p class="msg" id="marca-msg" role="status"></p>
         </form>
         <div class="marca-done" id="marca-done" hidden>
-          <p class="kicker" data-i18n="marca.wait.okTitle"></p>
-          <h3 data-i18n="marca.wait.ok"></h3>
+          <p data-i18n="marca.wait.ok"></p>
           <button class="btn btn-ghost" type="button" id="marca-again" data-i18n="marca.wait.again"></button>
         </div>
       </div>
     </section>
-
-    <section class="wrap section about-close">
-      <div class="about-close-card">
-        <p class="kicker" data-i18n="marca.close.kicker"></p>
-        <h2 data-i18n="marca.close.title"></h2>
-        <p data-i18n="marca.close.lede"></p>
-        <div class="actions">
-          <a class="btn" href="/sobre" data-i18n="nav.about"></a>
-          <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
-        </div>
-      </div>
-    </section>
   </main>
+
+  <div class="marca-lightbox" id="marca-lightbox" hidden>
+    <button type="button" class="marca-lb-close" data-lb-close aria-label="Fechar">×</button>
+    <button type="button" class="marca-lb-nav is-prev" data-lb-prev aria-label="Anterior">‹</button>
+    <figure class="marca-lb-stage">
+      <img id="marca-lb-img" src="" alt="">
+      <figcaption>
+        <span id="marca-lb-index"></span>
+        <strong id="marca-lb-name"></strong>
+      </figcaption>
+    </figure>
+    <button type="button" class="marca-lb-nav is-next" data-lb-next aria-label="Próxima">›</button>
+  </div>
+
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=101"></script>
+  <script src="/js/site.js?v=102"></script>
   <script>
     const PRODUCTS = [
-      { id: "camisa-team", img: "/img/marca/camisa-team.png?v=1", nameKey: "marca.item.jersey", catKey: "marca.cat.wear" },
-      { id: "blusa", img: "/img/marca/blusa-camisa.png?v=1", nameKey: "marca.item.hoodie", catKey: "marca.cat.wear" },
-      { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket", catKey: "marca.cat.wear" },
-      { id: "bone", img: "/img/marca/bone.png?v=1", nameKey: "marca.item.cap", catKey: "marca.cat.wear" },
-      { id: "bag", img: "/img/marca/bag.png?v=1", nameKey: "marca.item.bag", catKey: "marca.cat.gear" },
-      { id: "mousepad", img: "/img/marca/mousepad.png?v=1", nameKey: "marca.item.pad", catKey: "marca.cat.setup" },
-      { id: "copos", img: "/img/marca/copos.png?v=1", nameKey: "marca.item.cups", catKey: "marca.cat.home" },
-      { id: "pins", img: "/img/marca/pins.png?v=1", nameKey: "marca.item.pins", catKey: "marca.cat.collect" }
+      { id: "jaqueta", img: "/img/marca/jaqueta.png?v=1", nameKey: "marca.item.jacket", size: "hero" },
+      { id: "bone", img: "/img/marca/bone.png?v=1", nameKey: "marca.item.cap", size: "square" },
+      { id: "pins", img: "/img/marca/pins.png?v=1", nameKey: "marca.item.pins", size: "square" },
+      { id: "blusa", img: "/img/marca/blusa-camisa.png?v=1", nameKey: "marca.item.hoodie", size: "wide" },
+      { id: "camisa-team", img: "/img/marca/camisa-team.png?v=1", nameKey: "marca.item.jersey", size: "tall" },
+      { id: "bag", img: "/img/marca/bag.png?v=1", nameKey: "marca.item.bag", size: "wide" },
+      { id: "mousepad", img: "/img/marca/mousepad.png?v=1", nameKey: "marca.item.pad", size: "tall" },
+      { id: "copos", img: "/img/marca/copos.png?v=1", nameKey: "marca.item.cups", size: "full" }
     ];
 
-    function paintProducts() {
-      const grid = document.getElementById("marca-grid");
-      if (!grid) return;
-      grid.innerHTML = PRODUCTS.map((p) => `
-        <article class="marca-card reveal" data-product="${p.id}">
-          <div class="marca-card-media">
-            <span class="marca-card-soon" data-i18n="marca.soon"></span>
-            <img src="${p.img}" alt="" loading="lazy" decoding="async">
-          </div>
-          <div class="marca-card-body">
-            <p class="marca-card-cat">${WTC.escapeHtml(WTC.t(p.catKey))}</p>
-            <h3>${WTC.escapeHtml(WTC.t(p.nameKey))}</h3>
-            <p class="marca-card-note">${WTC.escapeHtml(WTC.t("marca.preview"))}</p>
-          </div>
-        </article>
+    let active = 0;
+    const film = document.getElementById("marca-film");
+    const wall = document.getElementById("marca-wall");
+    const lb = document.getElementById("marca-lightbox");
+    const lbImg = document.getElementById("marca-lb-img");
+    const lbName = document.getElementById("marca-lb-name");
+    const lbIndex = document.getElementById("marca-lb-index");
+
+    function paint() {
+      film.innerHTML = PRODUCTS.map((p, i) => `
+        <button type="button" class="marca-thumb${i === 0 ? " is-on" : ""}" data-i="${i}" aria-label="${WTC.escapeAttr(WTC.t(p.nameKey))}">
+          <img src="${p.img}" alt="" loading="lazy" decoding="async">
+        </button>
       `).join("");
-      grid.querySelectorAll("[data-i18n]").forEach((el) => {
-        el.textContent = WTC.t(el.getAttribute("data-i18n"));
-      });
+
+      wall.innerHTML = PRODUCTS.map((p, i) => `
+        <button type="button" class="marca-pane is-${p.size} reveal" data-i="${i}" style="--i:${i}">
+          <img src="${p.img}" alt="${WTC.escapeAttr(WTC.t(p.nameKey))}" loading="${i < 2 ? "eager" : "lazy"}" decoding="async">
+          <span class="marca-pane-meta">
+            <em>${String(i + 1).padStart(2, "0")}</em>
+            <strong>${WTC.escapeHtml(WTC.t(p.nameKey))}</strong>
+          </span>
+        </button>
+      `).join("");
+
       WTC.motion();
+    }
+
+    function openAt(i) {
+      active = (i + PRODUCTS.length) % PRODUCTS.length;
+      const p = PRODUCTS[active];
+      lb.hidden = false;
+      document.body.classList.add("marca-lb-open");
+      lbImg.src = p.img;
+      lbImg.alt = WTC.t(p.nameKey);
+      lbName.textContent = WTC.t(p.nameKey);
+      lbIndex.textContent = `${String(active + 1).padStart(2, "0")} / ${String(PRODUCTS.length).padStart(2, "0")}`;
+      film.querySelectorAll(".marca-thumb").forEach((el, idx) => el.classList.toggle("is-on", idx === active));
+    }
+
+    function closeLb() {
+      lb.hidden = true;
+      document.body.classList.remove("marca-lb-open");
+      lbImg.removeAttribute("src");
     }
 
     function fillPlaceholders() {
@@ -143,11 +148,40 @@
       });
     }
 
-    paintProducts();
+    paint();
     fillPlaceholders();
     document.addEventListener("wtc:lang", () => {
-      paintProducts();
+      paint();
       fillPlaceholders();
+      if (!lb.hidden) openAt(active);
+    });
+
+    film.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-i]");
+      if (!btn) return;
+      const i = Number(btn.dataset.i);
+      document.querySelector(`.marca-pane[data-i="${i}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      openAt(i);
+    });
+
+    wall.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-i]");
+      if (!btn) return;
+      openAt(Number(btn.dataset.i));
+    });
+
+    lb.querySelector("[data-lb-close]")?.addEventListener("click", closeLb);
+    lb.querySelector("[data-lb-prev]")?.addEventListener("click", () => openAt(active - 1));
+    lb.querySelector("[data-lb-next]")?.addEventListener("click", () => openAt(active + 1));
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) closeLb();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") closeLb();
+      if (e.key === "ArrowLeft") openAt(active - 1);
+      if (e.key === "ArrowRight") openAt(active + 1);
     });
 
     const form = document.getElementById("marca-form");
