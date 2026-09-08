@@ -901,7 +901,7 @@ function mountChrome() {
               <span class="seal-aura"></span>
               <span class="seal-ring is-wide"></span>
               <span class="seal-ring"></span>
-              <img class="footer-seal" src="${logo}" alt="" data-icon>
+              <img class="footer-seal" src="${BRAND_SEAL}" alt="" data-brand-seal>
             </span>
             <img src="${WORD}" alt="Watercats" data-wordmark>
           </a>

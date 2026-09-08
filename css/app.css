@@ -3358,13 +3358,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 .footer-seal {
   position: relative;
   z-index: 2;
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  filter: drop-shadow(0 4px 14px color-mix(in srgb, var(--blue) 30%, transparent));
+  background: transparent;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--blue) 28%, transparent);
+  filter: none;
 }
 .footer-mark img:not(.footer-seal) {
   display: block;
