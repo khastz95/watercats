@@ -4143,37 +4143,31 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); }
 }
 .clip-badge {
   position: absolute;
-  z-index: 2;
-  top: 12px;
-  left: 12px;
+  z-index: 3;
+  top: 10px;
+  left: 10px;
   padding: 5px 10px;
   border: 1px solid color-mix(in srgb, var(--player, var(--blue)) 45%, var(--line));
-  background: color-mix(in srgb, var(--player, var(--blue)) 72%, #000);
+  background: color-mix(in srgb, var(--player, var(--blue)) 78%, #000);
   color: #fff;
   font-family: var(--display);
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  pointer-events: none;
 }
 .clips-page .clip.is-featured {
   position: relative;
-  padding: 16px;
   gap: 22px;
   border-color: color-mix(in srgb, var(--player, var(--blue)) 48%, var(--line));
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--player, var(--blue)) 14%, transparent),
     0 18px 36px rgba(0, 8, 22, 0.28);
 }
-.clips-page .clip.is-featured::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  pointer-events: none;
-  background: var(--cut-frame);
-  opacity: 0.7;
+.clips-page .clip.is-featured .clip-play,
+.clips-page .clip.is-featured iframe {
+  min-width: 0;
 }
-.clips-page .clip.is-featured > * { position: relative; z-index: 1; }
-.clips-page .clip.is-featured .clip-badge { top: 24px; left: 24px; }
 .clips-page .clip-body { padding-top: 4px; }
 .clips-page .clip-more {
   grid-column: 1 / -1;

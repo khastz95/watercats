@@ -1867,15 +1867,16 @@ function clipCard(c, options = {}) {
     : "";
   const meta = [c.map, c.weapon, c.views != null ? String(c.views) : ""].filter(Boolean).join(" · ");
   const time = c.duration != null ? fmtDuration(c.duration) : "";
+  const badge = featured ? `<span class="clip-badge">${escapeHtml(t("clips.featured"))}</span>` : "";
   const poster = c.thumb
     ? `<button type="button" class="clip-play" data-play-clip="${escapeAttr(c.embed)}" data-play-title="${escapeAttr(c.title)}" aria-label="${escapeAttr(t("clips.play") + ": " + c.title)}">
+         ${badge}
          <img src="${escapeAttr(c.thumb)}" alt="" loading="lazy">
          <span class="clip-play-icon" aria-hidden="true"></span>
          ${time ? `<span class="clip-time">${escapeHtml(time)}</span>` : ""}
        </button>`
-    : `<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
+    : `${badge}<iframe src="${escapeAttr(c.embed)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${escapeAttr(c.title)}"></iframe>`;
   return `<article class="card clip${featured ? " is-featured" : ""}"${ink ? ` style="--player:${escapeAttr(ink)}; --d:${(index % 8) * 0.06}s"` : ` style="--d:${(index % 8) * 0.06}s"`}>
-    ${featured ? `<span class="clip-badge">${escapeHtml(t("clips.featured"))}</span>` : ""}
     ${poster}
     <div class="clip-body">
       ${who}
