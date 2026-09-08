@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://watercats.vercel.app/img/og.png?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/app.css?v=83">
+  <link rel="stylesheet" href="/css/app.css?v=84">
 </head>
 <body>
   <header class="header" id="header"></header>
@@ -53,22 +53,30 @@
           <h1 data-i18n="about.title"></h1>
           <p class="tagline"><span>ALLIANCE</span></p>
           <p class="about-lede" data-i18n="about.lede"></p>
+          <ul class="about-chips" aria-label="Linha">
+            <li data-i18n="about.chip1"></li>
+            <li data-i18n="about.chip2"></li>
+            <li data-i18n="about.chip3"></li>
+          </ul>
           <div class="actions">
             <a class="btn" href="#eras" data-i18n="about.era.kicker"></a>
             <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
-            <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+            <a class="btn btn-ghost" href="/join" data-i18n="nav.join"></a>
           </div>
         </div>
       </div>
     </section>
 
     <section class="wrap section about-era" id="eras">
-      <div class="section-head">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="about.era.kicker"></p>
+          <p class="kicker"><span class="about-step">01</span> <span data-i18n="about.era.kicker"></span></p>
           <h2 data-i18n="about.era.title"></h2>
           <p data-i18n="about.era.sub"></p>
         </div>
+        <p class="about-live" data-era-live hidden>
+          <i></i><span data-i18n="about.era.live"></span>
+        </p>
       </div>
 
       <div class="era-shell" data-era-shell>
@@ -80,14 +88,16 @@
           <div class="era-track" role="tablist" aria-label="Eras do Counter-Strike" data-era-track></div>
         </div>
 
-        <div class="era-tools">
-          <button type="button" class="btn btn-ghost" data-era-prev data-i18n="about.era.prev"></button>
-          <button type="button" class="btn btn-ghost" data-era-toggle data-i18n="about.era.play"></button>
-          <button type="button" class="btn btn-ghost" data-era-next data-i18n="about.era.next"></button>
+        <div class="era-tools" role="group" aria-label="Controles">
+          <button type="button" class="era-tool" data-era-prev data-i18n="about.era.prev"></button>
+          <button type="button" class="era-tool is-main" data-era-toggle data-i18n="about.era.play"></button>
+          <button type="button" class="era-tool" data-era-next data-i18n="about.era.next"></button>
         </div>
 
         <div class="era-stage" data-era-stage>
           <div class="era-visual" data-era-visual aria-hidden="true">
+            <span class="era-ring" aria-hidden="true"></span>
+            <span class="era-ring is-late" aria-hidden="true"></span>
             <span class="era-year" data-era-year></span>
             <span class="era-gen" data-era-gen></span>
             <img class="era-mark" src="/img/badge.png?v=71" alt="" data-logo>
@@ -109,9 +119,9 @@
     </section>
 
     <section class="wrap section about-cities-block">
-      <div class="section-head">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="about.cities.kicker"></p>
+          <p class="kicker"><span class="about-step">02</span> <span data-i18n="about.cities.kicker"></span></p>
           <h2 data-i18n="about.cities.title"></h2>
           <p data-i18n="about.cities.sub"></p>
         </div>
@@ -120,19 +130,31 @@
     </section>
 
     <section class="wrap section about-wall-block">
-      <div class="section-head">
+      <div class="section-head about-section-head">
         <div>
-          <p class="kicker" data-i18n="about.wall.kicker"></p>
+          <p class="kicker"><span class="about-step">03</span> <span data-i18n="about.wall.kicker"></span></p>
           <h2 data-i18n="about.wall.title"></h2>
           <p data-i18n="about.wall.sub"></p>
         </div>
-        <a href="/players" data-i18n="cta.players"></a>
+        <a class="btn btn-ghost" href="/players" data-i18n="cta.players"></a>
       </div>
       <div id="wall"></div>
     </section>
+
+    <section class="wrap section about-close">
+      <div class="about-close-card">
+        <p class="kicker" data-i18n="about.close.kicker"></p>
+        <h2 data-i18n="about.close.title"></h2>
+        <p data-i18n="about.close.lede"></p>
+        <div class="actions">
+          <a class="btn" href="/join" data-i18n="about.close.cta"></a>
+          <a class="btn btn-ghost" href="/clips" data-i18n="cta.clips"></a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="footer"></footer>
-  <script src="/js/site.js?v=83"></script>
+  <script src="/js/site.js?v=84"></script>
   <script>
     const ERAS = [
       { id: "1.6", nights: 412, crew: 7, tone: "#6ea8ff" },
@@ -218,9 +240,7 @@
       box.innerHTML = rows.map(([key, text, count]) =>
         `<div class="era-stat"><span>${WTC.t(key)}</span><b${count != null ? ` data-count="${count}" data-digits="0"` : ""}>${WTC.escapeHtml(String(text))}</b></div>`
       ).join("");
-      if (!reduce && window.WTC.motion) {
-        box.querySelectorAll("[data-count]").forEach((el) => { delete el.dataset.counted; });
-        // lightweight count without full motion scan
+      if (!reduce) {
         box.querySelectorAll("[data-count]").forEach((el) => {
           const end = Number(el.dataset.count);
           if (!Number.isFinite(end)) return;
@@ -295,7 +315,14 @@
     function setPlaying(on) {
       playing = on;
       const btn = document.querySelector("[data-era-toggle]");
-      if (btn) btn.textContent = WTC.t(on ? "about.era.pause" : "about.era.play");
+      const live = document.querySelector("[data-era-live]");
+      const shell = document.querySelector("[data-era-shell]");
+      if (btn) {
+        btn.textContent = WTC.t(on ? "about.era.pause" : "about.era.play");
+        btn.classList.toggle("is-on", on);
+      }
+      if (live) live.hidden = !on;
+      if (shell) shell.classList.toggle("is-playing", on);
       clearInterval(timer);
       if (on && !reduce) timer = setInterval(() => go(index + 1), 4200);
     }

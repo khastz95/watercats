@@ -68,11 +68,15 @@ const I18N = {
     "about.kicker": "Watercats",
     "about.title": "O clube",
     "about.lede": "Não é org. Não é mix. É o nome que ficou no lobby — do 1.6 ao CS2.",
+    "about.chip1": "1.6 → CS2",
+    "about.chip2": "Lobby de amigos",
+    "about.chip3": "Clube fechado",
     "about.crew": "Mesa de agora",
-    "about.crew.sub": "Cinco fichas. Abre uma se quiser o perfil completo.",
+    "about.crew.sub": "Abre uma ficha se quiser o perfil completo.",
     "about.era.kicker": "Linha do tempo",
     "about.era.title": "Do 1.6 ao CS2",
     "about.era.sub": "Arrasta, clica ou deixa rodar. Cada era tem ano, server e números inventados da casa.",
+    "about.era.live": "Rodando",
     "about.era.prev": "Anterior",
     "about.era.next": "Próxima",
     "about.era.play": "Rodar",
@@ -106,7 +110,7 @@ const I18N = {
     "about.era.cs2.y": "2023–agora",
     "about.era.cs2.t": "CS2",
     "about.era.cs2.g": "Mesa atual",
-    "about.era.cs2": "Premier, os cinco de agora e este site. Motor novo; a noite continua a mesma.",
+    "about.era.cs2": "Premier, a mesa de agora e este site. Motor novo; a noite continua a mesma.",
     "about.era.cs2.map": "de_ancient",
     "about.era.cs2.server": "premier · discord",
     "about.era.more.y": "Fora do CS",
@@ -122,10 +126,14 @@ const I18N = {
     "about.era.reply.more": "Noite livre. Nem tudo é Counter-Strike.",
     "about.cities.kicker": "Mapa",
     "about.cities.title": "De onde a gente joga",
-    "about.cities.sub": "Quatro cidades, um lobby.",
+    "about.cities.sub": "Várias cidades, um lobby.",
     "about.wall.kicker": "Elenco",
     "about.wall.title": "Quem está na mesa",
     "about.wall.sub": "Clica no retrato e abre a ficha.",
+    "about.close.kicker": "Próximo passo",
+    "about.close.title": "Quer entrar no lobby?",
+    "about.close.lede": "Clube fechado, com peneira. Manda o pedido e a gente avalia.",
+    "about.close.cta": "Fazer parte",
     "join.kicker": "Watercats",
     "join.title": "Fazer parte",
     "join.lede": "Não é tryout de org. É pedir pra entrar no lobby. Preenche com calma — a gente lê, peneira e responde pelo Discord ou Steam.",
@@ -370,11 +378,15 @@ const I18N = {
     "about.kicker": "Watercats",
     "about.title": "The club",
     "about.lede": "Not an org. Not a mix. It's the name that stuck in the lobby — from 1.6 to CS2.",
+    "about.chip1": "1.6 → CS2",
+    "about.chip2": "Friends lobby",
+    "about.chip3": "Closed club",
     "about.crew": "Current table",
-    "about.crew.sub": "Five sheets. Open one for the full profile.",
+    "about.crew.sub": "Open a sheet for the full profile.",
     "about.era.kicker": "Timeline",
     "about.era.title": "From 1.6 to CS2",
     "about.era.sub": "Drag, click, or let it play. Each era has years, a server, and made-up house numbers.",
+    "about.era.live": "Playing",
     "about.era.prev": "Previous",
     "about.era.next": "Next",
     "about.era.play": "Play",
@@ -408,7 +420,7 @@ const I18N = {
     "about.era.cs2.y": "2023–now",
     "about.era.cs2.t": "CS2",
     "about.era.cs2.g": "Current table",
-    "about.era.cs2": "Premier, the five now, and this site. New engine; same night.",
+    "about.era.cs2": "Premier, the table now, and this site. New engine; same night.",
     "about.era.cs2.map": "de_ancient",
     "about.era.cs2.server": "premier · discord",
     "about.era.more.y": "Off CS",
@@ -424,10 +436,14 @@ const I18N = {
     "about.era.reply.more": "Free night. Not everything is Counter-Strike.",
     "about.cities.kicker": "Map",
     "about.cities.title": "Where we play from",
-    "about.cities.sub": "Four cities, one lobby.",
+    "about.cities.sub": "Many cities, one lobby.",
     "about.wall.kicker": "Roster",
     "about.wall.title": "Who's at the table",
     "about.wall.sub": "Click a portrait to open the profile.",
+    "about.close.kicker": "Next step",
+    "about.close.title": "Want into the lobby?",
+    "about.close.lede": "Closed club, with a screen. Send a request and we'll review it.",
+    "about.close.cta": "Join",
     "join.kicker": "Watercats",
     "join.title": "Join the club",
     "join.lede": "This isn't an org tryout. It's asking to get in the lobby. Fill it in calmly — we'll read it, screen it, and reply on Discord or Steam.",
@@ -1693,7 +1709,8 @@ function aboutWall(players) {
   if (!roster.length) return "";
   return `<div class="about-wall" role="list">${roster.map((p, i) => {
     const idn = identity(p);
-    return `<a class="about-tile" role="listitem" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}; --d:${(i % 5) * 0.08}s">
+    return `<a class="about-tile reveal" role="listitem" href="/jogador/${encodeURIComponent(p.id)}" style="--player:${escapeAttr(cardInk(p))}; --d:${(i % 5) * 0.08}s">
+      <span class="about-tile-no">${String(i + 1).padStart(2, "0")}</span>
       ${playerPhoto(p, "about-tile-photo")}
       ${playerMark(p, "is-art")}
       <span class="about-tile-meta">
@@ -1712,8 +1729,9 @@ function aboutCities(players) {
     const city = idn.place || idn.city || "—";
     (bags[city] ||= []).push(p);
   });
-  return `<div class="about-cities">${Object.entries(bags).map(([city, list]) =>
-    `<article class="about-city" style="--player:${escapeAttr(cardInk(list[0]))}">
+  return `<div class="about-cities">${Object.entries(bags).map(([city, list], i) =>
+    `<article class="about-city reveal" style="--player:${escapeAttr(cardInk(list[0]))}; --d:${i * 0.08}s">
+      <span class="about-city-no">${String(i + 1).padStart(2, "0")}</span>
       <h3>${escapeHtml(city)}</h3>
       <div class="about-city-faces">${list.map((p) =>
         `<a href="/jogador/${encodeURIComponent(p.id)}" title="${escapeAttr(p.name)}" style="--player:${escapeAttr(cardInk(p))}">${playerPhoto(p, "about-city-photo")}</a>`
@@ -1730,7 +1748,7 @@ function boardCell(text, on) {
 let motionIo;
 function motion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall, .about-cities, .join-page, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
+  const sel = ".hero, .section, .facts, .pulse, .star-stage, .table-wrap, .clip-filters, .login-stage, .profile-hero, .profile, .hot-grid, .card, .spot, .house-strip, .players, .match-ribbon, .info-strip, .about-hero, .about-era, .about-wall-block, .about-cities-block, .about-close, .about-wall, .about-cities, .about-tile, .about-city, .join-page, .clip-reel, .story-grid, .place-box, .season-board, .season-sheet, .season-hot";
   if (reduce) {
     document.querySelectorAll(sel).forEach((el) => el.classList.add("is-in"));
     runCounts(document);
