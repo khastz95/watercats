@@ -1,13 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const dir = path.join(__dirname, "..", "assets", "fonts");
-const regular = fs.readFileSync(path.join(dir, "ScoreboardSans.ttf")).toString("base64");
-const bold = fs.readFileSync(path.join(dir, "ScoreboardSans-Bold.ttf")).toString("base64");
+const boldPath = path.join(__dirname, "..", "assets", "fonts", "ScoreboardSans-Bold.ttf");
+const bold = fs.readFileSync(boldPath).toString("base64");
 
 const out = [
-  "/** Auto-generated — Liberation Sans embedded for sharp/SVG on Vercel. */",
-  `export const SCOREBOARD_SANS_REGULAR_B64 = "${regular}";`,
+  "/** Auto-generated — Roboto Bold embedded for scoreboard rendering on Vercel. */",
   `export const SCOREBOARD_SANS_BOLD_B64 = "${bold}";`,
   "",
 ].join("\n");

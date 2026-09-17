@@ -1,10 +1,10 @@
-import sharp from "sharp";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { Resvg } from "@resvg/resvg-js";
 import type { MatchPlayerRow, MatchReport } from "@/lib/leetify/mapper";
 import { formatRankDelta, type PlayerRankDelta } from "@/lib/leetify/rankDelta";
-import {
-  SCOREBOARD_SANS_BOLD_B64,
-  SCOREBOARD_SANS_REGULAR_B64,
-} from "@/lib/discord/scoreboardFonts";
+import { SCOREBOARD_SANS_BOLD_B64 } from "@/lib/discord/scoreboardFonts";
 
 const W = 1100;
 const HEADER_H = 88;
@@ -13,19 +13,16 @@ const ROW_H = 44;
 const TEAM_HEADER_H = 40;
 const PAD = 24;
 const FOOTER_H = 36;
-const FONT_FAMILY = "ScoreboardSans";
+/** Must match the TTF name table (Roboto Bold). */
+const FONT_FAMILY = "Roboto";
 
-/**
- * Liberation Sans is bundled as base64 (see scoreboardFonts.ts). Vercel/Linux
- * has no system fonts for sharp's SVG renderer — missing faces = tofu boxes.
- */
-const FONT_FACE_CSS = [
-  `@font-face{font-family:'${FONT_FAMILY}';src:url('data:font/ttf;base64,${SCOREBOARD_SANS_REGULAR_B64}') format('truetype');font-weight:400;font-style:normal;}`,
-  `@font-face{font-family:'${FONT_FAMILY}';src:url('data:font/ttf;base64,${SCOREBOARD_SANS_BOLD_B64}') format('truetype');font-weight:700;font-style:normal;}`,
-].join("");
-
-function fontFaceCss(): string {
-  return FONT_FACE_CSS;
+let cachedFontPath: string | null = null;
+function ensureScoreboardFontFile(): string {
+  if (cachedFontPath && fs.existsSync(cachedFontPath)) return cachedFontPath;
+  const fontPath = path.join(os.tmpdir(), "watercats-scoreboard-roboto-bold.ttf");
+  fs.writeFileSync(fontPath, Buffer.from(SCOREBOARD_SANS_BOLD_B64, "base64"));
+  cachedFontPath = fontPath;
+  return fontPath;
 }
 
 function esc(s: string): string {
@@ -120,9 +117,9 @@ function cellText(
   opts: { fill?: string; size?: number; weight?: number; anchor?: string } = {}
 ): string {
   const fill = opts.fill || "#e5e7eb";
-  const size = opts.size || 15;
-  // Liberation Sans only ships Regular/Bold — prefer Bold for readability.
-  const weight = (opts.weight ?? 700) >= 500 ? 700 : 400;
+  const size = opts.size || 16;
+  // Always Bold (700) for scoreboard readability.
+  const weight = 700;
   const anchor = opts.anchor || "start";
   return `<text x="${x}" y="${y}" fill="${fill}" font-size="${size}" font-weight="${weight}" font-family="${FONT_FAMILY}" text-anchor="${anchor}">${esc(text)}</text>`;
 }
@@ -136,14 +133,14 @@ function rankSubtitleSvg(
   if (!formatted) return "";
   const baseX = PAD + 42;
   let svg = cellText(baseX, y + 34, formatted.primary, {
-    size: 12,
+    size: 13,
     weight: 700,
     fill: "#a5b4fc",
   });
   if (formatted.delta) {
     const approxPrimaryW = Math.min(120, formatted.primary.length * 7);
     svg += cellText(baseX + approxPrimaryW + 6, y + 34, formatted.delta, {
-      size: 12,
+      size: 13,
       weight: 700,
       fill: formatted.deltaColor,
     });
@@ -178,21 +175,21 @@ function playerRowSvg(
     <rect x="${PAD}" y="${y}" width="${W - PAD * 2}" height="${ROW_H}" fill="${bg}"/>
     ${isWc ? `<rect x="${PAD}" y="${y}" width="4" height="${ROW_H}" fill="#a855f7"/>` : ""}
     <circle cx="${PAD + 22}" cy="${y + ROW_H / 2}" r="12" fill="${isWc ? "#7c3aed" : "#374151"}"/>
-    ${cellText(PAD + 22, y + ROW_H / 2 + 4, (name[0] || "?").toUpperCase(), { size: 12, weight: 700, anchor: "middle", fill: "#fff" })}
-    ${cellText(PAD + 42, nameY, name, { size: 15, weight: 700, fill: isWc ? "#e9d5ff" : "#f3f4f6" })}
+    ${cellText(PAD + 22, y + ROW_H / 2 + 4, (name[0] || "?").toUpperCase(), { size: 13, weight: 700, anchor: "middle", fill: "#fff" })}
+    ${cellText(PAD + 42, nameY, name, { size: 16, weight: 700, fill: isWc ? "#e9d5ff" : "#f3f4f6" })}
     ${showRank ? rankSubtitleSvg(p.steamId, y, rankBySteam) : ""}
-    ${cellText(300, y + ROW_H / 2 + 5, fmt(p.kills), { anchor: "end", size: 15, weight: 700 })}
-    ${cellText(348, y + ROW_H / 2 + 5, fmt(p.assists), { anchor: "end", size: 15, weight: 700 })}
-    ${cellText(396, y + ROW_H / 2 + 5, fmt(p.deaths), { anchor: "end", size: 15, weight: 700 })}
-    ${cellText(470, y + ROW_H / 2 + 5, fmt(kd, 2), { anchor: "end", size: 15, weight: 700, fill: kdColor(kd) })}
-    ${cellText(545, y + ROW_H / 2 + 5, fmt(p.dpr, 1), { anchor: "end", size: 15, weight: 700 })}
-    ${cellText(625, y + ROW_H / 2 + 5, surv === null ? "-" : `${fmt(surv, 0)}%`, { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
-    ${cellText(690, y + ROW_H / 2 + 5, fmt(p.multi2k), { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
-    ${cellText(740, y + ROW_H / 2 + 5, fmt(p.multi3k), { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
-    ${cellText(790, y + ROW_H / 2 + 5, fmt(p.multi4k), { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
-    ${cellText(840, y + ROW_H / 2 + 5, fmt(p.multi5k), { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
-    ${cellText(960, y + ROW_H / 2 + 5, fmtSigned(leet, 2), { anchor: "end", size: 15, weight: 700, fill: ratingColor(leet) })}
-    ${cellText(1040, y + ROW_H / 2 + 5, fmt(p.mvps), { anchor: "end", size: 14, weight: 700, fill: "#9ca3af" })}
+    ${cellText(300, y + ROW_H / 2 + 5, fmt(p.kills), { anchor: "end", size: 16, weight: 700 })}
+    ${cellText(348, y + ROW_H / 2 + 5, fmt(p.assists), { anchor: "end", size: 16, weight: 700 })}
+    ${cellText(396, y + ROW_H / 2 + 5, fmt(p.deaths), { anchor: "end", size: 16, weight: 700 })}
+    ${cellText(470, y + ROW_H / 2 + 5, fmt(kd, 2), { anchor: "end", size: 16, weight: 700, fill: kdColor(kd) })}
+    ${cellText(545, y + ROW_H / 2 + 5, fmt(p.dpr, 1), { anchor: "end", size: 16, weight: 700 })}
+    ${cellText(625, y + ROW_H / 2 + 5, surv === null ? "-" : `${fmt(surv, 0)}%`, { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
+    ${cellText(690, y + ROW_H / 2 + 5, fmt(p.multi2k), { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
+    ${cellText(740, y + ROW_H / 2 + 5, fmt(p.multi3k), { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
+    ${cellText(790, y + ROW_H / 2 + 5, fmt(p.multi4k), { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
+    ${cellText(840, y + ROW_H / 2 + 5, fmt(p.multi5k), { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
+    ${cellText(960, y + ROW_H / 2 + 5, fmtSigned(leet, 2), { anchor: "end", size: 16, weight: 700, fill: ratingColor(leet) })}
+    ${cellText(1040, y + ROW_H / 2 + 5, fmt(p.mvps), { anchor: "end", size: 15, weight: 700, fill: "#9ca3af" })}
   `;
 }
 
@@ -212,16 +209,16 @@ function teamBlock(
   let svg = `
     <rect x="${PAD}" y="${y}" width="${W - PAD * 2}" height="${TEAM_HEADER_H}" fill="#12131a"/>
     <rect x="${PAD}" y="${y}" width="4" height="${TEAM_HEADER_H}" fill="${accent}"/>
-    ${cellText(PAD + 16, y + 26, title, { size: 16, weight: 700, fill: "#f9fafb" })}
+    ${cellText(PAD + 16, y + 26, title, { size: 17, weight: 700, fill: "#f9fafb" })}
     <rect x="${PAD + 200}" y="${y + 10}" rx="4" width="52" height="22" fill="${badgeBg}"/>
-    ${cellText(PAD + 226, y + 26, badge, { size: 12, weight: 700, anchor: "middle", fill: accent })}
+    ${cellText(PAD + 226, y + 26, badge, { size: 13, weight: 700, anchor: "middle", fill: accent })}
   `;
   y += TEAM_HEADER_H;
 
   svg += `<rect x="${PAD}" y="${y}" width="${W - PAD * 2}" height="${COL_HEADER_H}" fill="#0d0e14"/>`;
   for (const c of COLS) {
     svg += cellText(c.x, y + 24, c.label, {
-      size: 12,
+      size: 13,
       weight: 700,
       anchor: c.align === "end" ? "end" : "start",
       fill: "#9ca3af",
@@ -277,7 +274,6 @@ export async function renderMatchScoreboardPng(
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${height}" viewBox="0 0 ${W} ${height}">
   <defs>
-    <style type="text/css"><![CDATA[${fontFaceCss()}]]></style>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0b0c12"/>
       <stop offset="100%" stop-color="#14151f"/>
@@ -287,18 +283,27 @@ export async function renderMatchScoreboardPng(
   <rect x="0" y="0" width="${W}" height="${HEADER_H}" fill="#10111a"/>
   <rect x="0" y="${HEADER_H - 2}" width="${W}" height="2" fill="#2a2b36"/>
 
-  ${cellText(PAD, 52, `${resultLabel}  ${scoreLine}`, { size: 30, weight: 700, fill: resultColor })}
+  ${cellText(PAD, 52, `${resultLabel}  ${scoreLine}`, { size: 32, weight: 700, fill: resultColor })}
 
-  ${cellText(W - PAD, 36, mapLabel(report.mapName), { size: 17, weight: 700, anchor: "end", fill: "#f3f4f6" })}
-  ${cellText(W - PAD, 58, finished, { size: 13, weight: 700, anchor: "end", fill: "#9ca3af" })}
-  ${cellText(W - PAD, 76, sourceLabel(report.dataSource), { size: 12, weight: 700, anchor: "end", fill: "#6b7280" })}
+  ${cellText(W - PAD, 36, mapLabel(report.mapName), { size: 18, weight: 700, anchor: "end", fill: "#f3f4f6" })}
+  ${cellText(W - PAD, 58, finished, { size: 14, weight: 700, anchor: "end", fill: "#9ca3af" })}
+  ${cellText(W - PAD, 76, sourceLabel(report.dataSource), { size: 13, weight: 700, anchor: "end", fill: "#6b7280" })}
 
   ${ours.svg}
   ${enemy.svg}
 
   ${cellText(PAD, height - 14, "Data Provided by Leetify  ·  barra roxa = monitorado  ·  rating/nivel sob o nome", { size: 12, weight: 700, fill: "#6b7280" })}
-  ${cellText(W - PAD, height - 14, "SURV% = rounds_survived_percentage", { size: 11, weight: 700, fill: "#4b5563", anchor: "end" })}
+  ${cellText(W - PAD, height - 14, "SURV% = rounds_survived_percentage", { size: 12, weight: 700, fill: "#4b5563", anchor: "end" })}
 </svg>`;
 
-  return sharp(Buffer.from(svg)).png().toBuffer();
+  const fontFile = ensureScoreboardFontFile();
+  const resvg = new Resvg(svg, {
+    fitTo: { mode: "width", value: W },
+    font: {
+      fontFiles: [fontFile],
+      loadSystemFonts: false,
+      defaultFontFamily: FONT_FAMILY,
+    },
+  });
+  return Buffer.from(resvg.render().asPng());
 }
