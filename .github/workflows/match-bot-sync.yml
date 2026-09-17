@@ -1,0 +1,35 @@
+# Poll Leetify every 2 hours and post new matches to Discord.
+# Vercel Hobby only allows daily crons, so scheduling lives here.
+name: Match bot sync
+
+on:
+  schedule:
+    # Every 2 hours at :00 UTC
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Leetify cron
+        env:
+          CRON_SECRET: ${{ secrets.MATCH_BOT_CRON_SECRET }}
+          CRON_URL: ${{ secrets.MATCH_BOT_CRON_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "Missing secret MATCH_BOT_CRON_SECRET"
+            exit 1
+          fi
+          URL="${CRON_URL:-https://watercats-bot.vercel.app/api/cron/leetify}"
+          echo "POST $URL"
+          code=$(curl -sS -o /tmp/cron-body.txt -w "%{http_code}" -X POST "$URL" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -H "x-cron-secret: ${CRON_SECRET}" \
+            -H "Accept: application/json")
+          echo "HTTP $code"
+          head -c 2000 /tmp/cron-body.txt || true
+          echo
+          test "$code" = "200"
