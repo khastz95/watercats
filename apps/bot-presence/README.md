@@ -14,7 +14,10 @@ Slash commands and match/video/rank posts still run on the Vercel match-bot.
 | `DISCORD_BOT_TOKEN` | yes | Same token as Vercel |
 | `DISCORD_LOGS_CHANNEL_ID` | for logs | `1550249415145693264` |
 | `DISCORD_GUILD_ID` | recommended | Only log that guild |
+| `DISCORD_MEMBERS_INTENT` | for join/leave | Set `1` after enabling **Server Members Intent** in the Discord Developer Portal |
 | `DISCORD_ACTIVITY` | no | Custom status text |
+
+Without `DISCORD_MEMBERS_INTENT=1`, the process still logs **voice / ban / unban**. Join, leave and kick need the privileged Members intent.
 
 ## Discord setup (manual)
 

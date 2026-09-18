@@ -30,13 +30,22 @@ const guildFilter = process.env.DISCORD_GUILD_ID || "";
 const activityName =
   process.env.DISCORD_ACTIVITY || "CATBOT — Partidas, clipes, logs e caos controlado.";
 
+const membersIntent =
+  process.env.DISCORD_MEMBERS_INTENT === "1" ||
+  process.env.DISCORD_MEMBERS_INTENT === "true";
+
+const intents = [
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildVoiceStates,
+  GatewayIntentBits.GuildModeration,
+];
+// Privileged — enable "Server Members Intent" in Discord Developer Portal, then set DISCORD_MEMBERS_INTENT=1
+if (membersIntent) {
+  intents.push(GatewayIntentBits.GuildMembers);
+}
+
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildVoiceStates,
-    GatewayIntentBits.GuildModeration,
-  ],
+  intents,
   partials: [Partials.GuildMember, Partials.User],
 });
 
@@ -94,6 +103,11 @@ client.once("clientReady", () => {
   console.log(`Online as ${client.user.tag}`);
   if (!logsChannelId) {
     console.warn("DISCORD_LOGS_CHANNEL_ID not set — presence only, no #logs posts");
+  }
+  if (!membersIntent) {
+    console.warn(
+      "GuildMembers intent OFF — join/leave/kick logs disabled. Enable Server Members Intent in Discord Portal, set DISCORD_MEMBERS_INTENT=1, redeploy."
+    );
   }
   client.user.setPresence({
     status: "online",
