@@ -6,8 +6,6 @@ import { logEvent } from "@/lib/log";
 import type { WcBotPlayer } from "@/lib/supabase/types";
 import { playerService } from "./PlayerService";
 
-const ACCENT = 0xa855f7;
-
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -33,49 +31,25 @@ export type VideoSyncResult = {
 async function postClip(
   clip: AllstarClip,
   player: WcBotPlayer,
-  channelId: string
+  channelId: string,
+  options?: { ignoreProcessed?: boolean }
 ): Promise<{ sent: boolean; messageId?: string }> {
-  if (await playerService.isClipProcessed(clip.clipId)) {
+  if (!options?.ignoreProcessed && (await playerService.isClipProcessed(clip.clipId))) {
     return { sent: false };
   }
 
   const nick = player.nickname || clip.username || "jogador";
-  const roast = roastClip(clip, nick);
+  const caption = roastClip(clip, nick);
   const mention = player.discord_user_id ? `<@${player.discord_user_id}>` : nick;
-  const map = (clip.map || "").replace(/^de_/, "").toUpperCase();
-  const meta = [map, clip.weapon, clip.kills != null ? `${clip.kills}K` : null]
-    .filter(Boolean)
-    .join(" · ");
 
-  const content = [
-    `**Allstar** · ${mention}`,
-    roast,
-    meta ? `_${meta}_` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  // Bare URL in content so Discord can unfurl the Allstar page (playable preview when supported).
+  // Avoid large thumbnail embeds — they look like static screenshots only.
+  const content = [`${mention}`, caption, clip.url].join("\n");
 
   const message = await createChannelMessage({
     channelId,
     content: content.slice(0, 1900),
-    embeds: [
-      {
-        title: clip.title.slice(0, 200),
-        url: clip.url,
-        description: `[Assistir no Allstar](${clip.url})`,
-        color: ACCENT,
-        image: clip.thumb ? { url: clip.thumb } : undefined,
-        footer: { text: "Allstar.gg · Catbot" },
-        timestamp: clip.createdAt || undefined,
-        fields: [
-          ...(map ? [{ name: "Mapa", value: map, inline: true }] : []),
-          ...(clip.weapon ? [{ name: "Arma", value: clip.weapon, inline: true }] : []),
-          ...(clip.kills != null
-            ? [{ name: "Kills", value: String(clip.kills), inline: true }]
-            : []),
-        ],
-      },
-    ],
+    embeds: [],
     components: [
       {
         type: 1,
@@ -83,7 +57,7 @@ async function postClip(
           {
             type: 2,
             style: 5,
-            label: "Ver no Allstar",
+            label: "Assistir no Allstar",
             url: clip.url,
           },
         ],
@@ -100,7 +74,7 @@ async function postClip(
     discordMessageId: message.id,
     channelId: message.channel_id || channelId,
   });
-  if (!ok) return { sent: false, messageId: message.id };
+  if (!options?.ignoreProcessed && !ok) return { sent: false, messageId: message.id };
 
   logEvent("VIDEO_NOTIFICATION_SENT", {
     clipId: clip.clipId,
@@ -119,6 +93,7 @@ export class VideoNotificationService {
   async discoverAndNotify(options?: {
     perPlayerLimit?: number;
     forceNewest?: number;
+    ignoreProcessed?: boolean;
   }): Promise<VideoSyncResult> {
     const channelId = await resolveVideosChannel();
     if (!channelId) throw new Error("DISCORD_VIDEOS_CHANNEL_ID / videos_channel_id missing");
@@ -152,7 +127,9 @@ export class VideoNotificationService {
 
         for (const clip of batch) {
           result.clipsFound += 1;
-          const { sent } = await postClip(clip, player, channelId);
+          const { sent } = await postClip(clip, player, channelId, {
+            ignoreProcessed: options?.ignoreProcessed,
+          });
           if (sent) result.notified += 1;
           else result.skipped += 1;
           await sleep(1200);

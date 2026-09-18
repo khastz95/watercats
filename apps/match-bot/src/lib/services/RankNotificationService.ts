@@ -44,16 +44,9 @@ function snapshotRanks(profile: LeetifyProfileResponse): {
   const ranks = profile.ranks || {};
   const premier =
     ranks.premier != null ? Number(ranks.premier).toLocaleString("pt-BR") : "—";
-  const faceitParts: string[] = [];
-  if (ranks.faceit != null) faceitParts.push(`Lvl ${ranks.faceit}`);
-  if (ranks.faceit_elo != null) {
-    faceitParts.push(`${Number(ranks.faceit_elo).toLocaleString("pt-BR")} Elo`);
-  }
-  return {
-    premier,
-    faceit: faceitParts.join(" · ") || "—",
-    gc: "—",
-  };
+  const faceit =
+    ranks.faceit_elo != null ? Number(ranks.faceit_elo).toLocaleString("pt-BR") : "—";
+  return { premier, faceit, gc: "—" };
 }
 
 /** Prefer GC level from newest GC recent match when present. */
@@ -103,45 +96,45 @@ export class RankNotificationService {
 
       const formatted = formatRankDelta(delta);
       if (!formatted) continue;
+      // Faceit: só Elo (pontos). Ignora level.
+      if (delta.lane === "faceit" && delta.unit !== "elo") continue;
 
       const won =
         delta.delta == null ? null : delta.delta > 0 ? true : delta.delta < 0 ? false : null;
       const verb =
-        won === true ? "SUBIU" : won === false ? "CAIU" : "ATUALIZOU";
+        won === true ? "Subiu" : won === false ? "Caiu" : "Atualização";
       const mention = `<@${linked.discord_user_id}>`;
-      const content = [
-        `**${laneLabel(delta.lane)}** · ${verb}`,
-        `${mention} — **${formatted.primary}**${formatted.delta ? ` · \`${formatted.delta}\`` : ""}`,
-      ].join("\n");
+      const pointsLabel =
+        delta.lane === "faceit"
+          ? `${delta.value.toLocaleString("pt-BR")} pts`
+          : formatted.primary;
+      const content = `${mention} · **${laneLabel(delta.lane)}** · ${verb}: **${pointsLabel}**${
+        formatted.delta ? ` (${formatted.delta})` : ""
+      }`;
 
       const message = await createChannelMessage({
         channelId,
         content,
         embeds: [
           {
-            title: `${laneLabel(delta.lane)} · ${linked.nickname || "jogador"}`,
-            description: report.leetifyUrl
-              ? `[Partida no Leetify](${report.leetifyUrl})`
-              : undefined,
+            title: laneLabel(delta.lane),
+            description: `${linked.nickname || "Jogador"}${
+              report.leetifyUrl ? `\n[Partida](${report.leetifyUrl})` : ""
+            }`,
             color: laneColor(delta.delta),
             fields: [
               {
                 name: "Pontuação",
-                value: formatted.primary,
+                value: pointsLabel,
                 inline: true,
               },
               {
-                name: "Delta",
+                name: "Variação",
                 value: formatted.delta || "—",
                 inline: true,
               },
-              {
-                name: "Plataforma",
-                value: laneLabel(delta.lane),
-                inline: true,
-              },
             ],
-            footer: { text: "Catbot · pontuação" },
+            footer: { text: "Catbot" },
             timestamp: report.finishedAt || undefined,
           },
         ],
@@ -183,7 +176,7 @@ export class RankNotificationService {
         const profile = await leetifyClient.getPlayerProfile({ steam64Id: player.steam_id });
         const snap = enrichSnapshot(profile);
         const mention = `<@${player.discord_user_id}>`;
-        const content = `**RANKING ATUAL** · ${mention}`;
+        const content = `${mention} · pontuação atual`;
 
         const message = await createChannelMessage({
           channelId,
@@ -194,10 +187,10 @@ export class RankNotificationService {
               color: 0x006bff,
               fields: [
                 { name: "Premier", value: snap.premier, inline: true },
-                { name: "FACEIT", value: snap.faceit, inline: true },
+                { name: "FACEIT (pts)", value: snap.faceit, inline: true },
                 { name: "GamersClub", value: snap.gc, inline: true },
               ],
-              footer: { text: "Catbot · snapshot de pontuação · Leetify" },
+              footer: { text: "Catbot" },
               timestamp: new Date().toISOString(),
             },
           ],
