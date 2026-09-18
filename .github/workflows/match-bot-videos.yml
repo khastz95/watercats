@@ -1,0 +1,32 @@
+# Poll Allstar for new clips from Discord-linked players → #videos
+name: Match bot videos
+
+on:
+  schedule:
+    - cron: "30 */2 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Allstar videos cron
+        env:
+          CRON_SECRET: ${{ secrets.MATCH_BOT_CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "Missing secret MATCH_BOT_CRON_SECRET"
+            exit 1
+          fi
+          URL="https://watercats-bot.vercel.app/api/cron/allstar"
+          echo "POST $URL"
+          code=$(curl -sS -o /tmp/cron-body.txt -w "%{http_code}" -X POST "$URL" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -H "x-cron-secret: ${CRON_SECRET}" \
+            -H "Accept: application/json")
+          echo "HTTP $code"
+          head -c 2000 /tmp/cron-body.txt || true
+          echo
+          test "$code" = "200"
